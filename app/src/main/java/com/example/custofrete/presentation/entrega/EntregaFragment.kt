@@ -27,6 +27,14 @@ class EntregaFragment : Fragment() {
             dadosVeiculo(requireContext())
         }
 
+        binding.btCusto.setOnClickListener {
+            custoViagem(requireContext())
+        }
+
+        binding.btRotas.setOnClickListener {
+            dadosRota(requireContext())
+        }
+
         binding.btCalcular.setOnClickListener {
             val action = EntregaFragmentDirections.actionEntregaFragmentToCalculoFragment()
             findNavController().navigate(action)
@@ -34,6 +42,7 @@ class EntregaFragment : Fragment() {
 
         return root
     }
+
     private fun dadosVeiculo(contextTela : Context){
 
         val builder = AlertDialog.Builder(contextTela!!)
@@ -43,6 +52,80 @@ class EntregaFragment : Fragment() {
         view = inflater.inflate(R.layout.dialogo_dados_veiculo,null)
 
        // val spState = view.findViewById<Spinner>(R.id.spStateSearch)
+
+
+        builder.setView(view)
+
+        builder.setPositiveButton("OK") { dialog, which -> }
+
+        builder.setNegativeButton("Cancel", null)
+
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+
+
+//                if(position <= 0 ){
+//                    val text = "Selecione uma cidade"
+//                    tvCity.setError(text)
+//                }else{
+//                    dialog.dismiss()
+//                }
+            }
+        }
+        dialog.show()
+    }
+
+
+    private fun custoViagem(contextTela : Context){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        val view: View
+        val inflater = contextTela!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        view = inflater.inflate(R.layout.dialogo_custos_viagem,null)
+
+        // val spState = view.findViewById<Spinner>(R.id.spStateSearch)
+
+
+        builder.setView(view)
+
+        builder.setPositiveButton("OK") { dialog, which -> }
+
+        builder.setNegativeButton("Cancel", null)
+
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+
+
+//                if(position <= 0 ){
+//                    val text = "Selecione uma cidade"
+//                    tvCity.setError(text)
+//                }else{
+//                    dialog.dismiss()
+//                }
+            }
+        }
+        dialog.show()
+    }
+
+
+    private fun dadosRota(contextTela : Context){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        val view: View
+        val inflater = contextTela!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        view = inflater.inflate(R.layout.dialogo_dados_rotas,null)
+
+        // val spState = view.findViewById<Spinner>(R.id.spStateSearch)
 
 
         builder.setView(view)
