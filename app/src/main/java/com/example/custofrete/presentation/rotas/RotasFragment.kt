@@ -1,15 +1,12 @@
 package com.example.custofrete.presentation.rotas
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.custofrete.R
-import com.example.custofrete.databinding.FragmentCustoViagemBinding
 import com.example.custofrete.databinding.FragmentRotasBinding
-import com.example.custofrete.presentation.custoViagem.CustoViagemFragmentDirections
 
 class RotasFragment : Fragment() {
 

@@ -10,6 +10,20 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/bt_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|right"
+            android:contentDescription="Tela de login"
+            android:text="Tela de login"
+            app:icon="@drawable/ic_add_entrega_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/nova_entrega"
+            />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/nova_entrega"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +35,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

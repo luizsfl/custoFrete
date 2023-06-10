@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "721931531348",
+    "project_id": "custofrete-2d61c",
+    "storage_bucket": "custofrete-2d61c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721931531348:android:81eba7e180e269f1f7e9c1",
+        "android_client_info": {
+          "package_name": "com.example.custofrete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721931531348-4k47qeke78mbhb8pm25chgm3nb675bb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrKCOxh9R8xUt_D4RbK9pR4D1c6qgQroc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721931531348-4k47qeke78mbhb8pm25chgm3nb675bb9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
