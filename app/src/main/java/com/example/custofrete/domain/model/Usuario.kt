@@ -1,6 +1,7 @@
 package com.example.custofrete.domain.model
 
 import android.util.Log
+import com.example.custofrete.presentation.config.ConfiguracaoFirebase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -20,7 +21,7 @@ class Usuario {
     }
     fun salvar(){
 
-        val db = Firebase.firestore
+        val db = ConfiguracaoFirebase.getFirebaseFirestore()
 
         db.collection("usuarios")
             .document(this.idUsuario)
