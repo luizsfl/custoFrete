@@ -5,16 +5,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.custofrete.databinding.ActivityCadastroLoginBinding
 import com.example.custofrete.domain.model.Usuario
-import com.example.custofrete.presentation.config.ConfiguracaoFirebase
-import com.example.custofrete.presentation.helper.Base64Custom
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CadastroLoginActivity : AppCompatActivity() {
 
-    private lateinit var autenticacao: FirebaseAuth
+    private val cadastroLoginViewModel: CadastroLoginViewModel by viewModel()
 
     private lateinit var usuario : Usuario
 
@@ -52,25 +47,6 @@ class CadastroLoginActivity : AppCompatActivity() {
     }
 
     fun cadastrarUsuario(usuario:Usuario){
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao()
-        autenticacao.createUserWithEmailAndPassword(
-            usuario.email,usuario.senha
-        ).addOnCompleteListener{
-            if (it.isSuccessful) {
-                //cadastrado
-                var  idUsuario = Base64Custom.codificarBase64(usuario.email)
-                usuario.idUsuario = idUsuario
-                usuario.salvar()
-                finish()
-            }
-        }.addOnFailureListener {
-            when {
-                it is FirebaseAuthWeakPasswordException -> Toast.makeText( this,"Digite uma senha com no minimo 6 caracteres", Toast.LENGTH_SHORT).show()
-                it is FirebaseAuthUserCollisionException -> Toast.makeText( this,"E-mail já cadastrado", Toast.LENGTH_SHORT).show()
-                it is FirebaseNetworkException -> Toast.makeText( this,"Usuário sem acesso a internet", Toast.LENGTH_SHORT).show()
-                else -> Toast.makeText( this,"Erro ao cadastrar"+it.toString(), Toast.LENGTH_SHORT).show()
-            }
-
-        }
+        cadastroLoginViewModel.addUsuario(usuario)
     }
 }

@@ -4,6 +4,7 @@ import com.example.custofrete.domain.model.Usuario
 import com.example.custofrete.presentation.config.ConfiguracaoFirebase
 import com.example.custofrete.presentation.helper.Base64Custom
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-
-class UserDao(
+class UsuarioDao(
+    private val autenticacao: FirebaseAuth = ConfiguracaoFirebase.getFirebaseAutenticacao(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -21,7 +22,6 @@ class UserDao(
         return flow {
             try {
 
-                val autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao()
                 var messengerErro = ""
 
                 autenticacao.createUserWithEmailAndPassword(
