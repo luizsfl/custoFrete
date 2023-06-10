@@ -11,16 +11,34 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_entregaFragment"
-            app:destination="@id/entregaFragment" />
+            android:id="@+id/action_homeFragment_to_dadosVeiculoFragment"
+            app:destination="@id/dadosVeiculoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/entregaFragment"
-        android:name="com.example.custofrete.presentation.entrega.EntregaFragment"
-        android:label="fragment_entrega"
-        tools:layout="@layout/fragment_entrega" >
+        android:id="@+id/dadosVeiculoFragment"
+        android:name="com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoFragment"
+        android:label="fragment_dados_veiculo"
+        tools:layout="@layout/fragment_dados_veiculo" >
         <action
-            android:id="@+id/action_entregaFragment_to_calculoFragment"
+            android:id="@+id/action_dadosVeiculoFragment_to_custoViagemFragment"
+            app:destination="@id/custoViagemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/custoViagemFragment"
+        android:name="com.example.custofrete.presentation.custoViagem.CustoViagemFragment"
+        android:label="fragment_custo_viagem"
+        tools:layout="@layout/fragment_custo_viagem" >
+        <action
+            android:id="@+id/action_custoViagemFragment_to_rotasFragment"
+            app:destination="@id/rotasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rotasFragment"
+        android:name="com.example.custofrete.presentation.rotas.RotasFragment"
+        android:label="fragment_rotas"
+        tools:layout="@layout/fragment_rotas" >
+        <action
+            android:id="@+id/action_rotasFragment_to_calculoFragment"
             app:destination="@id/calculoFragment" />
     </fragment>
     <fragment

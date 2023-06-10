@@ -1,4 +1,4 @@
-package com.example.custofrete.presentation.home
+package com.example.custofrete.presentation.dadosVeiculo
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,28 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
+import com.example.custofrete.databinding.FragmentDadosVeiculoBinding
 import com.example.custofrete.databinding.FragmentHomeBinding
-import com.example.custofrete.presentation.rotas.RotasFragmentDirections
+import com.example.custofrete.presentation.home.HomeFragmentDirections
 
-class HomeFragment : Fragment() {
+class DadosVeiculoFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentDadosVeiculoBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentDadosVeiculoBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.novaEntrega.setOnClickListener {
-            val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment()
+        binding.nextDadosVeiculos.setOnClickListener {
+            val action = DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment()
             findNavController().navigate(action)
         }
 
         return root
-
     }
+
 
 }
