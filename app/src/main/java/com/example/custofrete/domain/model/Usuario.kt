@@ -1,14 +1,15 @@
 package com.example.custofrete.domain.model
 
-import com.example.custofrete.presentation.config.ConfiguracaoFirebase
-import com.google.firebase.database.DatabaseReference
+import android.util.Log
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class Usuario {
-    lateinit var idUsuario: String
-    lateinit var nome: String
-    lateinit var email: String
-    lateinit var senha: String
+ var idUsuario: String
+ var nome: String
+ var email: String
+ var senha: String
 
 
     constructor(nome: String, email: String,senha : String, idUsuario :String) {
@@ -17,35 +18,18 @@ class Usuario {
         this.senha = senha
         this.idUsuario = idUsuario
     }
+    fun salvar(){
 
-    constructor() {
-    }
-    fun salvar() {
-        var firebase: DatabaseReference = ConfiguracaoFirebase.getFirebaseDataBse()
+        val db = Firebase.firestore
 
-        firebase.child("usuarios")
-            .child(this.idUsuario)
-            .setValue(this){ firebaseError, firebase2 ->
-            if (firebaseError == null) {
-                //sem erro
-                1+1
-            } else {
-                firebaseError.message
+        db.collection("usuarios")
+            .document(this.idUsuario)
+            .set(this)
+            .addOnSuccessListener { documentReference ->
+                Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference}")
             }
-        }
-    }
-
-    fun salvar2(){
-//        val db = Firebase.firestore
-//
-//        db.collection("users")
-//            .add(user)
-//            .addOnSuccessListener { documentReference ->
-//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-//            }
-//            .addOnFailureListener { e ->
-//                Log.w(TAG, "Error adding document", e)
-//            }
-
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error adding document", e)
+            }
     }
 }
