@@ -8,6 +8,7 @@ class ConfiguracaoFirebase {
     companion object {
         private lateinit var autenticacao : FirebaseAuth
         private lateinit var firebase : DatabaseReference
+
         //retorna instancia do firebaseauth
         fun getFirebaseAutenticacao():FirebaseAuth{
             autenticacao = FirebaseAuth.getInstance()
@@ -20,6 +21,8 @@ class ConfiguracaoFirebase {
             firebase = FirebaseDatabase.getInstance().getReference()
             return firebase
         }
+
+
     }
 
 }

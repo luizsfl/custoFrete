@@ -25,6 +25,27 @@ class Usuario {
 
         firebase.child("usuarios")
             .child(this.idUsuario)
-            .setValue(this)
+            .setValue(this){ firebaseError, firebase2 ->
+            if (firebaseError == null) {
+                //sem erro
+                1+1
+            } else {
+                firebaseError.message
+            }
+        }
+    }
+
+    fun salvar2(){
+//        val db = Firebase.firestore
+//
+//        db.collection("users")
+//            .add(user)
+//            .addOnSuccessListener { documentReference ->
+//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.w(TAG, "Error adding document", e)
+//            }
+
     }
 }

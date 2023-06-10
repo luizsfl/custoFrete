@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     private fun VerificarUserLogado(){
         val usuarioLogado = FirebaseAuth.getInstance().currentUser
         if(usuarioLogado!=null){
-            IrParaTelaPrincipal()
+           // IrParaTelaPrincipal()
         }
     }
 
