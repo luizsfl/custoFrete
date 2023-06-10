@@ -1,8 +1,13 @@
 package com.example.custofrete.presentation.login
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.example.custofrete.databinding.ActivityLoginBinding
@@ -43,6 +48,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+    }
+
     private fun AutenticarUsuário(email:String,senha:String,mernsagem_erro: TextView){
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,senha).addOnCompleteListener {
             if (it.isSuccessful){
@@ -55,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
                     erro is FirebaseAuthInvalidCredentialsException -> mernsagem_erro.setText("E-mail ou senha estão incorretos")
                     erro is FirebaseNetworkException -> mernsagem_erro.setText("Sem conexão com internet")
                     else -> mernsagem_erro.setText("Erro ao tentar logar"+it)
-
                 }
             }
         }
@@ -64,13 +72,19 @@ class LoginActivity : AppCompatActivity() {
     private fun VerificarUserLogado(){
         val usuarioLogado = FirebaseAuth.getInstance().currentUser
         if(usuarioLogado!=null){
-           // IrParaTelaPrincipal()
+            finish()
         }
     }
 
     private fun IrParaTelaPrincipal(){
-        val intent = Intent(this,MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        val builder = AlertDialog.Builder(this)
+        with(builder)
+        {
+            setTitle("Login realizado com sucesso")
+            setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                finish()
+            })
+            show()
+        }
     }
 }
