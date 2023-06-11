@@ -82,6 +82,7 @@ class CadastroLoginFragment : Fragment() {
         with(builder)
         {
             setTitle("Usuario: " +usuario.nome +" Criado com sucesso")
+            setCancelable(false) //não fecha quando clicam fora do dialog
             setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
                 val action =  CadastroLoginFragmentDirections.actionCadastroLoginFragmentToHomeFragment()
                 findNavController().navigate(action)

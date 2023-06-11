@@ -72,7 +72,6 @@ class LoginFragment : Fragment() {
     private fun AutenticarUsuário(email:String,senha:String,mernsagem_erro: TextView){
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,senha).addOnCompleteListener {
             if (it.isSuccessful){
-                //Toast.makeText(this,"Login efetuado com sucesso", Toast.LENGTH_SHORT).show()
                 IrParaTelaPrincipal()
             }else{
                 var erro = it
@@ -91,6 +90,7 @@ class LoginFragment : Fragment() {
         with(builder)
         {
             setTitle("Login realizado com sucesso")
+            setCancelable(false) //não fecha quando clicam fora do dialog
             setPositiveButton("OK") { dialog, which ->
                 val action =  LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 findNavController().navigate(action)
