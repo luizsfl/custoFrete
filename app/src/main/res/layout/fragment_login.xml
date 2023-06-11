@@ -33,8 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:background="@drawable/ic_add_entrega_24"
+        android:drawableLeft="@drawable/ic_email_cinza_24"
         android:padding="20dp"
+        android:drawablePadding="5dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:hint="E-mail"
@@ -48,13 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_add_entrega_24"
+        android:drawableLeft="@drawable/ic_cadeado_cinza_24"
         android:padding="20dp"
+        android:drawablePadding="5dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:hint="Senha"
         android:maxLines="1"
-        android:inputType="numberPassword"
+        android:inputType="textPersonName|textPassword"
         android:textSize="18sp"
         />
 
@@ -107,6 +109,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         />
+
+
 
 </LinearLayout>
 </FrameLayout>
