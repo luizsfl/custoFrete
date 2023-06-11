@@ -34,6 +34,10 @@
         <action
             android:id="@+id/action_custoViagemFragment_to_rotasFragment"
             app:destination="@id/rotasFragment" />
+        <argument
+            android:name="entrega"
+            app:argType="com.example.custofrete.domain.model.Entrega" />
+
     </fragment>
     <fragment
         android:id="@+id/rotasFragment"
@@ -43,6 +47,9 @@
         <action
             android:id="@+id/action_rotasFragment_to_calculoFragment"
             app:destination="@id/calculoFragment" />
+        <argument
+            android:name="entrega"
+            app:argType="com.example.custofrete.domain.model.Entrega"/>
     </fragment>
     <fragment
         android:id="@+id/calculoFragment"

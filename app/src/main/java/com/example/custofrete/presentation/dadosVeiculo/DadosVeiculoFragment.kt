@@ -10,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentDadosVeiculoBinding
 import com.example.custofrete.databinding.FragmentHomeBinding
+import com.example.custofrete.domain.model.CustoViagem
+import com.example.custofrete.domain.model.DadosVeiculo
+import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.presentation.home.HomeFragmentDirections
 
 class DadosVeiculoFragment : Fragment() {
@@ -27,7 +30,9 @@ class DadosVeiculoFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextDadosVeiculos.setOnClickListener {
-            val action = DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment()
+            val entrega = Entrega(DadosVeiculo("dd2222",2f,3,12f), CustoViagem(0f,0f,0f,0f))
+
+            val action = DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment(entrega)
             findNavController().navigate(action)
         }
 

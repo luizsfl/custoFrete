@@ -7,21 +7,31 @@
     tools:context=".presentation.rotas.RotasFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/bt_endereco_entrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:hint="Informe o endereço de entrega"
+            android:completionThreshold="1"
+            />
+
 
     <Button
         android:id="@+id/next_rotas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="10dp"
         android:text="Calcular 3/3"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
-    </FrameLayout>
+</FrameLayout>
