@@ -12,4 +12,6 @@ class UsuarioRepositoryImp(
 
     override fun addUsuario(usuario: Usuario): Flow<Usuario> = usuarioDataSource.addUsuario(usuario)
 
+    override fun verificarUsuarioLogado() = usuarioDataSource.verificarUserLogado()
+
 }

@@ -18,6 +18,8 @@ class UsuarioDao(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    private var logadoCadastro = false
+
     fun addUsuario(usuario: Usuario): Flow<Usuario> {
         return flow {
             try {
@@ -33,7 +35,6 @@ class UsuarioDao(
                         var  idUsuario = Base64Custom.codificarBase64(usuario.email)
                         usuario.idUsuario = idUsuario
                         salvarUsuser(usuario)
-
                     }else{
                         messengerErro = it.exception.toString()
                     }
@@ -66,6 +67,22 @@ class UsuarioDao(
         db.collection("usuarios")
             .document(usuario.idUsuario)
             .set(usuario)
+
+        logadoCadastro= true
     }
 
+    fun verificarUserLogado(): Flow<Boolean>{
+        return flow {
+            try {
+
+                val usuarioLogado = autenticacao.currentUser
+
+
+                 emit(usuarioLogado!=null || logadoCadastro)
+
+            } catch (e: Exception) {
+            emit(error("VerificarUserLogado"+e.toString()))
+        }
+    }.flowOn(dispatcher)
+    }
 }

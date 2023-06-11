@@ -20,9 +20,10 @@ class CustoViagemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentCustoViagemBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        
         binding.nextCustoViagem.setOnClickListener {
             val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment()
             findNavController().navigate(action)

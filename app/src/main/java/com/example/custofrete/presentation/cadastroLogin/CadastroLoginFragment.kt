@@ -4,31 +4,36 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.custofrete.databinding.ActivityCadastroLoginBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.custofrete.databinding.FragmentCadastroLoginBinding
 import com.example.custofrete.domain.model.Usuario
 import com.example.custofrete.presentation.ViewState
+import com.example.custofrete.presentation.login.LoginFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CadastroLoginActivity : AppCompatActivity() {
+class CadastroLoginFragment : Fragment() {
 
     private val cadastroLoginViewModel: CadastroLoginViewModel by viewModel()
-
     private lateinit var usuario : Usuario
 
-    private lateinit var binding: ActivityCadastroLoginBinding
+    private var _binding: FragmentCadastroLoginBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        binding = ActivityCadastroLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        supportActionBar?.title = "Cadastro"
+        _binding = FragmentCadastroLoginBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
         binding.butonCadastrar.setOnClickListener {
             val textoNome = binding.editNome.text.toString()
@@ -39,17 +44,19 @@ class CadastroLoginActivity : AppCompatActivity() {
             cadastrarUsuario(usuario)
         }
 
-        cadastroLoginViewModel.viewState.observe(this) { viewState ->
+        cadastroLoginViewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewState.Loading -> showLoading(viewState.loading)
                 is ViewState.sucessoUsuario -> sucessoUsuario(viewState.usuario)
                 is ViewState.Failure -> showErro(viewState.messengerError)
+                else -> {}
             }
         }
+        return root
     }
 
     private fun showLoading(isLoading: Boolean) {
-       binding.progressBar.isVisible = isLoading
+        binding.progressBar.isVisible = isLoading
     }
 
     private fun showErro(text: String) {
@@ -69,12 +76,13 @@ class CadastroLoginActivity : AppCompatActivity() {
 
         showLoading(false)
 
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         with(builder)
         {
             setTitle("Usuario: " +usuario.nome +" Criado com sucesso")
             setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                finish()
+                val action =  CadastroLoginFragmentDirections.actionCadastroLoginFragmentToHomeFragment()
+                findNavController().navigate(action)
             })
             show()
         }

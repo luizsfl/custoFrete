@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UsuarioInteractor {
     fun addUsuario(usuario: Usuario): Flow<Usuario>
+    fun verificarUsuarioLogado(): Flow<Boolean>
+
 }

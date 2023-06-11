@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_principal"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -46,4 +46,25 @@
         android:name="com.example.custofrete.presentation.calculo.CalculoFragment"
         android:label="fragment_calculo"
         tools:layout="@layout/fragment_calculo" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.custofrete.presentation.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_cadastroLoginFragment"
+            app:destination="@id/cadastroLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastroLoginFragment"
+        android:name="com.example.custofrete.presentation.cadastroLogin.CadastroLoginFragment"
+        android:label="fragment_cadastro_login"
+        tools:layout="@layout/fragment_cadastro_login" >
+        <action
+            android:id="@+id/action_cadastroLoginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
