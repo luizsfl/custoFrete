@@ -20,13 +20,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val loginViewModel: LoginViewModel by viewModel()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,10 +63,7 @@ class LoginFragment : Fragment() {
             }
         }
         return root
-
     }
-
-
 
     private fun AutenticarUsuário(email:String,senha:String,mernsagem_erro: TextView){
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,senha).addOnCompleteListener {
@@ -93,7 +88,8 @@ class LoginFragment : Fragment() {
         {
             setTitle("Login realizado com sucesso")
             setPositiveButton("OK") { dialog, which ->
-             //   finish()
+                val action =  LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                findNavController().navigate(action)
             }
             show()
         }
@@ -104,7 +100,8 @@ class LoginFragment : Fragment() {
 
     private fun usuarioLogado(logado:Boolean){
         if(logado){
-         //   finish()
+            val action =  LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            findNavController().navigate(action)
         }
         showLoading(false)
     }

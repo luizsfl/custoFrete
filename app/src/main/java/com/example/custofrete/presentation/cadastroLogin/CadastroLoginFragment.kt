@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.custofrete.databinding.FragmentCadastroLoginBinding
 import com.example.custofrete.domain.model.Usuario
 import com.example.custofrete.presentation.ViewState
-import com.example.custofrete.presentation.login.LoginFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel

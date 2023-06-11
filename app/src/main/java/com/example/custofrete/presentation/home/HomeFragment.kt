@@ -1,6 +1,5 @@
 package com.example.custofrete.presentation.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,13 +20,14 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //implementing fragment
+        //implementing fragment
+
         binding.novaEntrega.setOnClickListener {
             val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment()
             findNavController().navigate(action)
         }
-
         return root
-
     }
 
 }
