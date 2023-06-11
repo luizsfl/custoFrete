@@ -33,7 +33,6 @@
         android:drawableLeft="@drawable/ic_pessoa_cinza_24"
         android:drawablePadding="5dp"
         android:padding="20dp"
-
         android:ems="10"
         android:hint="Nome"
         android:inputType="textPersonName"

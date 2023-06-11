@@ -42,7 +42,7 @@ class CadastroLoginFragment : Fragment() {
             val textoEmail = binding.editEmail.text.toString()
             val textoSenha = binding.editSenha.text.toString()
 
-            usuario = Usuario(textoNome,textoEmail,textoSenha,"")
+            usuario = Usuario(nome = textoNome, email =  textoEmail,senha = textoSenha, idUsuario ="")
             cadastrarUsuario(usuario)
         }
 

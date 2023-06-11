@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
         loginViewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewState.Loading -> showLoading(viewState.loading)
-                is ViewState.Logado -> usuarioLogado(viewState.usuarioLogado)
+                is ViewState.Logado  -> usuarioLogado(viewState.usuarioLogado)
                 is ViewState.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
