@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.databinding.FragmentLoginBinding
+import com.example.custofrete.presentation.MainActivity
 import com.example.custofrete.presentation.ViewState
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -34,6 +36,8 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val root: View = binding.root
+
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         loginViewModel.VerificarUserLogado()
 
@@ -76,7 +80,7 @@ class LoginFragment : Fragment() {
                 when {
                     erro is FirebaseAuthInvalidCredentialsException -> mernsagem_erro.setText("E-mail ou senha estão incorretos")
                     erro is FirebaseNetworkException -> mernsagem_erro.setText("Sem conexão com internet")
-                    else -> mernsagem_erro.setText("Erro ao tentar logar"+it)
+                    else -> mernsagem_erro.setText("Erro ao tentar logar"+it.exception)
                 }
             }
         }

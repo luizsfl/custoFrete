@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.custofrete.databinding.FragmentCalculoBinding
 
@@ -19,6 +20,7 @@ class CalculoFragment : Fragment() {
         _binding = FragmentCalculoBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         return root
 

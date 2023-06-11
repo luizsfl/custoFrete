@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentDadosVeiculoBinding
@@ -22,6 +23,8 @@ class DadosVeiculoFragment : Fragment() {
     ): View? {
         _binding = FragmentDadosVeiculoBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextDadosVeiculos.setOnClickListener {
             val action = DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment()

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,8 @@ class CadastroLoginFragment : Fragment() {
 
         _binding = FragmentCadastroLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.butonCadastrar.setOnClickListener {
             val textoNome = binding.editNome.text.toString()
