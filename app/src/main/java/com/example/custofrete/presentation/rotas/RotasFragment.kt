@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentRotasBinding
+import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
+
 
 class RotasFragment : Fragment() {
 
@@ -31,7 +33,14 @@ class RotasFragment : Fragment() {
             arrayOfStrings.toList()
         )
 
-        binding.btEnderecoEntrega.setAdapter(arrayAdapter)
+        binding.btEnderecoEntrega.setAdapter(
+            PlaceAutoSuggestAdapter(
+                binding.root.context,
+                android.R.layout.simple_list_item_1
+            )
+        )
+
+        //binding.btEnderecoEntrega.setAdapter(arrayAdapter)
 
         (activity as AppCompatActivity).supportActionBar?.hide()
 
