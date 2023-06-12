@@ -15,12 +15,6 @@
         android:theme="@style/Theme.CustoFrete"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.cadastroLogin.CadastroLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.login.LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -29,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_KEY}"
+            />
+
     </application>
 
 </manifest>

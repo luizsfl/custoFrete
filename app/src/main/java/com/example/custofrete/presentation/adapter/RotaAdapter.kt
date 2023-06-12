@@ -18,6 +18,7 @@ class RotaAdapter(private val dataSet: List<Rota>) :
 
             binding.titleRota.text = item.title
 
+
         }
     }
 

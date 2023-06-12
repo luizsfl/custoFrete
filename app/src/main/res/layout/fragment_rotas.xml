@@ -23,6 +23,14 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/ll_mapa"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_endereco_entrega"
+            android:orientation="horizontal" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
@@ -32,7 +40,7 @@
             tools:listitem="@layout/item_rota"
             tools:itemCount="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bt_endereco_entrega"
+            app:layout_constraintTop_toBottomOf="@+id/ll_mapa"
             app:layout_constraintBottom_toTopOf="@+id/next_rotas"
             />
 

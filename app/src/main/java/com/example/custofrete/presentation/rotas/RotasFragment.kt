@@ -11,12 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentRotasBinding
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
 import com.example.custofrete.presentation.adapter.RotaAdapter
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import com.example.custofrete.R
+import com.google.android.gms.maps.model.MarkerOptions
+
 
 class RotasFragment : Fragment() {
 
@@ -32,6 +36,9 @@ class RotasFragment : Fragment() {
         val root: View = binding.root
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
+
+        binding.llMapa.onCreate(savedInstanceState)
+        binding.llMapa.onResume()
 
         binding.btEnderecoEntrega.setAdapter(
             PlaceAutoSuggestAdapter(
@@ -55,25 +62,31 @@ class RotasFragment : Fragment() {
 
     private fun selectRota() {
         binding.btEnderecoEntrega.setOnItemClickListener { _, _, _, _ ->
-            Log.d("Address : ", binding.btEnderecoEntrega.text.toString())
             val latLng: LatLng? =
                 getLatLngFromAddress(binding.btEnderecoEntrega.text.toString())
             if (latLng != null) {
-                Log.d("Lat Lng : ", " " + latLng.latitude + " " + latLng.longitude)
                 val address: Address? = getAddressFromLatLng(latLng)
                 if (address != null) {
 
-                    val rota = Rota(binding.btEnderecoEntrega.text.toString())
+                    val rota = Rota(
+                        title = binding.btEnderecoEntrega.text.toString(),
+                        address = "" + address.toString(),
+                        Address_line ="" + address.getAddressLine(0),
+                        phone = "" +address.getPhone(),
+                        pin_code = "" +address.getPostalCode(),
+                        feature = "" + address.getFeatureName(),
+                        more = "" + address.getLocality(),
+                        latLng = latLng
+                    )
+
+                    binding.llMapa.getMapAsync(OnMapReadyCallback { google ->
+                        addMarkers(google)
+                    })
+
                     listaRota.add(rota)
                     setHomeListAdapter(listaRota)
                     binding.btEnderecoEntrega.setText("")
 
-                    Log.d("tagtest_Address : ", "" + address.toString())
-                    Log.d("tagtest_Address Line : ", "" + address.getAddressLine(0))
-                    Log.d("tagtest_Phone : ", "" + address.getPhone())
-                    Log.d("tagtest_Pin Code : ", "" + address.getPostalCode())
-                    Log.d("tagtest_Feature : ", "" + address.getFeatureName())
-                    Log.d("tagtest_More : ", "" + address.getLocality())
                 } else {
                     Log.d("Adddress", "Address Not Found")
                 }
@@ -132,4 +145,15 @@ class RotasFragment : Fragment() {
        // binding.progressBar.isVisible = isLoading
     }
 
+    private fun addMarkers(googleMap: GoogleMap){
+        val markes = listaRota.forEach {place ->
+            googleMap.addMarker(
+                MarkerOptions().apply {
+                    title(place.title)
+                    snippet(place.address)
+                    position(place.latLng)
+                }
+            )
+        }
+    }
 }
