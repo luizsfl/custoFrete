@@ -6,12 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.rotas.RotasFragment">
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <AutoCompleteTextView
             android:id="@+id/bt_endereco_entrega"
@@ -20,18 +18,35 @@
             android:textSize="20sp"
             android:hint="Informe o endereço de entrega"
             android:completionThreshold="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/item_rota"
+            tools:itemCount="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_endereco_entrega"
+            app:layout_constraintBottom_toTopOf="@+id/next_rotas"
+            />
 
-    <Button
-        android:id="@+id/next_rotas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Calcular 3/3"
-        />
+        <Button
+            android:id="@+id/next_rotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Calcular 3/3"
+            android:layout_gravity="bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>
