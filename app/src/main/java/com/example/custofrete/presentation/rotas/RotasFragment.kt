@@ -1,7 +1,10 @@
 package com.example.custofrete.presentation.rotas
 
+import android.graphics.*
+import android.graphics.drawable.VectorDrawable
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,8 +21,8 @@ import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -95,7 +98,6 @@ class RotasFragment : Fragment() {
                     val listaRotaInvest = listaRota.map { it.copy() }
                     setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
-                    binding.tvParadaSelecionada.text = listaRota.size.toString()
 
                 } else {
                     Log.d("Adddress", "Address Not Found")
@@ -156,14 +158,36 @@ class RotasFragment : Fragment() {
     }
 
     private fun addMarkers(googleMap: GoogleMap){
-        val markes = listaRota.forEach {place ->
+
+        val markes = listaRota.forEachIndexed  { index, place ->
             googleMap.addMarker(
                 MarkerOptions().apply {
                     title(place.title)
-                    snippet(place.address)
                     position(place.latLng)
+                    snippet(place.address)
+                    icon(getBitmapDescriptor2(index+1))
                 }
             )
         }
+    }
+
+    private fun getBitmapDescriptor2(id: Int): BitmapDescriptor {
+        val drawable = resources.getDrawable(com.example.custofrete.R.drawable.baseline_circle_24)
+        drawable.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP)
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        val paint = Paint()
+        paint.setColor(Color.WHITE)
+        paint.setTextSize(30F)
+        paint.setTextAlign(Paint.Align.CENTER)
+        canvas.drawText(id.toString(), bitmap.width / 2f, bitmap.height / 2f + 10, paint)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 }
