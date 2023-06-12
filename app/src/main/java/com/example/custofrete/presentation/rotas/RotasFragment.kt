@@ -16,6 +16,7 @@ import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.model.LatLng
+import com.example.custofrete.R
 
 class RotasFragment : Fragment() {
 
@@ -35,7 +36,7 @@ class RotasFragment : Fragment() {
         binding.btEnderecoEntrega.setAdapter(
             PlaceAutoSuggestAdapter(
                 binding.root.context,
-                android.R.layout.simple_list_item_1
+                R.layout.autocomplete_list_rotas
             )
         )
 

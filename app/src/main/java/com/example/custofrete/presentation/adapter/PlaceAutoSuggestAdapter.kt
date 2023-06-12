@@ -4,10 +4,11 @@ import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.Filterable
 import android.widget.Filter;
+import com.example.custofrete.R
 import com.example.custofrete.domain.model.PlaceApi
 
 class PlaceAutoSuggestAdapter(contextCorrente: Context, resId: Int) :
-    ArrayAdapter<Any?>(contextCorrente, resId), Filterable {
+    ArrayAdapter<Any?>(contextCorrente, resId, R.id.tv_title_rota_list), Filterable {
     var results: ArrayList<String>? = null
     var resource: Int
     var contextInterno : Context
