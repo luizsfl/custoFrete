@@ -16,7 +16,9 @@ import com.example.custofrete.databinding.FragmentRotasBinding
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
 import com.example.custofrete.presentation.adapter.RotaAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -79,12 +81,14 @@ class RotasFragment : Fragment() {
                         latLng = latLng
                     )
 
-                    binding.llMapa.getMapAsync(OnMapReadyCallback { google ->
+                    binding.llMapa.getMapAsync { google ->
+                        google.moveCamera(CameraUpdateFactory.newLatLngZoom(rota.latLng, 15f))
                         addMarkers(google)
-                    })
+                    }
 
                     listaRota.add(rota)
-                    setHomeListAdapter(listaRota)
+                    val listaRotaInvest = listaRota.map { it.copy() }
+                    setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
 
                 } else {
