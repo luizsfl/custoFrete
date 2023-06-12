@@ -41,6 +41,11 @@ class RotasFragment : Fragment() {
 
         binding.llMapa.onCreate(savedInstanceState)
         binding.llMapa.onResume()
+        binding.llMapa.getMapAsync{google ->
+            //mapa inicia no brasil
+            google.moveCamera(CameraUpdateFactory.newLatLngZoom( LatLng(-13.3898276,-61.5396485), 3f))
+
+        }
 
         binding.btEnderecoEntrega.setAdapter(
             PlaceAutoSuggestAdapter(
@@ -82,7 +87,7 @@ class RotasFragment : Fragment() {
                     )
 
                     binding.llMapa.getMapAsync { google ->
-                        google.moveCamera(CameraUpdateFactory.newLatLngZoom(rota.latLng, 15f))
+                        google.moveCamera(CameraUpdateFactory.newLatLngZoom(rota.latLng, 13f))
                         addMarkers(google)
                     }
 
@@ -90,6 +95,7 @@ class RotasFragment : Fragment() {
                     val listaRotaInvest = listaRota.map { it.copy() }
                     setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
+                    binding.tvParadaSelecionada.text = listaRota.size.toString()
 
                 } else {
                     Log.d("Adddress", "Address Not Found")

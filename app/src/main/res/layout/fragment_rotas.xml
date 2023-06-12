@@ -16,12 +16,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:hint="Informe o endereço de entrega"
             android:completionThreshold="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
+        <TextView
+            android:id="@+id/tv_parada_selecionada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/ll_mapa"
