@@ -55,7 +55,11 @@
         android:id="@+id/calculoFragment"
         android:name="com.example.custofrete.presentation.calculo.CalculoFragment"
         android:label="fragment_calculo"
-        tools:layout="@layout/fragment_calculo" />
+        tools:layout="@layout/fragment_calculo" >
+        <argument
+            android:name="entrega"
+            app:argType="com.example.custofrete.domain.model.Entrega" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.custofrete.presentation.login.LoginFragment"

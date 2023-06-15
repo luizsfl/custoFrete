@@ -35,7 +35,7 @@ class CustoViagemFragment : Fragment() {
 
             val custoViagem = CustoViagem(20f,30f,40f,2f)
             val dadosVeiculo = args.value.entrega.dadosVeiculo
-            val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = custoViagem)
+            val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = custoViagem,null)
 
             val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment(entrega)
             findNavController().navigate(action)

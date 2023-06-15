@@ -6,22 +6,47 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.databinding.FragmentCalculoBinding
+import com.example.custofrete.domain.model.Entrega
+import com.example.custofrete.domain.model.Rota
+import com.example.custofrete.presentation.adapter.RotaAdapter
+import com.example.custofrete.presentation.custoViagem.CustoViagemFragmentArgs
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class CalculoFragment : Fragment() {
 
     private var _binding: FragmentCalculoBinding? = null
     private val binding get() = _binding!!
-
+    private val args = navArgs<CalculoFragmentArgs>()
+    private lateinit var entrega: Entrega
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCalculoBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        entrega = args.value.entrega
+
+        var valorMetroSequencia = 0.0
+        entrega.listaRotas?.forEach {
+            valorMetroSequencia += it.valorDistance.value
+        }
+
+        binding.recyclerview.layoutManager = LinearLayoutManager(context)
+        entrega.listaRotas?.let { setHomeListAdapter(it) }
+
+        val random = valorMetroSequencia/1000
+
+        val df = DecimalFormat("#.#")
+        val roundoff = df.format(random)
+
+        binding.tvValorTotalKm.text ="Essa rota percorre $roundoff km"
 
         val graph = arrayOf(
-           intArrayOf(0, 10, 15, 20), //10  1
+           intArrayOf(1, 10, 15, 20), //10  1
            intArrayOf(10, 0, 35, 25), // 25 0
            intArrayOf(15, 35, 0, 30), //    3
            intArrayOf(1, 25, 30, 0)  //    2
@@ -71,5 +96,19 @@ class CalculoFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    private fun setHomeListAdapter(listRota: List<Rota>) {
+        val rotaAdapter = RotaAdapter(listRota)
+        rotaAdapter.onItemClick = {
+//            val intent = Intent(requireContext(), HomeDetailActivity::class.java)
+//                .apply {
+//                    putExtra("idCaixa", it.idCaixa)
+//                }
+//            startActivity(intent)
+        }
+
+        binding.recyclerview.adapter = rotaAdapter
     }
 }

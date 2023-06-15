@@ -1,11 +1,10 @@
 package com.example.custofrete.presentation.rotas
 
 import android.graphics.*
-import android.graphics.drawable.VectorDrawable
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,19 +13,20 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentRotasBinding
+import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.GoogleMapDTO
-import com.example.custofrete.domain.model.Location
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
-import com.squareup.okhttp.OkHttpClient
 import com.google.gson.Gson
+import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 
 
@@ -36,6 +36,8 @@ class RotasFragment : Fragment() {
     private val binding get() = _binding!!
     private val listaRota: MutableList<Rota> = mutableListOf()
     lateinit var googleMap: GoogleMap
+    private val args = navArgs<RotasFragmentArgs>()
+    private var valorDistancia = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +66,11 @@ class RotasFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextRotas.setOnClickListener {
-            val action = RotasFragmentDirections.actionRotasFragmentToCalculoFragment()
+            val entrega = Entrega(args.value.entrega.dadosVeiculo
+                ,args.value.entrega.custoViagem
+                ,listaRota)
+
+            val action = RotasFragmentDirections.actionRotasFragmentToCalculoFragment(entrega)
             findNavController().navigate(action)
         }
 
@@ -108,11 +114,22 @@ class RotasFragment : Fragment() {
 
                             val location2 = listaRota.get(listaRota.size-2).latLng
 
+                            var start = Location("Start Point");
+                            start.setLatitude(location1.latitude);
+                            start.setLongitude(location1.longitude);
+
+                            var finish = Location("Finish Point");
+
+                            finish.setLatitude(location2.latitude);
+                            finish.setLongitude(location2.longitude);
+                            var distance = start.distanceTo(finish);
+
+                            val distanceKM = distance / 1000;
+
                             // Log.d("GoogleMap", "before URL")
                             var URL = getDirectionURL(location1,location2)
                             // Log.d("GoogleMap", "URL : $URL")
                             GetDirection(URL).execute()
-
                         }
 
                     }
@@ -177,7 +194,7 @@ class RotasFragment : Fragment() {
 
     private fun addMarkers(googleMap: GoogleMap){
 
-        val markes = listaRota.forEachIndexed  { index, place ->
+      listaRota.forEachIndexed  { index, place ->
             googleMap.addMarker(
                 MarkerOptions().apply {
                     title(place.title)
@@ -227,13 +244,9 @@ class RotasFragment : Fragment() {
                 val path =  ArrayList<LatLng>()
 
                 for (i in 0..(respObj.routes[0].legs[0].steps.size-1)){
-//                    val startLatLng = LatLng(respObj.routes[0].legs[0].steps[i].start_location.lat.toDouble()
-//                            ,respObj.routes[0].legs[0].steps[i].start_location.lng.toDouble())
-//                    path.add(startLatLng)
-//                    val endLatLng = LatLng(respObj.routes[0].legs[0].steps[i].end_location.lat.toDouble()
-//                            ,respObj.routes[0].legs[0].steps[i].end_location.lng.toDouble())
                     path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
                 }
+                listaRota.get(listaRota.size-1).valorDistance = respObj.routes.get(0).legs.get(0).distance
                 result.add(path)
             }catch (e:Exception){
                 e.printStackTrace()
@@ -253,7 +266,7 @@ class RotasFragment : Fragment() {
         }
     }
 
-    public fun decodePolyline(encoded: String): List<LatLng> {
+    fun decodePolyline(encoded: String): List<LatLng> {
 
         val poly = ArrayList<LatLng>()
         var index = 0

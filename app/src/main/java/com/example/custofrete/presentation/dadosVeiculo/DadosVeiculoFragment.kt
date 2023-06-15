@@ -30,7 +30,9 @@ class DadosVeiculoFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextDadosVeiculos.setOnClickListener {
-            val entrega = Entrega(DadosVeiculo("dd2222",2f,3,12f), CustoViagem(0f,0f,0f,0f))
+            val entrega = Entrega(DadosVeiculo("dd2222",2f,3,12f)
+                , null
+                ,null)
 
             val action = DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment(entrega)
             findNavController().navigate(action)

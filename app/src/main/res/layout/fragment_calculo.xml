@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         >
         <LinearLayout
+            android:id="@+id/ln_butons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +97,31 @@
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_valor_total_km"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Essa rota percorre: 10 Km"
+            android:textSize="25sp"
+            android:layout_margin="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ln_butons"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/item_rota_calculo"
+            tools:itemCount="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_valor_total_km"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
