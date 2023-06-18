@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class UsuarioDao(
     private val autenticacao: FirebaseAuth = ConfiguracaoFirebase.getFirebaseAutenticacao(),
+    private val autenticacaoFirestore: FirebaseFirestore = ConfiguracaoFirebase.getFirebaseFirestore(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -32,9 +34,18 @@ class UsuarioDao(
                     if (it.isSuccessful) {
 
                         //cadastrar o email e senha no fire auth
-                        var  idUsuario = Base64Custom.codificarBase64(usuario.email)
-                        usuario.idUsuario = idUsuario
-                        salvarUsuser(usuario)
+                     //   var  idUsuario = Base64Custom.codificarBase64(usuario.email)
+                        val idUsuario = autenticacao.currentUser
+
+                        usuario.idUsuario = idUsuario?.uid.toString()
+
+                        autenticacaoFirestore.collection("usuarios")
+                            .document(usuario.idUsuario)
+                            .set(usuario)
+                            .addOnFailureListener {
+                                messengerErro = it.message.toString()
+                            }
+
                     }else{
                         messengerErro = it.exception.toString()
                     }
@@ -59,17 +70,6 @@ class UsuarioDao(
         }.flowOn(dispatcher)
     }
 
-    //Função que salva o usuário na tabela do firebase
-    fun salvarUsuser(usuario: Usuario) {
-
-        val db = ConfiguracaoFirebase.getFirebaseFirestore()
-
-        db.collection("usuarios")
-            .document(usuario.idUsuario)
-            .set(usuario)
-
-        logadoCadastro= true
-    }
 
     fun verificarUserLogado(): Flow<Boolean>{
         return flow {

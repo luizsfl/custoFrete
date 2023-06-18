@@ -13,8 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.databinding.FragmentLoginBinding
-import com.example.custofrete.presentation.MainActivity
-import com.example.custofrete.presentation.ViewState
+import com.example.custofrete.presentation.ViewStateUsuario
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
@@ -46,11 +45,11 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        loginViewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+        loginViewModel.viewStateUsuario.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
-                is ViewState.Loading -> showLoading(viewState.loading)
-                is ViewState.Logado  -> usuarioLogado(viewState.usuarioLogado)
-                is ViewState.Failure -> showErro(viewState.messengerError)
+                is ViewStateUsuario.Loading -> showLoading(viewState.loading)
+                is ViewStateUsuario.Logado  -> usuarioLogado(viewState.usuarioLogado)
+                is ViewStateUsuario.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
         }

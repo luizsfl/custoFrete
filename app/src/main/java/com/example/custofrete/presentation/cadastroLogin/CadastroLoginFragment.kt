@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.databinding.FragmentCadastroLoginBinding
 import com.example.custofrete.domain.model.Usuario
-import com.example.custofrete.presentation.ViewState
+import com.example.custofrete.presentation.ViewStateUsuario
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,11 +46,11 @@ class CadastroLoginFragment : Fragment() {
             cadastrarUsuario(usuario)
         }
 
-        cadastroLoginViewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+        cadastroLoginViewModel.viewStateUsuario.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
-                is ViewState.Loading -> showLoading(viewState.loading)
-                is ViewState.sucessoUsuario -> sucessoUsuario(viewState.usuario)
-                is ViewState.Failure -> showErro(viewState.messengerError)
+                is ViewStateUsuario.Loading -> showLoading(viewState.loading)
+                is ViewStateUsuario.sucessoUsuario -> sucessoUsuario(viewState.usuario)
+                is ViewStateUsuario.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
         }

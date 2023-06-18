@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_carro"
+        android:icon="@drawable/ic_car_24"
+        android:title="Carro"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/nav_sair"
+        android:icon="@drawable/ic_logout_24"
+        android:title="Sair" />
+
+
+</menu>

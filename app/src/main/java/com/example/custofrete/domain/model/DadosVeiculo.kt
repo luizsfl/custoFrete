@@ -6,5 +6,6 @@ data class DadosVeiculo(
     val placaVeiculo:String,
     val qtdKmLitro:Float,
     val qtdEixo:Int,
-    val pesoVeiculo:Float
+    val pesoVeiculo:Float,
+    val idUsuario:String
 )

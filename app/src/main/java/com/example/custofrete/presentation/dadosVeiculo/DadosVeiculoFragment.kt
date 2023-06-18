@@ -30,7 +30,7 @@ class DadosVeiculoFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextDadosVeiculos.setOnClickListener {
-            val entrega = Entrega(DadosVeiculo("dd2222",2f,3,12f)
+            val entrega = Entrega(DadosVeiculo("dd2222",2f,3,12f,"idUsuario")
                 , null
                 ,null)
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.custofrete.domain.model.Usuario
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractor
-import com.example.custofrete.presentation.ViewState
+import com.example.custofrete.presentation.ViewStateUsuario
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -15,16 +15,16 @@ class CadastroLoginViewModel (
     private val usuarioInteractor: UsuarioInteractor,
 ): ViewModel(){
 
-    private var _viewState = MutableLiveData<ViewState>()
-    var viewState: LiveData<ViewState> = _viewState
+    private var _viewStateUsuario = MutableLiveData<ViewStateUsuario>()
+    var viewStateUsuario: LiveData<ViewStateUsuario> = _viewStateUsuario
 
     fun addUsuario(usuario: Usuario) {
         if(validUsuario(usuario)) {
             viewModelScope.launch {
                 usuarioInteractor.addUsuario(usuario)
-                    .onStart { _viewState.value = ViewState.Loading(loading = true) }
+                    .onStart { _viewStateUsuario.value = ViewStateUsuario.Loading(loading = true) }
                     .catch {
-                        _viewState.value = ViewState.Failure(messengerError = it.message.orEmpty())
+                        _viewStateUsuario.value = ViewStateUsuario.Failure(messengerError = it.message.orEmpty())
                     }
                     .collect { setUsuario(it) }
             }
@@ -33,7 +33,7 @@ class CadastroLoginViewModel (
 
 
     private fun setUsuario(usuario: Usuario) {
-        _viewState.value = ViewState.sucessoUsuario(usuario)
+        _viewStateUsuario.value = ViewStateUsuario.sucessoUsuario(usuario)
     }
 
     private fun validUsuario(usuario: Usuario):Boolean{
@@ -46,15 +46,15 @@ class CadastroLoginViewModel (
                     //usuario esta totalmente valido
                     lUsuarioValido = true
                 }else{
-                    _viewState.value =  ViewState.Failure(messengerError = "Preencha a senha")
+                    _viewStateUsuario.value =  ViewStateUsuario.Failure(messengerError = "Preencha a senha")
                     lUsuarioValido = false
                 }
             }else{
-                _viewState.value =  ViewState.Failure(messengerError = "Preencha o E-mail")
+                _viewStateUsuario.value =  ViewStateUsuario.Failure(messengerError = "Preencha o E-mail")
                 lUsuarioValido = false
             }
         }else{
-            _viewState.value =  ViewState.Failure(messengerError = "Preencha o nome")
+            _viewStateUsuario.value =  ViewStateUsuario.Failure(messengerError = "Preencha o nome")
             lUsuarioValido = false
         }
         return lUsuarioValido

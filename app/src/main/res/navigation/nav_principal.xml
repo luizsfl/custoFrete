@@ -11,11 +11,11 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_dadosVeiculoFragment"
-            app:destination="@id/dadosVeiculoFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_entregaFragment"
+            app:destination="@id/entregaFragment" />
     </fragment>
     <fragment
         android:id="@+id/dadosVeiculoFragment"
@@ -80,5 +80,15 @@
         <action
             android:id="@+id/action_cadastroLoginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entregaFragment"
+        android:name="com.example.custofrete.presentation.entrega.EntregaFragment"
+        android:label="EntregaFragment"
+        tools:layout="@layout/fragment_entrega" >
+        >
+        <action
+            android:id="@+id/action_entregaFragment_to_dadosVeiculoFragment"
+            app:destination="@id/dadosVeiculoFragment" />
     </fragment>
 </navigation>

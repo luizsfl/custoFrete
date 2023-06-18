@@ -1,15 +1,16 @@
 package com.example.custofrete.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.presentation.home.HomeFragment
-import com.example.custofrete.presentation.login.LoginFragment
+import com.example.custofrete.presentation.home.HomeFragmentDirections
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,4 +31,35 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_principal, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val activeFragment = navHostFragment.childFragmentManager.fragments[0]
+
+        return when(item.itemId){
+            R.id.nav_carro -> {
+
+                val action =  HomeFragmentDirections.actionHomeFragmentToEntregaFragment()
+                findNavController(activeFragment).navigate(action)
+
+                true
+            }R.id.nav_sair ->{
+                FirebaseAuth.getInstance().signOut();
+
+                val action = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+                findNavController(activeFragment).navigate(action)
+
+                true
+            }
+            else->  super.onOptionsItemSelected(item)
+        }
+    }
+
 }

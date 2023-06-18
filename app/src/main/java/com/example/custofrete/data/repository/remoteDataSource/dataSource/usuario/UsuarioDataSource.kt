@@ -1,4 +1,4 @@
-package com.example.custofrete.data.repository.remoteDataSource.dataSource
+package com.example.custofrete.data.repository.remoteDataSource.dataSource.usuario
 
 import com.example.custofrete.domain.model.Usuario
 import kotlinx.coroutines.flow.Flow
