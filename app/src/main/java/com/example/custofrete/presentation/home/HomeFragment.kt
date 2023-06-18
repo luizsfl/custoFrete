@@ -23,6 +23,16 @@ class HomeFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.show()
 
+        binding.btCalculoSimples.setOnClickListener {
+            val action =  HomeFragmentDirections.actionHomeFragmentToCalculoSimplesFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.btCalculoAntt.setOnClickListener {
+            val action =  HomeFragmentDirections.actionHomeFragmentToCalculoANTTFragment()
+            findNavController().navigate(action)
+        }
+
         binding.btCalculoRotas.setOnClickListener {
             val action =  HomeFragmentDirections.actionHomeFragmentToEntregaFragment()
             findNavController().navigate(action)

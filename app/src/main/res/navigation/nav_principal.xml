@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_entregaFragment"
             app:destination="@id/entregaFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_calculoSimplesFragment"
+            app:destination="@id/calculoSimplesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_calculoANTTFragment"
+            app:destination="@id/calculoANTTFragment" />
     </fragment>
     <fragment
         android:id="@+id/dadosVeiculoFragment"
@@ -91,4 +97,14 @@
             android:id="@+id/action_entregaFragment_to_dadosVeiculoFragment"
             app:destination="@id/dadosVeiculoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/calculoSimplesFragment"
+        android:name="com.example.custofrete.presentation.calculoSimples.CalculoSimplesFragment"
+        android:label="fragment_calculo_simples"
+        tools:layout="@layout/fragment_calculo_simples" />
+    <fragment
+        android:id="@+id/calculoANTTFragment"
+        android:name="com.example.custofrete.presentation.calculoANTT.CalculoANTTFragment"
+        android:label="fragment_calculo_a_n_t_t"
+        tools:layout="@layout/fragment_calculo_a_n_t_t" />
 </navigation>
