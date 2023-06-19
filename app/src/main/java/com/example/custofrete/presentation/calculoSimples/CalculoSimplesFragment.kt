@@ -1,23 +1,26 @@
 package com.example.custofrete.presentation.calculoSimples
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
+import com.example.custofrete.domain.model.EntregaSimples
 
 
 class CalculoSimplesFragment : Fragment() {
 
     private var _binding: FragmentCalculoSimplesBinding? = null
     private val binding get() = _binding!!
-    private var valorCalculado = 0.0
-    private var valorOutraDespesa = 0.0
     private var tipoCalculo = -1
 
     override fun onCreateView(
@@ -27,37 +30,32 @@ class CalculoSimplesFragment : Fragment() {
         _binding = FragmentCalculoSimplesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val items = listOf("Multiplicação", "Porcentagem", "Valor")
+        (activity as AppCompatActivity).supportActionBar?.hide()
+
+        val items = listOf("Multiplicação", "Porcentagem")
 
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item_spinner, items)
         (binding.tiOpcao.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
         binding.tiInKmPercorrido.doOnTextChanged { _, _, _, _ ->
+            var total = totalSimples()
 
-            valorCalculado = calcValKm(binding.tiInKmPercorrido.text.toString(),binding.tiInValorKmInformado.text.toString())
-
-            binding.tvValorKm.text = "Valor calculado R$: ${valorCalculado+valorOutraDespesa}"
+            binding.tvValorKm.text = "Valor calculado R$: $total"
 
         }
 
         binding.tiInValorKmInformado.doOnTextChanged {  _, _, _, _ ->
+            var total = totalSimples()
 
-            valorCalculado = calcValKm(binding.tiInKmPercorrido.text.toString(),binding.tiInValorKmInformado.text.toString())
-
-            binding.tvValorKm.text = "Valor calculado R$: ${valorCalculado+valorOutraDespesa}"
+            binding.tvValorKm.text = "Valor calculado R$: $total"
 
         }
 
         binding.tiOutraDespesa.doOnTextChanged {  _, _, _, _ ->
 
-            if(binding.tiOutraDespesa.text.toString().isNotEmpty()){
-                valorOutraDespesa = binding.tiOutraDespesa.text.toString().toDouble()
+            var total = totalSimples()
 
-            }else{
-                valorOutraDespesa = 0.0
-            }
-
-            binding.tvValorKm.text = "Valor calculado R$: ${valorCalculado+valorOutraDespesa}"
+            binding.tvValorKm.text = "Valor calculado R$: $total"
 
         }
 
@@ -74,53 +72,91 @@ class CalculoSimplesFragment : Fragment() {
                     binding.tiValorTipo.setHint("Informe o valor para jogar de porcentagem")
                     binding.tiValorTipo.requestFocus()
                 }
-                2->{
-                    binding.tiValorTipo.setHint("Informe o valor que deseja cobrar")
-                    binding.tiValorTipo.requestFocus()
-                }
             }
 
+            var total = totalSimples()
+
+            binding.tvValorKm.text = "Valor calculado R$: $total"
+        }
+
+        binding.tiValorTipo.doOnTextChanged {  _, _, _, _ ->
+
+            var total = totalSimples()
+
+            binding.tvValorKm.text = "Valor calculado R$: $total"
         }
 
         binding.btCalculo.setOnClickListener {
 
-            if (binding.tiValorTipo.text.toString().isNotEmpty()){
-                if (tipoCalculo == 0) {
-                    val valorTipoCalc = binding.tiValorTipo.text.toString().toDouble()
-                    val total = (valorCalculado + valorOutraDespesa) * valorTipoCalc
+            val valorKmInformado = if (binding.tiInKmPercorrido.text.toString().isEmpty()) 0.0 else binding.tiInKmPercorrido.text.toString().toDouble()
+            val valorCobrado = if (binding.tiInValorKmInformado.text.toString().isEmpty()) 0.0 else binding.tiInValorKmInformado.text.toString().toDouble()
+            val valorDespesaExtra = if (binding.tiOutraDespesa.text.toString().isEmpty()) 0.0 else binding.tiOutraDespesa.text.toString().toDouble()
+            val ValorCalculo =  if (binding.tiValorTipo.text.toString().isEmpty()) 0.0 else binding.tiValorTipo.text.toString().toDouble()
 
-                    binding.tvValorKm.text = "Valor calculado R$: $total"
+            val entregaSimples = EntregaSimples(valorKmInformado,valorCobrado,valorDespesaExtra,tipoCalculo,ValorCalculo)
 
-                }else if (tipoCalculo == 1){
-                    val valorTipoCalc = binding.tiValorTipo.text.toString().toDouble()
-                    val total = (valorCalculado + valorOutraDespesa)+(((valorCalculado + valorOutraDespesa) * valorTipoCalc)/100)
-
-                    binding.tvValorKm.text = "Valor calculado R$: $total"
-
-                }else if(tipoCalculo == 2){
-                    val total = binding.tiValorTipo.text.toString().toDouble()
-                    //val total =  valorTipoCalc //((valorCalculado + valorOutraDespesa) * valorTipoCalc)/100
-
-                    binding.tvValorKm.text = "Valor calculado R$: $total"
-                }
-
-            }else{
-                //valor não informado
-            }
+            calculoTotalSimples(requireContext(),entregaSimples)
 
         }
-
 
         return root
     }
 
-    private fun calcValKm(val1:String,val2:String):Double {
-       return  if (val1.isNotEmpty() && val2.isNotEmpty()
-        ) {
-             val1.toInt() * val2.toDouble()
-        } else {
-            0.0
+    private fun calculoTotalSimples(contextTela : Context,entregaSimples:EntregaSimples){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        val view: View
+        val inflater = contextTela!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        view = inflater.inflate(R.layout.total_custo_calc_simples,null)
+
+        val tvValorCalculado = view.findViewById<TextView>(R.id.tv_valor_cobrado)
+        val tvDescriCalculoSimples = view.findViewById<TextView>(R.id.tv_tipo_calculo_simples)
+        val tvDespesaCalculoSimples = view.findViewById<TextView>(R.id.tv_despesas_extras)
+
+        tvValorCalculado.setText("Valor Calculado R$: ${entregaSimples.valorCalculado()}")
+        tvDescriCalculoSimples.setText("${entregaSimples.descricaoCalculo()}")
+        tvDespesaCalculoSimples.text = "Despesas extras = ${entregaSimples.valorDespExtra}"
+
+        builder.setView(view)
+            .setTitle("")
+
+        builder.setPositiveButton("Ok") { dialog, which -> }
+
+        builder.setNegativeButton("Cancelado", null)
+
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+                dialog.dismiss()
+            }
         }
+
+        dialog.show()
+
     }
 
+    private fun totalSimples():Double {
+
+        val valorKmInformado = if (binding.tiInKmPercorrido.text.toString().isEmpty()) 0.0 else binding.tiInKmPercorrido.text.toString().toDouble()
+        val valorCobrado = if (binding.tiInValorKmInformado.text.toString().isEmpty()) 0.0 else binding.tiInValorKmInformado.text.toString().toDouble()
+        val valorDespesaExtra = if (binding.tiOutraDespesa.text.toString().isEmpty()) 0.0 else binding.tiOutraDespesa.text.toString().toDouble()
+        val ValorCalculo =  if (binding.tiValorTipo.text.toString().isEmpty()) 0.0 else binding.tiValorTipo.text.toString().toDouble()
+
+        val valorKmCalc = (valorKmInformado * valorCobrado)
+        var valorTotal = valorKmCalc + valorDespesaExtra
+
+        if(tipoCalculo == 0){
+             valorTotal += valorKmCalc * ValorCalculo - valorKmCalc
+        }else if(tipoCalculo == 1){
+            valorTotal +=  valorKmCalc * ValorCalculo/100
+        }else{
+            0.0
+        }
+
+        return valorTotal
+    }
 }
