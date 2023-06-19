@@ -32,6 +32,10 @@ class CalculoSimplesFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.hide()
 
+        binding.tiInKmPercorrido.setHint("Informe o total de km")
+        binding.tiInValorKmInformado.setHint("Informe o valor cobrado por 1 Km")
+        binding.tiOutraDespesa.setHint("Informe o valor de despesas extras")
+
         val items = listOf("Multiplicação", "Porcentagem")
 
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item_spinner, items)
@@ -67,10 +71,12 @@ class CalculoSimplesFragment : Fragment() {
                 0 -> {
                     binding.tiValorTipo.setHint("Informe o valor para multiplicar")
                     binding.tiValorTipo.requestFocus()
+                    binding.tiValorTipo.visibility = View.VISIBLE
                 }
                 1 ->{
                     binding.tiValorTipo.setHint("Informe o valor para jogar de porcentagem")
                     binding.tiValorTipo.requestFocus()
+                    binding.tiValorTipo.visibility = View.VISIBLE
                 }
             }
 
@@ -123,7 +129,7 @@ class CalculoSimplesFragment : Fragment() {
 
         builder.setPositiveButton("Ok") { dialog, which -> }
 
-        builder.setNegativeButton("Cancelado", null)
+        builder.setNegativeButton("Cancelar", null)
 
 
         val dialog = builder.create()
