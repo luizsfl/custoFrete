@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 //        }
 
         binding.btCalculoRotas.setOnClickListener {
-            val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment()
+            val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment(2)
             findNavController().navigate(action)
         }
 

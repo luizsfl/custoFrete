@@ -4,7 +4,7 @@ import com.example.custofrete.data.repository.remoteDataSource.dataSource.dadosV
 import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.repository.DadosVeiculoRepository
 
-class DadosVeiculoRepository(
+class DadosVeiculoRepositoryImp(
     private val dadosVeiculoDataSource: DadosVeiculoDataSource
 ):DadosVeiculoRepository {
     override fun addDadosVeiculo(dadosVeiculo: DadosVeiculo) = dadosVeiculoDataSource.addDadosVeiculo(dadosVeiculo)

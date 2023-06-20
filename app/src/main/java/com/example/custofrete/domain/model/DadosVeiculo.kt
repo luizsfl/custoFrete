@@ -1,7 +1,5 @@
 package com.example.custofrete.domain.model
 
-import android.os.Parcelable
-
 data class DadosVeiculo(
     val placaVeiculo:String,
     val qtdKmLitro:Double,
