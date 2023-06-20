@@ -32,17 +32,17 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <Button
-                android:id="@+id/bt_calculo_antt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:padding="25dp"
-                android:text="Calculo ANTT"
-                android:layout_gravity="bottom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+<!--            <Button-->
+<!--                android:id="@+id/bt_calculo_antt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:padding="25dp"-->
+<!--                android:text="Calculo ANTT"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                />-->
 
             <Button
                 android:id="@+id/bt_calculo_rotas"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:padding="25dp"
-                android:text="Calcular 3/3"
+                android:text="Calculo de rotas"
                 android:layout_gravity="bottom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

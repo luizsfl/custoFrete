@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val activeFragment = navHostFragment.childFragmentManager.fragments[0]
@@ -46,15 +47,19 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId){
             R.id.nav_carro -> {
 
-                val action =  HomeFragmentDirections.actionHomeFragmentToEntregaFragment()
-                findNavController(activeFragment).navigate(action)
+                if( activeFragment is HomeFragment){
+                    val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment()
+                    findNavController(activeFragment).navigate(action)
+                }
 
                 true
             }R.id.nav_sair ->{
                 FirebaseAuth.getInstance().signOut();
 
-                val action = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
-                findNavController(activeFragment).navigate(action)
+                if( activeFragment is HomeFragment){
+                    val action =  HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+                    findNavController(activeFragment).navigate(action)
+                }
 
                 true
             }

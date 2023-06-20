@@ -23,10 +23,10 @@ class EntregaFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.show()
 
-        binding.novaEntrega.setOnClickListener {
-            val action =  EntregaFragmentDirections.actionEntregaFragmentToDadosVeiculoFragment()
-            findNavController().navigate(action)
-        }
+//        binding.novaEntrega.setOnClickListener {
+//            val action =  EntregaFragmentDirections.actionEntregaFragmentToDadosVeiculoFragment()
+//            findNavController().navigate(action)
+//        }
 
         return root
     }

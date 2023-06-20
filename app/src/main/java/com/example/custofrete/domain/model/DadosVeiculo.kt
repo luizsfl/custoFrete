@@ -4,8 +4,8 @@ import android.os.Parcelable
 
 data class DadosVeiculo(
     val placaVeiculo:String,
-    val qtdKmLitro:Float,
-    val qtdEixo:Int,
-    val pesoVeiculo:Float,
+    val qtdKmLitro:Double,
+    val qtdEixo:Double,
+    val pesoVeiculo:Double,
     val idUsuario:String
 )

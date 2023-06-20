@@ -28,13 +28,13 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.btCalculoAntt.setOnClickListener {
-            val action =  HomeFragmentDirections.actionHomeFragmentToCalculoANTTFragment()
-            findNavController().navigate(action)
-        }
+//        binding.btCalculoAntt.setOnClickListener {
+//            val action =  HomeFragmentDirections.actionHomeFragmentToCalculoANTTFragment()
+//            findNavController().navigate(action)
+//        }
 
         binding.btCalculoRotas.setOnClickListener {
-            val action =  HomeFragmentDirections.actionHomeFragmentToEntregaFragment()
+            val action =  HomeFragmentDirections.actionHomeFragmentToDadosVeiculoFragment()
             findNavController().navigate(action)
         }
 
