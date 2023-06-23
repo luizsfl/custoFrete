@@ -5,4 +5,4 @@ data class CustoViagem(
     val valorHotel:Double,
     val valorGasolina:Double,
     val gastosExtras:Double
-)
+):java.io.Serializable

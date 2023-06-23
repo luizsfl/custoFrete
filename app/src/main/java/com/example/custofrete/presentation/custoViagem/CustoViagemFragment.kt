@@ -1,19 +1,16 @@
 package com.example.custofrete.presentation.custoViagem
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCustoViagemBinding
-import com.example.custofrete.databinding.FragmentDadosVeiculoBinding
 import com.example.custofrete.domain.model.CustoViagem
 import com.example.custofrete.domain.model.Entrega
-import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoFragmentDirections
 
 class CustoViagemFragment : Fragment() {
 

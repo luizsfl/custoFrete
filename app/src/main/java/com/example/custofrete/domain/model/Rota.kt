@@ -10,4 +10,4 @@ data class Rota(
     val more:String,
     val latLng: com.google.android.gms.maps.model.LatLng,
     var valorDistance: Distance = Distance()
-)
+):java.io.Serializable

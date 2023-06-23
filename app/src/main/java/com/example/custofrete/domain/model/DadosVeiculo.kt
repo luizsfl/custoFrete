@@ -6,4 +6,4 @@ data class DadosVeiculo(
     val qtdEixo:Double,
     val pesoVeiculo:Double,
     val idUsuario:String
-)
+):java.io.Serializable
