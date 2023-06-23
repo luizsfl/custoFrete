@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,14 +14,9 @@ import com.example.custofrete.databinding.FragmentDadosVeiculoBinding
 import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.presentation.ViewStateDadosVeiculo
-import com.example.custofrete.presentation.ViewStateUsuario
-import com.example.custofrete.presentation.calculo.CalculoFragmentArgs
 import com.example.custofrete.presentation.config.ConfiguracaoFirebase
-import com.example.custofrete.presentation.login.LoginFragmentDirections
-import com.example.custofrete.presentation.login.LoginViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DadosVeiculoFragment : Fragment() {
@@ -42,7 +36,7 @@ class DadosVeiculoFragment : Fragment() {
 
         tipoTela = args.value.tipoTela
 
-        
+
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextDadosVeiculos.setOnClickListener {

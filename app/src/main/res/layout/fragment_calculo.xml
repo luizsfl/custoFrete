@@ -23,13 +23,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#F4F1F1"
+                android:layout_margin="10dp"
                 android:padding="10dp"
+                android:gravity="center"
+                android:background="#F4F1F1"
                 >
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Km"
+                    android:text="Informada"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
@@ -37,24 +39,25 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="23000"
+                    android:text="R$: 120"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
                     />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_margin="10dp"
                 android:padding="10dp"
+                android:gravity="center"
+
                 >
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Peso"
+                    android:text="Calculada"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
@@ -62,37 +65,13 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="122000"
+                    android:text="R$: 122000"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
                     />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                >
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Volume"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:gravity="center"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="230000"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:gravity="center"
-
-                    />
-            </LinearLayout>
 
 
 

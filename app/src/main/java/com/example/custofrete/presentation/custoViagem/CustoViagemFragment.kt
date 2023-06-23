@@ -33,15 +33,38 @@ class CustoViagemFragment : Fragment() {
 
         binding.nextCustoViagem.setOnClickListener {
 
-            val custoViagem = CustoViagem(20f,30f,40f,2f)
-            val dadosVeiculo = args.value.entrega.dadosVeiculo
-            val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = custoViagem,null)
+            val kmLitro = if (binding.tiValorMediaLitro.text.toString().isEmpty()) 0.0 else binding.tiValorMediaLitro.text.toString().toDouble()
+            val totalAlimentacao = if (binding.tiTotalGastpAlimentacao.text.toString().isEmpty()) 0.0 else binding.tiTotalGastpAlimentacao.text.toString().toDouble()
+            val Totalhotel = if (binding.tiTotalGastoHotel.text.toString().isEmpty()) 0.0 else binding.tiTotalGastoHotel.text.toString().toDouble()
+            val TotalExtras = if (binding.tiTotalGastoExtras.text.toString().isEmpty()) 0.0 else binding.tiTotalGastoExtras.text.toString().toDouble()
 
-            val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment(entrega)
-            findNavController().navigate(action)
+            val custoViagem = CustoViagem(totalAlimentacao,Totalhotel,kmLitro,TotalExtras)
+
+            if(validarCurso(custoViagem)){
+
+                val dadosVeiculo = args.value.entrega.dadosVeiculo
+                val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = custoViagem,null)
+
+                val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment(entrega)
+                findNavController().navigate(action)
+            }
+
+
         }
 
         return root
+    }
+
+    fun validarCurso(custoViagem: CustoViagem) : Boolean{
+
+        var lret = true
+
+        if (custoViagem.valorGasolina<=0){
+            binding.tiValorMediaLitro.error = "Favor preencher o valor medio da gasolina"
+            lret = false
+        }
+
+        return lret
     }
 
 }
