@@ -14,5 +14,6 @@ sealed class ViewStateUsuario {
 sealed class ViewStateDadosVeiculo {
     data class Loading(val loading: Boolean):ViewStateDadosVeiculo()
     data class sucessoDadosVeiculo(val dadosVeiculo: DadosVeiculo):ViewStateDadosVeiculo()
+    data class getDadosVeiculo(val dadosVeiculo: DadosVeiculo):ViewStateDadosVeiculo()
     data class Failure(val messengerError:String = String()): ViewStateDadosVeiculo()
 }

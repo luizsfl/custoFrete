@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface DadosVeiculoRepository {
     fun addDadosVeiculo(dadosVeiculo: DadosVeiculo): Flow<DadosVeiculo>
+    fun getDadosVeiculo(): Flow<DadosVeiculo>
+
 }

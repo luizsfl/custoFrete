@@ -36,6 +36,7 @@ class DadosVeiculoFragment : Fragment() {
 
         tipoTela = args.value.tipoTela
 
+        viewModel.getDadosVeiculo()
 
         (activity as AppCompatActivity).supportActionBar?.hide()
 
@@ -57,6 +58,7 @@ class DadosVeiculoFragment : Fragment() {
             when (viewState) {
                 is ViewStateDadosVeiculo.Loading -> showLoading(viewState.loading)
                 is ViewStateDadosVeiculo.sucessoDadosVeiculo  -> dadosVeiculoCriado(viewState.dadosVeiculo)
+                is ViewStateDadosVeiculo.getDadosVeiculo  -> setDadosVeiculo(viewState.dadosVeiculo)
                 is ViewStateDadosVeiculo.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
@@ -95,8 +97,15 @@ class DadosVeiculoFragment : Fragment() {
             findNavController().navigate(action)
 
         }
-
     }
+
+    private fun setDadosVeiculo(dadosVeiculo: DadosVeiculo){
+        binding.tiPlaca.editText?.setText(dadosVeiculo.placaVeiculo)
+        binding.tiKmDadosVeiculo.setText(dadosVeiculo.qtdKmLitro.toString())
+        binding.tiQtdEixo.setText(dadosVeiculo.qtdEixo.toString())
+        binding.tiPesoVeiculo.setText(dadosVeiculo.pesoVeiculo.toString())
+    }
+
 
 
     private fun showErro(text: String) {

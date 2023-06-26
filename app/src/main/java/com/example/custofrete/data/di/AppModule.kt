@@ -15,6 +15,7 @@ import com.example.custofrete.domain.useCase.usuario.UsuarioInteractor
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractorImp
 import com.example.custofrete.domain.useCase.usuario.UsuarioLogadoUseCase
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoAddUseCase
+import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoGetUseCase
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractor
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractorImp
 import com.example.custofrete.presentation.cadastroLogin.CadastroLoginViewModel
@@ -46,13 +47,14 @@ val useCaseModule = module {
     factory { UsuarioAddUseCase(usuarioRepository = get()) }
     factory { UsuarioLogadoUseCase(usuarioRepository = get()) }
     factory { DadosVeiculoAddUseCase(dadosVeiculoRepository = get()) }
+    factory { DadosVeiculoGetUseCase(dadosVeiculoRepository = get()) }
 
 
 }
 
 val interactorModule = module {
     factory<UsuarioInteractor> {UsuarioInteractorImp(usuarioAddUseCase = get(),usuarioVerificarUsuarioLogadoUseCase=get()) }
-    factory<DadosVeiculoInteractor> {DadosVeiculoInteractorImp(dadosVeiculoAddUseCase = get()) }
+    factory<DadosVeiculoInteractor> {DadosVeiculoInteractorImp(dadosVeiculoAddUseCase = get(), dadosVeiculoGetUseCase = get()) }
 
 }
 

@@ -29,4 +29,15 @@ class DadosVeiculoViewModel (
 
         }
     }
+
+    fun getDadosVeiculo() {
+        viewModelScope.launch {
+            dadosVeiculoInteractor.getDadosVeiculo()
+                .onStart { _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.Loading(loading = true) }
+                .catch {
+                    _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.Failure(messengerError = it.message.orEmpty())
+                }
+                .collect { _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.getDadosVeiculo(it)}
+        }
+    }
 }

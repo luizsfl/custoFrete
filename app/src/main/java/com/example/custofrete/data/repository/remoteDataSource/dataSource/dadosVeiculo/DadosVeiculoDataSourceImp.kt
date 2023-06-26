@@ -7,4 +7,7 @@ class DadosVeiculoDataSourceImp(
     private val dadosVeiculoDao: DadosVeiculoDao
 ) : DadosVeiculoDataSource {
     override fun addDadosVeiculo(dadosVeiculo: DadosVeiculo) = dadosVeiculoDao.addDadosVeiculo(dadosVeiculo)
+
+    override fun getadosVeiculo() = dadosVeiculoDao.getDadosVeiculo()
+
 }

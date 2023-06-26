@@ -7,3 +7,6 @@ data class DadosVeiculo(
     val pesoVeiculo:Double,
     val idUsuario:String
 ):java.io.Serializable
+{
+    constructor():this("",0.0,0.0,0.0,"")
+}
