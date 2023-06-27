@@ -37,7 +37,6 @@ class RotasFragment : Fragment() {
     private val listaRota: MutableList<Rota> = mutableListOf()
     lateinit var googleMap: GoogleMap
     private val args = navArgs<RotasFragmentArgs>()
-    private var valorDistancia = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,10 +73,23 @@ class RotasFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        atualizaRotas()
+
         selectRota()
 
         return root
 
+    }
+
+    private fun atualizaRotas() {
+        if (listaRota.size > 0) {
+            val listaRotaInvest = listaRota.map { it.copy() }
+            setHomeListAdapter(listaRotaInvest.reversed())
+
+            listaRota.forEach{ rota ->
+                atualizaMapa(rota)
+            }
+        }
     }
 
     private fun selectRota() {
@@ -104,35 +116,7 @@ class RotasFragment : Fragment() {
                     setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
 
-                    binding.llMapa.getMapAsync { google ->
-                        val location1 = rota.latLng
-                        google.moveCamera(CameraUpdateFactory.newLatLngZoom(location1, 13f))
-                        addMarkers(google)
-
-                        if (listaRota.size>1){
-                            googleMap = google
-
-                            val location2 = listaRota.get(listaRota.size-2).latLng
-
-                            var start = Location("Start Point");
-                            start.setLatitude(location1.latitude);
-                            start.setLongitude(location1.longitude);
-
-                            var finish = Location("Finish Point");
-
-                            finish.setLatitude(location2.latitude);
-                            finish.setLongitude(location2.longitude);
-                            var distance = start.distanceTo(finish);
-
-                            val distanceKM = distance / 1000;
-
-                            // Log.d("GoogleMap", "before URL")
-                            var URL = getDirectionURL(location1,location2)
-                            // Log.d("GoogleMap", "URL : $URL")
-                            GetDirection(URL).execute()
-                        }
-
-                    }
+                    atualizaMapa(rota)
 
                 } else {
                     Log.d("Adddress", "Address Not Found")
@@ -140,6 +124,38 @@ class RotasFragment : Fragment() {
             } else {
                 Log.d("Lat Lng", "Lat Lng Not Found")
             }
+        }
+    }
+
+    private fun atualizaMapa(rota: Rota) {
+        binding.llMapa.getMapAsync { google ->
+            val location1 = rota.latLng
+            google.moveCamera(CameraUpdateFactory.newLatLngZoom(location1, 13f))
+            addMarkers(google)
+
+            if (listaRota.size > 1) {
+                googleMap = google
+
+                val location2 = listaRota.get(listaRota.size - 2).latLng
+
+                var start = Location("Start Point");
+                start.setLatitude(location1.latitude);
+                start.setLongitude(location1.longitude);
+
+                var finish = Location("Finish Point");
+
+                finish.setLatitude(location2.latitude);
+                finish.setLongitude(location2.longitude);
+                var distance = start.distanceTo(finish);
+
+                val distanceKM = distance / 1000;
+
+                // Log.d("GoogleMap", "before URL")
+                var URL = getDirectionURL(location1, location2)
+                // Log.d("GoogleMap", "URL : $URL")
+                GetDirection(URL).execute()
+            }
+
         }
     }
 
@@ -227,7 +243,8 @@ class RotasFragment : Fragment() {
     }
 
     fun getDirectionURL(origin:LatLng,dest:LatLng) : String{
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&mode=driving&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+        //return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&mode=driving&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
     }
 
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){

@@ -36,6 +36,10 @@ class DadosVeiculoFragment : Fragment() {
 
         tipoTela = args.value.tipoTela
 
+        if(tipoTela == 2 ){
+            binding.nextDadosVeiculos.text = "PRÓXIMO 1/3"
+        }
+
         viewModel.getDadosVeiculo()
 
         (activity as AppCompatActivity).supportActionBar?.hide()

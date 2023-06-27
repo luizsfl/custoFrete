@@ -6,17 +6,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.presentation.home.HomeFragment
 import com.example.custofrete.presentation.home.HomeFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
+import java.lang.Math.*
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
 
     override fun onBackPressed() {

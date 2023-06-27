@@ -8,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoBinding
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.RotaAdapter
-import com.example.custofrete.presentation.custoViagem.CustoViagemFragmentArgs
-import java.math.RoundingMode
 import java.text.DecimalFormat
 
 class CalculoFragment : Fragment() {
@@ -30,29 +29,51 @@ class CalculoFragment : Fragment() {
         val root: View = binding.root
         entrega = args.value.entrega
 
-        var valorMetroSequencia = 0.0
-        entrega.listaRotas?.forEach {
-            valorMetroSequencia += it.valorDistance.value
-        }
-
-        binding.recyclerview.layoutManager = LinearLayoutManager(context)
         entrega.listaRotas?.let { setHomeListAdapter(it) }
 
-        val random = valorMetroSequencia/1000
+        distanciaRota(entrega.listaRotas)
 
-        val df = DecimalFormat("#.#")
-        val roundoff = df.format(random)
+        binding.lnRotaInformada.setOnClickListener {
+            binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
+            binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.white))
 
-        binding.tvValorTotalKm.text ="Essa rota percorre $roundoff km"
+            entrega.listaRotas?.let { setHomeListAdapter(it) }
 
-        val graph = arrayOf(
-           intArrayOf(1, 10, 15, 20), //10  1
-           intArrayOf(10, 0, 35, 25), // 25 0
-           intArrayOf(15, 35, 0, 30), //    3
-           intArrayOf(1, 25, 30, 0)  //    2
-        )
+        }
 
-        getMelhorRota(graph)
+        binding.lnRotaCalculada.setOnClickListener{
+            binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
+            binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.white))
+
+            if(entrega.listaRotas?.size!! > 0) {
+                val points = mutableListOf<Point>()
+                entrega.listaRotas?.forEachIndexed { index, rota ->
+                    points.add(Point(rota.latLng.latitude, rota.latLng.longitude, index))
+                }
+
+                val menorRota = nearestNeighborAlgorithm(points)
+                var menorRotaAdapter = mutableListOf<Rota>()
+
+                menorRota.forEach {
+                    menorRotaAdapter.add(entrega.listaRotas!![it.posicao])
+                }
+
+                setHomeListAdapter(menorRotaAdapter)
+                distanciaRota(menorRotaAdapter)
+
+                //            val points = listOf(
+//                Point(51.5074, -0.1278),
+//                Point(-33.8688, 151.2093),
+//                Point(37.7749, -122.4194),
+//                Point(40.7128, -74.0060),
+//                Point(48.8566, 2.3522)
+//            )
+
+                println("vizinho mais proximo" + nearestNeighborAlgorithm(points))
+            }
+
+
+        }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
 
@@ -60,44 +81,21 @@ class CalculoFragment : Fragment() {
 
     }
 
-    fun getMelhorRota(graph :Array<IntArray>) {
-        val tsp = TSP(graph)
-        println(tsp.getTour())
-    }
-
-    class TSP(private val graph: Array<IntArray>) {
-        private val n = graph.size
-        private val visited = BooleanArray(n)
-        private var minTourCost  = Int.MAX_VALUE
-        private var bestTourOrder: List<Int>? = null
-
-        fun getTour(): String {
-            tsp(0, mutableListOf(), 0)
-            return "A ordem ótima da turnê é $bestTourOrder e o custo mínimo é $minTourCost"
+    private fun distanciaRota(listRota: List<Rota>?) {
+        var valorMetroSequencia = 0.0
+        listRota?.forEach {
+            valorMetroSequencia += it.valorDistance.value
         }
 
+        binding.recyclerview.layoutManager = LinearLayoutManager(context)
 
+        val random = valorMetroSequencia / 1000
 
-        private fun tsp(currentVertex: Int, tourOrder: MutableList<Int>, currentCost: Int) {
-            if (tourOrder.size == n && graph[currentVertex][0] != 0) {
-                if (currentCost + graph[currentVertex][0] < minTourCost) {
-                    bestTourOrder = tourOrder.toList()
-                    minTourCost = currentCost + graph[currentVertex][0]
-                }
-                return
-            }
-            for (i in 0 until n) {
-                if (!visited[i] && graph[currentVertex][i] != 0) {
-                    visited[i] = true
-                    tourOrder.add(i)
-                    tsp(i, tourOrder, currentCost + graph[currentVertex][i])
-                    visited[i] = false
-                    tourOrder.removeAt(tourOrder.size - 1)
-                }
-            }
-        }
+        val df = DecimalFormat("#.#")
+        val roundoff = df.format(random)
+
+        binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
     }
-
 
     private fun setHomeListAdapter(listRota: List<Rota>) {
         val rotaAdapter = RotaAdapter(listRota)
@@ -110,5 +108,35 @@ class CalculoFragment : Fragment() {
         }
 
         binding.recyclerview.adapter = rotaAdapter
+    }
+
+
+    fun nearestNeighborAlgorithm(points: List<Point>): List<Point> {
+        val visitedPoints = mutableListOf<Point>()
+        var currentPoint = points.first()
+        visitedPoints.add(currentPoint)
+        while (visitedPoints.size < points.size) {
+            val nextPoint = points.filter { !visitedPoints.contains(it) }
+                .minByOrNull { it.distanceTo(currentPoint) }
+            nextPoint?.let {
+                visitedPoints.add(it)
+                currentPoint = it
+            }
+        }
+        return visitedPoints
+    }
+
+    data class Point(val latitude: Double, val longitude: Double,val posicao:Int) {
+        fun distanceTo(other: Point): Double {
+            val earthRadius = 6371 // km
+            val dLat = Math.toRadians(other.latitude - latitude)
+            val dLon = Math.toRadians(other.longitude - longitude)
+            val lat1 = Math.toRadians(latitude)
+            val lat2 = Math.toRadians(other.latitude)
+            val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2)
+            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+            return earthRadius * c
+        }
     }
 }

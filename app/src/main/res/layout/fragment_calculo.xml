@@ -20,6 +20,7 @@
             android:layout_marginTop="10dp"
             >
             <LinearLayout
+                android:id="@+id/lnRotaInformada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -29,6 +30,7 @@
                 android:background="#F4F1F1"
                 >
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/btRotaInformada"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Informada"
@@ -46,6 +48,7 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/lnRotaCalculada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -55,6 +58,7 @@
 
                 >
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/btMelhorRota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Calculada"
