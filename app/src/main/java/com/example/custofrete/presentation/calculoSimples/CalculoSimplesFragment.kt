@@ -80,9 +80,11 @@ class CalculoSimplesFragment : Fragment() {
                 }
             }
 
-            var total = totalSimples()
+            if(binding.tiValorTipo.text.toString().isNotEmpty()){
+                var total = totalSimples()
+                binding.tvValorKm.text = "Valor calculado R$: $total"
+            }
 
-            binding.tvValorKm.text = "Valor calculado R$: $total"
         }
 
         binding.tiValorTipo.doOnTextChanged {  _, _, _, _ ->

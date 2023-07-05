@@ -10,7 +10,6 @@ import com.example.custofrete.R
 import com.example.custofrete.presentation.home.HomeFragment
 import com.example.custofrete.presentation.home.HomeFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
-import java.lang.Math.*
 
 
 class MainActivity : AppCompatActivity() {
