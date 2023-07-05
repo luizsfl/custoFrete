@@ -1,6 +1,10 @@
 package com.example.custofrete.presentation.calculo
 
+import android.graphics.Color
+import android.location.Location
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +14,17 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoBinding
+import com.example.custofrete.domain.model.Distance
 import com.example.custofrete.domain.model.Entrega
+import com.example.custofrete.domain.model.GoogleMapDTO
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.RotaAdapter
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.gson.Gson
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
 import java.text.DecimalFormat
 
 class CalculoFragment : Fragment() {
@@ -21,6 +33,10 @@ class CalculoFragment : Fragment() {
     private val binding get() = _binding!!
     private val args = navArgs<CalculoFragmentArgs>()
     private lateinit var entrega: Entrega
+    private var menorRotaAdapter: MutableList<Rota> = mutableListOf()
+    lateinit var googleMap: GoogleMap
+    private var posicaoMelhorRota = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,41 +54,55 @@ class CalculoFragment : Fragment() {
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.white))
 
             entrega.listaRotas?.let { setHomeListAdapter(it) }
+            distanciaRota(entrega.listaRotas)
 
         }
 
-        binding.lnRotaCalculada.setOnClickListener{
+        binding.lnRotaCalculada.setOnClickListener {
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
             binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.white))
 
-            if(entrega.listaRotas?.size!! > 0) {
+            if (entrega.listaRotas?.size!! > 0) {
                 val points = mutableListOf<Point>()
                 entrega.listaRotas?.forEachIndexed { index, rota ->
                     points.add(Point(rota.latLng.latitude, rota.latLng.longitude, index))
                 }
 
                 val menorRota = nearestNeighborAlgorithm(points)
-                var menorRotaAdapter = mutableListOf<Rota>()
+                menorRotaAdapter = mutableListOf<Rota>()
 
                 menorRota.forEach {
-                    menorRotaAdapter.add(entrega.listaRotas!![it.posicao])
+                    val rota = entrega.listaRotas!![it.posicao].copy()
+                    rota.valorDistance = Distance()
+
+                    menorRotaAdapter.add(rota)
                 }
 
                 setHomeListAdapter(menorRotaAdapter)
-                distanciaRota(menorRotaAdapter)
 
-                //            val points = listOf(
-//                Point(51.5074, -0.1278),
-//                Point(-33.8688, 151.2093),
-//                Point(37.7749, -122.4194),
-//                Point(40.7128, -74.0060),
-//                Point(48.8566, 2.3522)
-//            )
+                for (i in 0..menorRotaAdapter.size) {
+                    if (i > 1) {
+                        val tste = menorRotaAdapter
+                        val location1 = menorRotaAdapter.get(i - 2).latLng
+                        val location2 = menorRotaAdapter.get(i - 1).latLng
 
-                println("vizinho mais proximo" + nearestNeighborAlgorithm(points))
+                        var start = Location("Start Point");
+                        start.setLatitude(location1.latitude);
+                        start.setLongitude(location1.longitude);
+
+                        var finish = Location("Finish Point");
+
+                        finish.setLatitude(location2.latitude);
+                        finish.setLongitude(location2.longitude);
+
+                        // Log.d("GoogleMap", "before URL")
+                        var URL = getDirectionURL(location1, location2)
+                        // Log.d("GoogleMap", "URL : $URL")
+                        posicaoMelhorRota = i
+                        GetDirection(URL).execute()
+                    }
+                }
             }
-
-
         }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -126,7 +156,7 @@ class CalculoFragment : Fragment() {
         return visitedPoints
     }
 
-    data class Point(val latitude: Double, val longitude: Double,val posicao:Int) {
+    data class Point(val latitude: Double, val longitude: Double, val posicao: Int) {
         fun distanceTo(other: Point): Double {
             val earthRadius = 6371 // km
             val dLat = Math.toRadians(other.latitude - latitude)
@@ -139,4 +169,41 @@ class CalculoFragment : Fragment() {
             return earthRadius * c
         }
     }
+
+    private inner class GetDirection(val url: String) :
+        AsyncTask<Void, Void, List<List<LatLng>>>() {
+        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+            val data = response.body()!!.string()
+            Log.d("GoogleMap", " data : $data")
+            val result = ArrayList<List<LatLng>>()
+            try {
+                val respObj = Gson().fromJson(data, GoogleMapDTO::class.java)
+
+                val path = ArrayList<LatLng>()
+                menorRotaAdapter.get(posicaoMelhorRota - 1).valorDistance =
+                    respObj.routes.get(0).legs.get(0).distance
+
+                result.add(path)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return result
+        }
+
+        override fun onPostExecute(result: List<List<LatLng>>) {
+            if(posicaoMelhorRota == menorRotaAdapter.size ){
+                distanciaRota(menorRotaAdapter)
+            }
+        }
+
+    }
+
+    fun getDirectionURL(origin: LatLng, dest: LatLng): String {
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+    }
+
 }

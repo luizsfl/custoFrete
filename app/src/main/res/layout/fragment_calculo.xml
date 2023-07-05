@@ -58,7 +58,7 @@
 
                 >
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/btMelhorRota"
+                    android:id="@+id/mtvMelhorRota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Calculada"
@@ -67,6 +67,7 @@
                     android:gravity="center"
                     />
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mtv_valor_melhor_rota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="R$: 122000"
