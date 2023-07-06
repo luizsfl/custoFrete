@@ -36,7 +36,8 @@ class Duration {
     var value = 0
 }
 
-class Distance {
+class Distance()
+    :java.io.Serializable {
     var text = ""
     var value = 0
 }

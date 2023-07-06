@@ -1,6 +1,5 @@
 package com.example.custofrete.presentation.calculo
 
-import android.graphics.Color
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
@@ -21,7 +20,6 @@ import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -36,6 +34,7 @@ class CalculoFragment : Fragment() {
     private var menorRotaAdapter: MutableList<Rota> = mutableListOf()
     lateinit var googleMap: GoogleMap
     private var posicaoMelhorRota = 0
+    private var kmMelhorRota = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,62 +46,26 @@ class CalculoFragment : Fragment() {
 
         entrega.listaRotas?.let { setHomeListAdapter(it) }
 
-        distanciaRota(entrega.listaRotas)
+        distanciaRota(entrega.listaRotas,1)
+
+        calculoMenorRota()
 
         binding.lnRotaInformada.setOnClickListener {
             binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.white))
 
             entrega.listaRotas?.let { setHomeListAdapter(it) }
-            distanciaRota(entrega.listaRotas)
+            distanciaRota(entrega.listaRotas,1)
 
         }
 
         binding.lnRotaCalculada.setOnClickListener {
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
             binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.white))
+            setHomeListAdapter(menorRotaAdapter)
 
-            if (entrega.listaRotas?.size!! > 0) {
-                val points = mutableListOf<Point>()
-                entrega.listaRotas?.forEachIndexed { index, rota ->
-                    points.add(Point(rota.latLng.latitude, rota.latLng.longitude, index))
-                }
+            binding.tvValorTotalKm.text = "Essa rota percorre $kmMelhorRota km"
 
-                val menorRota = nearestNeighborAlgorithm(points)
-                menorRotaAdapter = mutableListOf<Rota>()
-
-                menorRota.forEach {
-                    val rota = entrega.listaRotas!![it.posicao].copy()
-                    rota.valorDistance = Distance()
-
-                    menorRotaAdapter.add(rota)
-                }
-
-                setHomeListAdapter(menorRotaAdapter)
-
-                for (i in 0..menorRotaAdapter.size) {
-                    if (i > 1) {
-                        val tste = menorRotaAdapter
-                        val location1 = menorRotaAdapter.get(i - 2).latLng
-                        val location2 = menorRotaAdapter.get(i - 1).latLng
-
-                        var start = Location("Start Point");
-                        start.setLatitude(location1.latitude);
-                        start.setLongitude(location1.longitude);
-
-                        var finish = Location("Finish Point");
-
-                        finish.setLatitude(location2.latitude);
-                        finish.setLongitude(location2.longitude);
-
-                        // Log.d("GoogleMap", "before URL")
-                        var URL = getDirectionURL(location1, location2)
-                        // Log.d("GoogleMap", "URL : $URL")
-                        posicaoMelhorRota = i
-                        GetDirection(URL).execute()
-                    }
-                }
-            }
         }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -111,7 +74,50 @@ class CalculoFragment : Fragment() {
 
     }
 
-    private fun distanciaRota(listRota: List<Rota>?) {
+    private fun calculoMenorRota() {
+        if (entrega.listaRotas?.size!! > 0) {
+            val points = mutableListOf<Point>()
+            entrega.listaRotas?.forEachIndexed { index, rota ->
+                points.add(Point(rota.latLng.latitude, rota.latLng.longitude, index))
+            }
+
+            val menorRota = nearestNeighborAlgorithm(points)
+            menorRotaAdapter = mutableListOf<Rota>()
+
+            menorRota.forEach {
+                val rota = entrega.listaRotas!![it.posicao].copy()
+                rota.valorDistance = Distance()
+
+                menorRotaAdapter.add(rota)
+            }
+
+
+            for (i in 0..menorRotaAdapter.size) {
+                if (i > 1) {
+                    val tste = menorRotaAdapter
+                    val location1 = menorRotaAdapter.get(i - 2).latLng
+                    val location2 = menorRotaAdapter.get(i - 1).latLng
+
+                    var start = Location("Start Point");
+                    start.setLatitude(location1.latitude);
+                    start.setLongitude(location1.longitude);
+
+                    var finish = Location("Finish Point");
+
+                    finish.setLatitude(location2.latitude);
+                    finish.setLongitude(location2.longitude);
+
+                    // Log.d("GoogleMap", "before URL")
+                    var URL = getDirectionURL(location1, location2)
+                    // Log.d("GoogleMap", "URL : $URL")
+                    posicaoMelhorRota = i
+                    GetDirection(URL).execute()
+                }
+            }
+        }
+    }
+
+    private fun distanciaRota(listRota: List<Rota>?,tipoCalculo:Int) {
         var valorMetroSequencia = 0.0
         listRota?.forEach {
             valorMetroSequencia += it.valorDistance.value
@@ -124,7 +130,15 @@ class CalculoFragment : Fragment() {
         val df = DecimalFormat("#.#")
         val roundoff = df.format(random)
 
-        binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
+        if(tipoCalculo == 1)
+        {
+            binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
+
+        }else if (tipoCalculo == 2){
+            kmMelhorRota = roundoff
+        }
+
+
     }
 
     private fun setHomeListAdapter(listRota: List<Rota>) {
@@ -196,7 +210,7 @@ class CalculoFragment : Fragment() {
 
         override fun onPostExecute(result: List<List<LatLng>>) {
             if(posicaoMelhorRota == menorRotaAdapter.size ){
-                distanciaRota(menorRotaAdapter)
+                distanciaRota(menorRotaAdapter,2)
             }
         }
 
