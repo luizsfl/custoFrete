@@ -8,6 +8,7 @@ data class Rota(
     val pin_code:String,
     val feature:String,
     val more:String,
-    val latLng: com.google.android.gms.maps.model.LatLng,
+    val lat:Double,
+    val lng :Double,
     var valorDistance: Distance = Distance()
 ):java.io.Serializable

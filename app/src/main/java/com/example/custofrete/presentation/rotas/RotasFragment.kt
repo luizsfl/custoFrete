@@ -86,8 +86,8 @@ class RotasFragment : Fragment() {
             val listaRotaInvest = listaRota.map { it.copy() }
             setHomeListAdapter(listaRotaInvest.reversed())
 
-            listaRota.forEach{ rota ->
-                atualizaMapa(rota)
+            listaRota.forEachIndexed{ indice, rota ->
+                atualizaMapa(rota,indice+1)
             }
         }
     }
@@ -108,7 +108,8 @@ class RotasFragment : Fragment() {
                         pin_code = "" +address.getPostalCode(),
                         feature = "" + address.getFeatureName(),
                         more = "" + address.getLocality(),
-                        latLng = latLng
+                        lat = latLng.latitude,
+                        lng = latLng.longitude
                     )
 
                     listaRota.add(rota)
@@ -116,7 +117,7 @@ class RotasFragment : Fragment() {
                     setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
 
-                    atualizaMapa(rota)
+                    atualizaMapa(rota,listaRota.size)
 
                 } else {
                     Log.d("Adddress", "Address Not Found")
@@ -127,16 +128,19 @@ class RotasFragment : Fragment() {
         }
     }
 
-    private fun atualizaMapa(rota: Rota) {
+    private fun atualizaMapa(rota: Rota,posicaoMelhorRota:Int) {
         binding.llMapa.getMapAsync { google ->
-            val location1 = rota.latLng
+            val location1 = LatLng(rota.lat,rota.lng)
+
             google.moveCamera(CameraUpdateFactory.newLatLngZoom(location1, 13f))
             addMarkers(google)
 
-            if (listaRota.size > 1) {
+            if (posicaoMelhorRota > 1) {
+                //posicaoMelhorRota  = listaRota.size
+
                 googleMap = google
 
-                val location2 = listaRota.get(listaRota.size - 2).latLng
+                val location2 = LatLng(listaRota.get(posicaoMelhorRota - 2).lat,listaRota.get(posicaoMelhorRota - 2).lng)
 
                 var start = Location("Start Point");
                 start.setLatitude(location1.latitude);
@@ -153,7 +157,7 @@ class RotasFragment : Fragment() {
                 // Log.d("GoogleMap", "before URL")
                 var URL = getDirectionURL(location1, location2)
                 // Log.d("GoogleMap", "URL : $URL")
-                GetDirection(URL).execute()
+                GetDirection(URL,posicaoMelhorRota).execute()
             }
 
         }
@@ -214,7 +218,7 @@ class RotasFragment : Fragment() {
             googleMap.addMarker(
                 MarkerOptions().apply {
                     title(place.title)
-                    position(place.latLng)
+                    position(LatLng(place.lat,place.lng))
                     snippet(place.address)
                     icon(getBitmapDescriptor2(index+1))
                 }
@@ -246,7 +250,7 @@ class RotasFragment : Fragment() {
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
     }
 
-    private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
+    private inner class GetDirection(val url : String,val posicaoMelhorRota:Int) : AsyncTask<Void, Void, List<List<LatLng>>>(){
         override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
@@ -262,7 +266,10 @@ class RotasFragment : Fragment() {
                 for (i in 0..(respObj.routes[0].legs[0].steps.size-1)){
                     path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
                 }
-                listaRota.get(listaRota.size-1).valorDistance = respObj.routes.get(0).legs.get(0).distance
+
+                listaRota.get(posicaoMelhorRota - 1).valorDistance =
+                    respObj.routes.get(0).legs.get(0).distance
+
                 result.add(path)
             }catch (e:Exception){
                 e.printStackTrace()

@@ -78,7 +78,7 @@ class CalculoFragment : Fragment() {
         if (entrega.listaRotas?.size!! > 0) {
             val points = mutableListOf<Point>()
             entrega.listaRotas?.forEachIndexed { index, rota ->
-                points.add(Point(rota.latLng.latitude, rota.latLng.longitude, index))
+                points.add(Point(rota.lat, rota.lng, index))
             }
 
             val menorRota = nearestNeighborAlgorithm(points)
@@ -95,8 +95,8 @@ class CalculoFragment : Fragment() {
             for (i in 0..menorRotaAdapter.size) {
                 if (i > 1) {
                     val tste = menorRotaAdapter
-                    val location1 = menorRotaAdapter.get(i - 2).latLng
-                    val location2 = menorRotaAdapter.get(i - 1).latLng
+                    val location1 = LatLng(menorRotaAdapter.get(i - 2).lat,menorRotaAdapter.get(i - 2).lng)
+                    val location2 = LatLng(menorRotaAdapter.get(i - 1).lat,menorRotaAdapter.get(i - 1).lng)
 
                     var start = Location("Start Point");
                     start.setLatitude(location1.latitude);
