@@ -17,3 +17,10 @@ sealed class ViewStateDadosVeiculo {
     data class getDadosVeiculo(val dadosVeiculo: DadosVeiculo):ViewStateDadosVeiculo()
     data class Failure(val messengerError:String = String()): ViewStateDadosVeiculo()
 }
+
+
+sealed class ViewStateCustoCalculado {
+    data class Loading(val loading: Boolean):ViewStateCustoCalculado()
+    data class sucessoCustoCalculado(val custoCalculado: Double):ViewStateCustoCalculado()
+    data class Failure(val messengerError:String = String()): ViewStateCustoCalculado()
+}

@@ -19,6 +19,7 @@ import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoGetUseCase
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractor
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractorImp
 import com.example.custofrete.presentation.cadastroLogin.CadastroLoginViewModel
+import com.example.custofrete.presentation.calculo.CalculoRotaViewModel
 import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoViewModel
 import com.example.custofrete.presentation.login.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -70,6 +71,10 @@ val viewModel = module {
 
     viewModel {
         DadosVeiculoViewModel( dadosVeiculoInteractor = get())
+    }
+
+    viewModel {
+        CalculoRotaViewModel()
     }
 
 }

@@ -17,24 +17,28 @@ import com.example.custofrete.domain.model.Distance
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.GoogleMapDTO
 import com.example.custofrete.domain.model.Rota
+import com.example.custofrete.presentation.ViewStateCustoCalculado
+import com.example.custofrete.presentation.ViewStateDadosVeiculo
 import com.example.custofrete.presentation.adapter.RotaAdapter
-import com.google.android.gms.maps.GoogleMap
+import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 
-class CalculoFragment : Fragment() {
+class CalculoRotaFragment : Fragment() {
 
     private var _binding: FragmentCalculoBinding? = null
     private val binding get() = _binding!!
-    private val args = navArgs<CalculoFragmentArgs>()
+    private val args = navArgs<CalculoRotaFragmentArgs>()
+    private val viewModel: CalculoRotaViewModel by viewModel()
     private lateinit var entrega: Entrega
     private var menorRotaAdapter: MutableList<Rota> = mutableListOf()
-    lateinit var googleMap: GoogleMap
     private var posicaoMelhorRota = 0
-    private var kmMelhorRota = ""
+    private var kmMelhorRota = "0.0"
+    private var custoKmInformado = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +50,7 @@ class CalculoFragment : Fragment() {
 
         entrega.listaRotas?.let { setHomeListAdapter(it) }
 
-        distanciaRota(entrega.listaRotas,1)
+        custoKmInformado = distanciaRota(entrega.listaRotas,1)
 
         calculoMenorRota()
 
@@ -72,6 +76,25 @@ class CalculoFragment : Fragment() {
 
         return root
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.mtvValorInformado.text = "R$: $custoKmInformado"
+
+        viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
+            when (viewState) {
+                is ViewStateCustoCalculado.sucessoCustoCalculado -> {
+                    val kmCalculado = viewState.custoCalculado
+                    val df = DecimalFormat("#.#")
+                    val roundoff = df.format(kmCalculado)
+                    kmMelhorRota = roundoff
+                    binding.mtvValorMelhorRota.text = "R$: ${kmCalculado}"
+
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun calculoMenorRota() {
@@ -117,7 +140,7 @@ class CalculoFragment : Fragment() {
         }
     }
 
-    private fun distanciaRota(listRota: List<Rota>?,tipoCalculo:Int) {
+    private fun distanciaRota(listRota: List<Rota>?,tipoCalculo:Int):Double {
         var valorMetroSequencia = 0.0
         listRota?.forEach {
             valorMetroSequencia += it.valorDistance.value
@@ -138,7 +161,7 @@ class CalculoFragment : Fragment() {
             kmMelhorRota = roundoff
         }
 
-
+        return random
     }
 
     private fun setHomeListAdapter(listRota: List<Rota>) {
@@ -210,7 +233,8 @@ class CalculoFragment : Fragment() {
 
         override fun onPostExecute(result: List<List<LatLng>>) {
             if(posicaoMelhorRota == menorRotaAdapter.size ){
-                distanciaRota(menorRotaAdapter,2)
+                //distanciaRota(menorRotaAdapter,2)
+                viewModel.getDistanciaRotaCalculada(menorRotaAdapter)
             }
         }
 

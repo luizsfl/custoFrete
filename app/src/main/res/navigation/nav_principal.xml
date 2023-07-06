@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/calculoFragment"
-        android:name="com.example.custofrete.presentation.calculo.CalculoFragment"
+        android:name="com.example.custofrete.presentation.calculo.CalculoRotaFragment"
         android:label="fragment_calculo"
         tools:layout="@layout/fragment_calculo" >
         <argument
