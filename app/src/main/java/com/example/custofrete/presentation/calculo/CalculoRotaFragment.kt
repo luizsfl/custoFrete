@@ -155,7 +155,8 @@ class CalculoRotaFragment : Fragment() {
 
         if(tipoCalculo == 1)
         {
-            binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
+            //binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
+            binding.tvValorTotalKm.text = "Essa rota percorre $random km"
 
         }else if (tipoCalculo == 2){
             kmMelhorRota = roundoff
@@ -242,6 +243,7 @@ class CalculoRotaFragment : Fragment() {
 
     fun getDirectionURL(origin: LatLng, dest: LatLng): String {
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+
     }
 
 }

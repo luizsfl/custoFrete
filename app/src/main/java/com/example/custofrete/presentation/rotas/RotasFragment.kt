@@ -130,9 +130,9 @@ class RotasFragment : Fragment() {
 
     private fun atualizaMapa(rota: Rota,posicaoMelhorRota:Int) {
         binding.llMapa.getMapAsync { google ->
-            val location1 = LatLng(rota.lat,rota.lng)
+            val posicaoCamera = LatLng(rota.lat,rota.lng)
 
-            google.moveCamera(CameraUpdateFactory.newLatLngZoom(location1, 13f))
+            google.moveCamera(CameraUpdateFactory.newLatLngZoom(posicaoCamera, 13f))
             addMarkers(google)
 
             if (posicaoMelhorRota > 1) {
@@ -140,7 +140,8 @@ class RotasFragment : Fragment() {
 
                 googleMap = google
 
-                val location2 = LatLng(listaRota.get(posicaoMelhorRota - 2).lat,listaRota.get(posicaoMelhorRota - 2).lng)
+                val location1 = LatLng(listaRota.get(posicaoMelhorRota - 2).lat,listaRota.get(posicaoMelhorRota - 2).lng)
+                val location2 = LatLng(listaRota.get(posicaoMelhorRota - 1).lat,listaRota.get(posicaoMelhorRota - 1).lng)
 
                 var start = Location("Start Point");
                 start.setLatitude(location1.latitude);
