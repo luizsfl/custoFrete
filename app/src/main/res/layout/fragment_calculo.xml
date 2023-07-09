@@ -43,7 +43,7 @@
                     android:id="@+id/mtv_Valor_Informado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="R$: 120"
+                    android:text="R$: 0.0"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
@@ -74,7 +74,7 @@
                     android:id="@+id/mtv_valor_melhor_rota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="R$: 122000"
+                    android:text="R$: 0.0"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:gravity="center"
@@ -103,11 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             tools:listitem="@layout/item_rota_calculo"
             tools:itemCount="5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_valor_total_km"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

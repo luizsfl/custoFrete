@@ -18,9 +18,7 @@ import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.GoogleMapDTO
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.ViewStateCustoCalculado
-import com.example.custofrete.presentation.ViewStateDadosVeiculo
 import com.example.custofrete.presentation.adapter.RotaAdapter
-import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
@@ -36,8 +34,8 @@ class CalculoRotaFragment : Fragment() {
     private val viewModel: CalculoRotaViewModel by viewModel()
     private lateinit var entrega: Entrega
     private var menorRotaAdapter: MutableList<Rota> = mutableListOf()
-    private var posicaoMelhorRota = 0
-    private var kmMelhorRota = "0.0"
+    private var posicaoMelhorRota = 1
+    private var kmMelhorRota = "0"
     private var custoKmInformado = 0.0
 
     override fun onCreateView(
@@ -80,7 +78,8 @@ class CalculoRotaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mtvValorInformado.text = "R$: $custoKmInformado"
+
+        binding.mtvValorInformado.text = "R$: ${calcularValorRota(custoKmInformado,entrega)}"
 
         viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
@@ -89,12 +88,32 @@ class CalculoRotaFragment : Fragment() {
                     val df = DecimalFormat("#.#")
                     val roundoff = df.format(kmCalculado)
                     kmMelhorRota = roundoff
-                    binding.mtvValorMelhorRota.text = "R$: ${kmCalculado}"
+
+                    binding.mtvValorMelhorRota.text = "R$: ${calcularValorRota(kmCalculado,entrega)}"
 
                 }
                 else -> {}
             }
         }
+    }
+
+    private fun calcularValorRota(calcularValorRota: Double,entrega: Entrega):String{
+        var valorCalculado: String
+        val valorMediaGasolina = entrega.custoViagem?.valorGasolina
+        val valorKmMedia = entrega.dadosVeiculo.qtdKmLitro
+        var valorPorLitro = 0.0
+
+        if(valorMediaGasolina != null && valorMediaGasolina != 0.0){
+             valorPorLitro = valorKmMedia / valorMediaGasolina
+        }
+
+        val calcTotal = calcularValorRota * valorPorLitro
+
+        val df = DecimalFormat("#.##")
+        valorCalculado = df.format(calcTotal)
+
+        return valorCalculado
+
     }
 
     private fun calculoMenorRota() {
@@ -133,7 +152,6 @@ class CalculoRotaFragment : Fragment() {
                     // Log.d("GoogleMap", "before URL")
                     var URL = getDirectionURL(location1, location2)
                     // Log.d("GoogleMap", "URL : $URL")
-                    posicaoMelhorRota = i
                     GetDirection(URL).execute()
                 }
             }
@@ -156,7 +174,7 @@ class CalculoRotaFragment : Fragment() {
         if(tipoCalculo == 1)
         {
             //binding.tvValorTotalKm.text = "Essa rota percorre $roundoff km"
-            binding.tvValorTotalKm.text = "Essa rota percorre $random km"
+            binding.tvValorTotalKm.text = "Essa rota percorre ${roundoff} km"
 
         }else if (tipoCalculo == 2){
             kmMelhorRota = roundoff
@@ -223,6 +241,8 @@ class CalculoRotaFragment : Fragment() {
                 val path = ArrayList<LatLng>()
                 menorRotaAdapter.get(posicaoMelhorRota - 1).valorDistance =
                     respObj.routes.get(0).legs.get(0).distance
+
+                posicaoMelhorRota++
 
                 result.add(path)
 
