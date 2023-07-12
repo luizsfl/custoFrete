@@ -10,29 +10,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bt_calculo_simples"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="#1A237E"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical"
             >
-            <Button
-                android:id="@+id/bt_calculo_simples"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/tx_titulo_calculo_simples"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:text="Calculo Simples"
-                android:padding="25dp"
-                android:layout_gravity="bottom"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
-<!--            <Button-->
+            <TextView
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:text="Calculo pelo km informado"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tx_titulo_calculo_simples"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/caminhao"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+
+            <!--            <Button-->
 <!--                android:id="@+id/bt_calculo_antt"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
@@ -44,19 +72,70 @@
 <!--                app:layout_constraintBottom_toBottomOf="parent"-->
 <!--                />-->
 
-            <Button
-                android:id="@+id/bt_calculo_rotas"
-                android:layout_width="match_parent"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bt_calculo_rotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="#FFEB3B"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_calculo_simples"
+            >
+
+            <TextView
+                android:id="@+id/tx_titulo_calculo_rota"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:padding="25dp"
-                android:text="Calculo de rotas"
-                android:layout_gravity="bottom"
+                android:text="Calculo Rotas"
+                android:textColor="#1A237E"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:text="Calculo pela rota informado"
+                android:textColor="#1A237E"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tx_titulo_calculo_rota"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-        </LinearLayout>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/rota" />
+
+
+            <!--            <Button-->
+            <!--                android:id="@+id/bt_calculo_antt"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:padding="25dp"-->
+            <!--                android:text="Calculo ANTT"-->
+            <!--                android:layout_gravity="bottom"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
