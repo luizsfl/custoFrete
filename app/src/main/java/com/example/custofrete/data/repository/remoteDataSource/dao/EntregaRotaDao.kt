@@ -1,6 +1,5 @@
 package com.example.custofrete.data.repository.remoteDataSource.dao
 
-import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.presentation.config.ConfiguracaoFirebase
 import com.google.firebase.auth.FirebaseAuth
@@ -45,22 +44,27 @@ class EntregaRotaDao (
         }.flowOn(dispatcher)
     }
 
-
-    fun getDadosVeiculo(): Flow<DadosVeiculo> {
+    fun getAllEntregaRota(): Flow<List<Entrega>> {
         return callbackFlow  {
                 val idUsuario = autenticacao.currentUser?.uid.toString()
 
-              autenticacaFirestore.collection("dadosVeiculo")
-                    .document(idUsuario)
+              autenticacaFirestore.collection("entrega")
+                  .whereEqualTo("idUsuario",idUsuario)
                     .get()
-                    .addOnSuccessListener { documento ->
-                        if (documento != null && documento.exists()) {
-                            val dadosVeiculo = documento.toObject(DadosVeiculo::class.java)!!
-                            trySend(dadosVeiculo)
+                    .addOnSuccessListener { result ->
+
+                        val listEntregaRota = mutableListOf<Entrega>()
+
+                        for (document in result) {
+                            val entregaRota = document.toObject(Entrega::class.java)!!
+                            listEntregaRota.add(entregaRota)
                         }
+
+                        trySend(listEntregaRota)
+
                     }
                     .addOnFailureListener {
-                        val messengerErro = "getDadosVeiculo ${it.message.toString()}"
+                        val messengerErro = "getEntregaRota ${it.message.toString()}"
                         trySend(error(messengerErro))
                     }
             awaitClose {}

@@ -1,9 +1,12 @@
 package com.example.custofrete.domain.model
 
-data class Entrega(
+
+data class Entrega constructor(
     val dadosVeiculo: DadosVeiculo,
-    val custoViagem: CustoViagem?,
-    val listaRotas : List<Rota>?,
+    val custoViagem: CustoViagem? = null,
+    val listaRotas : List<Rota>? = null,
     var idUsuario: String = "",
     var tipoTela: Int = 0
-    ):java.io.Serializable
+):java.io.Serializable {
+    constructor() : this(DadosVeiculo())
+}

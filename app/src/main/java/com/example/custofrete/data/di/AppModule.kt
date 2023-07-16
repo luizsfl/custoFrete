@@ -16,6 +16,7 @@ import com.example.custofrete.domain.repository.DadosVeiculoRepository
 import com.example.custofrete.domain.repository.EntregaRotaRepository
 import com.example.custofrete.domain.repository.UsuarioRepository
 import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaAddUseCase
+import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaGetAllUseCase
 import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractor
 import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractorImp
 import com.example.custofrete.domain.useCase.usuario.UsuarioAddUseCase
@@ -29,6 +30,7 @@ import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractorImp
 import com.example.custofrete.presentation.cadastroLogin.CadastroLoginViewModel
 import com.example.custofrete.presentation.calculoRota.CalculoRotaViewModel
 import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoViewModel
+import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaViewModel
 import com.example.custofrete.presentation.login.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -61,6 +63,7 @@ val useCaseModule = module {
     factory { DadosVeiculoAddUseCase(dadosVeiculoRepository = get()) }
     factory { DadosVeiculoGetUseCase(dadosVeiculoRepository = get()) }
     factory { EntregaRotaAddUseCase(entregaRotaRepository = get()) }
+    factory { EntregaRotaGetAllUseCase(entregaRotaRepository = get()) }
 
 
 }
@@ -68,7 +71,7 @@ val useCaseModule = module {
 val interactorModule = module {
     factory<UsuarioInteractor> {UsuarioInteractorImp(usuarioAddUseCase = get(),usuarioVerificarUsuarioLogadoUseCase=get()) }
     factory<DadosVeiculoInteractor> {DadosVeiculoInteractorImp(dadosVeiculoAddUseCase = get(), dadosVeiculoGetUseCase = get()) }
-    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(entregaRotaAddUseCase = get()) }
+    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(entregaRotaAddUseCase = get(), entregaRotaGetAllUseCase = get()) }
 
 }
 
@@ -88,6 +91,10 @@ val viewModel = module {
 
     viewModel {
         CalculoRotaViewModel(entregaRotaInteractor = get())
+    }
+
+    viewModel {
+        ListaEntregaRotaViewModel(entregaRotaInteractor = get())
     }
 
 }

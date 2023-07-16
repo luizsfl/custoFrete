@@ -6,3 +6,7 @@ data class CustoViagem(
     val valorGasolina:Double,
     val gastosExtras:Double
 ):java.io.Serializable
+{
+    constructor():this(0.0,0.0,0.0,0.0)
+
+}

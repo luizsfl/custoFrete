@@ -12,3 +12,6 @@ data class Rota(
     val lng :Double,
     var valorDistance: Distance = Distance()
 ):java.io.Serializable
+{
+    constructor():this("","","","","","","",0.0,0.0,Distance())
+}

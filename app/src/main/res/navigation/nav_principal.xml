@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_dadosVeiculoFragment"
             app:destination="@id/dadosVeiculoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listaEntregaRotaFragment"
+            app:destination="@id/listaEntregaRotaFragment" />
     </fragment>
     <fragment
         android:id="@+id/dadosVeiculoFragment"
@@ -115,5 +118,14 @@
         <argument
             android:name="entrega"
             app:argType="com.example.custofrete.domain.model.Entrega" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaEntregaRotaFragment"
+        android:name="com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragment"
+        android:label="fragment_lista_entrega_rota"
+        tools:layout="@layout/fragment_lista_entrega_rota" >
+        <action
+            android:id="@+id/action_listaEntregaRotaFragment_to_dadosVeiculoFragment"
+            app:destination="@id/dadosVeiculoFragment" />
     </fragment>
 </navigation>

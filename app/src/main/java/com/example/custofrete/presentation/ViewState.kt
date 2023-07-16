@@ -30,5 +30,6 @@ sealed class ViewStateCustoCalculado {
 sealed class ViewStateEntregaRota {
     data class Loading(val loading: Boolean):ViewStateEntregaRota()
     data class sucesso(val entrega:Entrega):ViewStateEntregaRota()
+    data class sucessoGetAll(val listEntrega:List<Entrega>):ViewStateEntregaRota()
     data class Failure(val messengerError:String = String()): ViewStateEntregaRota()
 }
