@@ -1,14 +1,17 @@
-package com.example.custofrete.presentation.calculo
+package com.example.custofrete.presentation.calculoRota
 
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.R
@@ -18,8 +21,11 @@ import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.GoogleMapDTO
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.ViewStateCustoCalculado
+import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -37,6 +43,8 @@ class CalculoRotaFragment : Fragment() {
     private var posicaoMelhorRota = 1
     private var kmMelhorRota = "0"
     private var custoKmInformado = 0.0
+    private var rotaSelecionada = 1
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +61,7 @@ class CalculoRotaFragment : Fragment() {
         calculoMenorRota()
 
         binding.lnRotaInformada.setOnClickListener {
+            rotaSelecionada = 1
             binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.white))
 
@@ -62,12 +71,18 @@ class CalculoRotaFragment : Fragment() {
         }
 
         binding.lnRotaCalculada.setOnClickListener {
+            rotaSelecionada = 2
             binding.lnRotaCalculada.setBackgroundColor(getResources().getColor(R.color.botonSelected))
             binding.lnRotaInformada.setBackgroundColor(getResources().getColor(R.color.white))
             setHomeListAdapter(menorRotaAdapter)
 
             binding.tvValorTotalKm.text = "Essa rota percorre $kmMelhorRota km"
 
+        }
+
+        binding.btSalvar.setOnClickListener {
+            entrega.tipoTela = rotaSelecionada
+            viewModel.addEntregaRota(entrega)
         }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -95,19 +110,51 @@ class CalculoRotaFragment : Fragment() {
                 else -> {}
             }
         }
+
+        viewModel.viewStateEntregaRota.observe(viewLifecycleOwner) { viewState ->
+            when (viewState) {
+                is ViewStateEntregaRota.sucesso -> {
+                    val action =  CalculoRotaFragmentDirections.actionCalculoFragmentToDadosRotaFragment(entrega)
+                    findNavController().navigate(action)
+                }
+                is ViewStateEntregaRota.Failure ->{
+                    showErro(viewState.messengerError)
+                }
+                else -> {}
+            }
+        }
+
+    }
+
+    private fun showErro(text: String) {
+        var view = binding.root.rootView
+        val snackBarView = Snackbar.make(view, text , Snackbar.LENGTH_LONG)
+        view = snackBarView.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.CENTER
+        view.layoutParams = params
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
+
+       // showLoading(false)
     }
 
     private fun calcularValorRota(calcularValorRota: Double,entrega: Entrega):String{
         var valorCalculado: String
         val valorMediaGasolina = entrega.custoViagem?.valorGasolina
+        val valorMediaAlimentacao = entrega.custoViagem?.valorAlimentacao!!
+        val valorMediaHotel = entrega.custoViagem?.valorHotel!!
+        val valorMediaGastos  = entrega.custoViagem?.gastosExtras!!
+
         val valorKmMedia = entrega.dadosVeiculo.qtdKmLitro
         var valorPorLitro = 0.0
 
         if(valorMediaGasolina != null && valorMediaGasolina != 0.0){
-             valorPorLitro = valorKmMedia / valorMediaGasolina
+            valorPorLitro = valorKmMedia / valorMediaGasolina
         }
 
-        val calcTotal = calcularValorRota * valorPorLitro
+        var calcTotal = calcularValorRota * valorPorLitro
+        calcTotal += valorMediaAlimentacao + valorMediaHotel + valorMediaGastos
 
         val df = DecimalFormat("#.##")
         valorCalculado = df.format(calcTotal)

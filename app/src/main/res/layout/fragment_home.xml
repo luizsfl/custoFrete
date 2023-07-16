@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:text="Calculo pelo km informado"
+                android:text="Valor calculo pelo km informado"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
@@ -102,7 +102,7 @@
             <TextView
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:text="Calculo pela rota informado"
+                android:text="Calculo do Custo pela rota informado"
                 android:textColor="#1A237E"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"

@@ -66,12 +66,15 @@
     </fragment>
     <fragment
         android:id="@+id/calculoFragment"
-        android:name="com.example.custofrete.presentation.calculo.CalculoRotaFragment"
+        android:name="com.example.custofrete.presentation.calculoRota.CalculoRotaFragment"
         android:label="fragment_calculo"
         tools:layout="@layout/fragment_calculo" >
         <argument
             android:name="entrega"
             app:argType="com.example.custofrete.domain.model.Entrega" />
+        <action
+            android:id="@+id/action_calculoFragment_to_dadosRotaFragment"
+            app:destination="@id/dadosRotaFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -104,4 +107,13 @@
         android:name="com.example.custofrete.presentation.calculoANTT.CalculoANTTFragment"
         android:label="fragment_calculo_a_n_t_t"
         tools:layout="@layout/fragment_calculo_a_n_t_t" />
+    <fragment
+        android:id="@+id/dadosRotaFragment"
+        android:name="com.example.custofrete.presentation.dadosRota.DadosRotaFragment"
+        android:label="fragment_dados_rota"
+        tools:layout="@layout/fragment_dados_rota" >
+        <argument
+            android:name="entrega"
+            app:argType="com.example.custofrete.domain.model.Entrega" />
+    </fragment>
 </navigation>
