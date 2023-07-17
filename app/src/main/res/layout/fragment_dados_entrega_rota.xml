@@ -80,21 +80,22 @@
             android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bt_pagina_principal"
+            app:layout_constraintBottom_toTopOf="@+id/bt_comecar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_titulo"
             tools:itemCount="5"
             tools:listitem="@layout/item_dados_entrega_rota" />
 
         <Button
-            android:id="@+id/bt_pagina_principal"
+            android:id="@+id/bt_comecar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:text="Lista de entregas"
+            android:padding="15dp"
+            android:text="Começar"
+            android:textSize="20sp"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

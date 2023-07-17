@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="botonSelected">#F4F1F1</color>
+    <color name="selectedButonMaps">#BEBFC6</color>
 
 </resources>

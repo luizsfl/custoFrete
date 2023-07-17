@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_google_maps"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="#BEBFC6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:id="@+id/iv_google_maps"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/google_maps"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_title_gogle_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Google maps"
+            app:layout_constraintStart_toStartOf="@+id/ll_google_maps"
+            app:layout_constraintTop_toBottomOf="@+id/ll_google_maps"
+            app:layout_constraintEnd_toEndOf="@+id/ll_google_maps"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_waze_maps"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toEndOf="@+id/ll_google_maps"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:id="@+id/iv_waze_maps"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/waze_maps"
+                app:layout_constraintStart_toEndOf="@+id/ll_google_maps"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_title_waza_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="waze maps"
+            app:layout_constraintStart_toStartOf="@+id/ll_waze_maps"
+            app:layout_constraintTop_toBottomOf="@+id/ll_waze_maps"
+            app:layout_constraintEnd_toEndOf="@+id/ll_waze_maps"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_outro_maps"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toEndOf="@+id/ll_waze_maps"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/iv_outro_maps"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/ic_map_24"
+                android:background="@color/purple_700"
+                app:layout_constraintStart_toEndOf="@+id/iv_waze_maps"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_title_outro_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="outro mapa"
+            app:layout_constraintStart_toStartOf="@+id/ll_outro_maps"
+            app:layout_constraintTop_toBottomOf="@+id/ll_outro_maps"
+            app:layout_constraintEnd_toEndOf="@+id/ll_outro_maps"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
