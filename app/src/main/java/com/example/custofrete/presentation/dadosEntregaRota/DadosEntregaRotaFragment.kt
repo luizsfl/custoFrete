@@ -116,7 +116,7 @@ class DadosEntregaRotaFragment : Fragment() {
         builder.setPositiveButton("OK") { dialog, which -> }
 
         builder.setNegativeButton("Cancel", null)
-        
+
         val dialog = builder.create()
 
         dialog.setOnShowListener {
