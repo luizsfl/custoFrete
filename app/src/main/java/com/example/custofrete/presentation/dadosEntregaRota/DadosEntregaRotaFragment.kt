@@ -13,6 +13,7 @@ import com.example.custofrete.databinding.FragmentDadosEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.EntregaRotaPendenteAdapter
+import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
 
 class DadosEntregaRotaFragment : Fragment() {
 
@@ -37,8 +38,13 @@ class DadosEntregaRotaFragment : Fragment() {
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
 
-        binding.btPaginaPrincipal.setOnClickListener {
+        binding.ivListaEntrega.setOnClickListener {
             val action =  DadosEntregaRotaFragmentDirections.actionDadosRotaFragmentToListaEntregaRotaFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.ivVoltar.setOnClickListener{
+            val action =  DadosEntregaRotaFragmentDirections.actionDadosRotaFragmentToHomeFragment()
             findNavController().navigate(action)
         }
 
