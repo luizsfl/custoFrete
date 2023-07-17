@@ -9,4 +9,5 @@ class EntregaRotaRepositoryImp(
 ): EntregaRotaRepository {
     override fun addEntregaRota(entrega: Entrega) = entregaRotaDataSource.addEntregaRota(entrega)
     override fun getAllEntregaRota() = entregaRotaDataSource.getAllEntregaRota()
+    override fun deleteEntregaRotaDao(entrega: Entrega) = entregaRotaDataSource.deleteEntregaRota(entrega)
 }

@@ -15,10 +15,7 @@ import com.example.custofrete.data.repository.repositoryImp.UsuarioRepositoryImp
 import com.example.custofrete.domain.repository.DadosVeiculoRepository
 import com.example.custofrete.domain.repository.EntregaRotaRepository
 import com.example.custofrete.domain.repository.UsuarioRepository
-import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaAddUseCase
-import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaGetAllUseCase
-import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractor
-import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractorImp
+import com.example.custofrete.domain.useCase.entregaRota.*
 import com.example.custofrete.domain.useCase.usuario.UsuarioAddUseCase
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractor
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractorImp
@@ -64,14 +61,14 @@ val useCaseModule = module {
     factory { DadosVeiculoGetUseCase(dadosVeiculoRepository = get()) }
     factory { EntregaRotaAddUseCase(entregaRotaRepository = get()) }
     factory { EntregaRotaGetAllUseCase(entregaRotaRepository = get()) }
-
+    factory { EntregaRotaDeleteUseCase(entregaRotaRepository = get()) }
 
 }
 
 val interactorModule = module {
     factory<UsuarioInteractor> {UsuarioInteractorImp(usuarioAddUseCase = get(),usuarioVerificarUsuarioLogadoUseCase=get()) }
     factory<DadosVeiculoInteractor> {DadosVeiculoInteractorImp(dadosVeiculoAddUseCase = get(), dadosVeiculoGetUseCase = get()) }
-    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(entregaRotaAddUseCase = get(), entregaRotaGetAllUseCase = get()) }
+    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(entregaRotaAddUseCase = get(), entregaRotaGetAllUseCase = get(), entregaRotaDeleteUseCase = get()) }
 
 }
 

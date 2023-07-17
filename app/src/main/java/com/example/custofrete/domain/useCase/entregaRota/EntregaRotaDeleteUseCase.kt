@@ -3,8 +3,8 @@ package com.example.custofrete.domain.useCase.entregaRota
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.repository.EntregaRotaRepository
 
-class EntregaRotaGetAllUseCase(
+class EntregaRotaDeleteUseCase(
     private val entregaRotaRepository: EntregaRotaRepository
 ) {
-    operator fun invoke() = entregaRotaRepository.getAllEntregaRota()
+    operator fun invoke(entrega:Entrega) = entregaRotaRepository.deleteEntregaRotaDao(entrega)
 }

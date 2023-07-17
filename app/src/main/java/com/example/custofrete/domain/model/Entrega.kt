@@ -6,7 +6,8 @@ data class Entrega constructor(
     val custoViagem: CustoViagem? = null,
     val listaRotas : List<Rota>? = null,
     var idUsuario: String = "",
-    var tipoTela: Int = 0
-):java.io.Serializable {
+    var tipoTela: Int = 0,
+    var idDocument: String = ""
+    ):java.io.Serializable {
     constructor() : this(DadosVeiculo())
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.custofrete.domain.model.DadosVeiculo
+import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractor
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractor
 import com.example.custofrete.presentation.ViewStateDadosVeiculo
@@ -29,6 +30,21 @@ class ListaEntregaRotaViewModel (
                     _viewStateListEntregaRota.value = ViewStateEntregaRota.Failure(messengerError = it.message.orEmpty())
                 }
                 .collect { _viewStateListEntregaRota.value = ViewStateEntregaRota.sucessoGetAll(it)}
+        }
+    }
+
+    fun deleteEntregaRota(entrega: Entrega) {
+        viewModelScope.launch {
+            entregaRotaInteractor.deleteEntregaRota(entrega)
+                .onStart { _viewStateListEntregaRota.value = ViewStateEntregaRota.Loading(loading = true) }
+                .catch {
+                    _viewStateListEntregaRota.value = ViewStateEntregaRota.Failure(messengerError = it.message.orEmpty())
+                }
+                .collect {
+
+                    getAllEntregaRota()
+
+                }
         }
     }
 }

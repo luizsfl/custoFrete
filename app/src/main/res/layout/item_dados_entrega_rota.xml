@@ -31,57 +31,15 @@
                 app:layout_constraintRight_toRightOf="parent"
                 >
 
-            <LinearLayout
-                android:id="@+id/lc_dados"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                >
                 <TextView
                     android:id="@+id/title_rota"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Título da Live"
+                    android:text="Título da entrega rota"
                     android:textColor="#000"
                     android:textSize="19sp" />
 
             </LinearLayout>
-
-
-
-
-
-            <LinearLayout
-                android:id="@+id/container2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                >
-
-                <ImageView
-                    android:id="@+id/iv_excluir"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    app:srcCompat="@drawable/ic_baseline_delete_24"
-
-                    />
-
-            </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

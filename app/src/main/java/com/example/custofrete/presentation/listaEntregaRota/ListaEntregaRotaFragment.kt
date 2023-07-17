@@ -47,18 +47,25 @@ class ListaEntregaRotaFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.ivVoltar.setOnClickListener{
+            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }
+
         return root
     }
 
     private fun setAdapter(listEntregaRota: List<Entrega>) {
         val rotaAdapter = EntregaRotaAdapter(listEntregaRota)
         rotaAdapter.onItemClick = {
-//            val intent = Intent(requireContext(), HomeDetailActivity::class.java)
-//                .apply {
-//                    putExtra("idCaixa", it.idCaixa)
-//                }
-//            startActivity(intent)
+            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
+            findNavController().navigate(action)
         }
+
+        rotaAdapter.onItemClickExcluir = {
+            viewModel.deleteEntregaRota(it)
+        }
+
 
         binding.recyclerview.adapter = rotaAdapter
     }

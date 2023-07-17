@@ -4,28 +4,27 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.custofrete.databinding.ItemEntregaRotaBinding
+import com.example.custofrete.databinding.ItemDadosEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 
-class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
-    RecyclerView.Adapter<EntregaRotaAdapter.ViewHolder>() {
+class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
+    RecyclerView.Adapter<EntregaRotaPendenteAdapter.ViewHolder>() {
 
-    var onItemClick : ((Entrega)-> Unit)? = null
-    var onItemClickExcluir : ((Entrega)-> Unit)? = null
+    var onItemClick : ((Rota)-> Unit)? = null
 
-    class ViewHolder(val binding: ItemEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemDadosEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Entrega){
+        fun bind(item: Rota){
 
-            binding.titleRota.text = item.idUsuario
+            binding.titleRota.text = item.title
 
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
-        val itemFilterAdapter = ItemEntregaRotaBinding.inflate(inflater,viewGroup,false)
+        val itemFilterAdapter = ItemDadosEntregaRotaBinding.inflate(inflater,viewGroup,false)
 
         return ViewHolder(itemFilterAdapter,viewGroup.context)
     }
@@ -33,12 +32,8 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
 
-        viewHolder.binding.lcDados.setOnClickListener {
+        viewHolder.itemView.setOnClickListener {
             onItemClick?.invoke(dataSet[position])
-        }
-
-        viewHolder.binding.ivExcluir.setOnClickListener {
-            onItemClickExcluir?.invoke(dataSet[position])
         }
     }
 

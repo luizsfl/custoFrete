@@ -6,4 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface EntregaRotaRepository {
     fun addEntregaRota(entrega: Entrega): Flow<Entrega>
     fun getAllEntregaRota(): Flow<List<Entrega>>
+    fun deleteEntregaRotaDao(entrega: Entrega): Flow<Entrega>
+
+
 }

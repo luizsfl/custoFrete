@@ -57,6 +57,7 @@ class EntregaRotaDao (
 
                         for (document in result) {
                             val entregaRota = document.toObject(Entrega::class.java)!!
+                            entregaRota.idDocument = document.id
                             listEntregaRota.add(entregaRota)
                         }
 
@@ -71,4 +72,23 @@ class EntregaRotaDao (
         }.flowOn(dispatcher)
     }
 
+    fun deleteEntregaRota(entrega: Entrega): Flow<Entrega> {
+            return callbackFlow  {
+                val idUsuario = autenticacao.currentUser?.uid.toString()
+
+                autenticacaFirestore.collection("entrega")
+                    .document(entrega.idDocument)
+                    .delete()
+                    .addOnSuccessListener { result ->
+
+                        trySend(entrega)
+
+                    }
+                    .addOnFailureListener {
+                        val messengerErro = "getEntregaRota ${it.message.toString()}"
+                        trySend(error(messengerErro))
+                    }
+                awaitClose {}
+            }.flowOn(dispatcher)
+        }
 }

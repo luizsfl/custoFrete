@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.listaEntregaRota.ListaEntregaRotaFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.dadosEntregaRota.DadosEntregaRotaFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <ImageView
-            android:id="@+id/iv_voltar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            app:srcCompat="@drawable/ic_home_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
 
         <TextView
             android:id="@+id/txt_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Todas as entregas"
+            android:text="Todas as rotas"
             android:layout_margin="20dp"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -37,30 +28,27 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/fa_new_entrega_rota"
+            app:layout_constraintBottom_toTopOf="@+id/bt_pagina_principal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_titulo"
             tools:itemCount="5"
-            tools:listitem="@layout/item_entrega_rota" />
+            tools:listitem="@layout/item_dados_entrega_rota" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fa_new_entrega_rota"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/bt_pagina_principal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_add_entrega_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:text="Lista de entregas"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </FrameLayout>
