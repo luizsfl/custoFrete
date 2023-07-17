@@ -12,16 +12,6 @@
         android:layout_height="match_parent"
         >
 
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/ll_mapa"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <AutoCompleteTextView
             android:id="@+id/bt_endereco_entrega"
             android:layout_width="match_parent"
@@ -37,18 +27,31 @@
             android:hint="Informe o endereço de entrega"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_mapa" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/ll_mapa"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_endereco_entrega" />
+
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/next_rotas"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bt_endereco_entrega"
+            app:layout_constraintTop_toBottomOf="@+id/ll_mapa"
             tools:itemCount="5"
             tools:listitem="@layout/item_rota" />
 

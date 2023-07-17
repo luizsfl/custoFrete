@@ -65,12 +65,17 @@ class RotasFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextRotas.setOnClickListener {
-            val entrega = Entrega(args.value.entrega.dadosVeiculo
-                ,args.value.entrega.custoViagem
-                ,listaRota)
+            if(listaRota.size>0){
+                val entrega = Entrega(args.value.entrega.dadosVeiculo
+                    ,args.value.entrega.custoViagem
+                    ,listaRota)
 
-            val action = RotasFragmentDirections.actionRotasFragmentToCalculoFragment(entrega)
-            findNavController().navigate(action)
+                val action = RotasFragmentDirections.actionRotasFragmentToCalculoFragment(entrega)
+                findNavController().navigate(action)
+            }else{
+                binding.btEnderecoEntrega.error = "Informe pelo menos uma rota"
+            }
+
         }
 
         atualizaRotas()

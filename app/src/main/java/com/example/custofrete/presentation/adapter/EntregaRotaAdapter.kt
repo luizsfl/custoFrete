@@ -18,7 +18,7 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
 
         fun bind(item: Entrega){
 
-            binding.titleRota.text = item.idUsuario
+            binding.titleRota.text = item.titulo
 
         }
     }

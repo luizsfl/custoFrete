@@ -1,13 +1,17 @@
 package com.example.custofrete.presentation.calculoRota
 
+import android.app.AlertDialog
+import android.content.Context
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -82,7 +86,8 @@ class CalculoRotaFragment : Fragment() {
 
         binding.btSalvar.setOnClickListener {
             entrega.tipoTela = rotaSelecionada
-            viewModel.addEntregaRota(entrega)
+            showAlertDialog(requireContext())
+
         }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -228,6 +233,44 @@ class CalculoRotaFragment : Fragment() {
         }
 
         return random
+    }
+
+    private fun showAlertDialog(contextTela: Context) {
+
+        val builder = AlertDialog.Builder(contextTela)
+        builder.setTitle("Digite um titulo")
+
+        val input = EditText(contextTela)
+        input.setHint("Digite aqui")
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton("OK") { dialog, which -> }
+
+        builder.setNegativeButton("Cancel", null)
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+
+                var message = input.text.toString()
+
+                if(message.isEmpty()){
+                    val erro = "Digite um titulo"
+                    input.error = erro
+                }else{
+                    entrega.titulo = message
+                    viewModel.addEntregaRota(entrega)
+
+                    dialog.dismiss()
+
+                }
+            }
+        }
+
+        dialog.show()
     }
 
     private fun setHomeListAdapter(listRota: List<Rota>) {
