@@ -2,6 +2,7 @@ package com.example.custofrete.presentation
 
 import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.model.Entrega
+import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.domain.model.Usuario
 
 sealed class ViewStateUsuario {
@@ -33,3 +34,10 @@ sealed class ViewStateEntregaRota {
     data class sucessoGetAll(val listEntrega:List<Entrega>):ViewStateEntregaRota()
     data class Failure(val messengerError:String = String()): ViewStateEntregaRota()
 }
+
+sealed class ViewStateRota {
+    data class Loading(val loading: Boolean):ViewStateRota()
+    data class sucesso(val listRota:List<Rota>):ViewStateRota()
+    data class Failure(val messengerError:String = String()): ViewStateRota()
+}
+

@@ -26,6 +26,7 @@ import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractor
 import com.example.custofrete.domain.useCase.veiculo.DadosVeiculoInteractorImp
 import com.example.custofrete.presentation.cadastroLogin.CadastroLoginViewModel
 import com.example.custofrete.presentation.calculoRota.CalculoRotaViewModel
+import com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaViewModel
 import com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoViewModel
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaViewModel
 import com.example.custofrete.presentation.login.LoginViewModel
@@ -37,21 +38,18 @@ val daoModule = module {
     factory { UsuarioDao() }
     factory { DadosVeiculoDao() }
     factory { EntregaRotaDao() }
-
 }
 
 val dataSourceModule = module {
     factory<UsuarioDataSource> { UsuarioDataSourceImp(usuarioDao = get()) }
     factory<DadosVeiculoDataSource> { DadosVeiculoDataSourceImp(dadosVeiculoDao = get()) }
     factory<EntregaRotaDataSource> { EntregaRotaDataSourceImp(entregaRotaDao = get()) }
-
 }
 
 val repositoryModule = module {
     factory<UsuarioRepository> { UsuarioRepositoryImp(usuarioDataSource = get()) }
     factory<DadosVeiculoRepository> { DadosVeiculoRepositoryImp(dadosVeiculoDataSource = get()) }
     factory<EntregaRotaRepository> { EntregaRotaRepositoryImp(entregaRotaDataSource = get()) }
-
 }
 
 val useCaseModule = module {
@@ -62,36 +60,29 @@ val useCaseModule = module {
     factory { EntregaRotaAddUseCase(entregaRotaRepository = get()) }
     factory { EntregaRotaGetAllUseCase(entregaRotaRepository = get()) }
     factory { EntregaRotaDeleteUseCase(entregaRotaRepository = get()) }
+    factory { EntregaRotaUpdateUseCase(entregaRotaRepository = get()) }
 
 }
 
 val interactorModule = module {
     factory<UsuarioInteractor> {UsuarioInteractorImp(usuarioAddUseCase = get(),usuarioVerificarUsuarioLogadoUseCase=get()) }
     factory<DadosVeiculoInteractor> {DadosVeiculoInteractorImp(dadosVeiculoAddUseCase = get(), dadosVeiculoGetUseCase = get()) }
-    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(entregaRotaAddUseCase = get(), entregaRotaGetAllUseCase = get(), entregaRotaDeleteUseCase = get()) }
+    factory<EntregaRotaInteractor> {EntregaRotaInteractorImp(
+        entregaRotaAddUseCase = get(),
+        entregaRotaGetAllUseCase = get(),
+        entregaRotaDeleteUseCase = get(),
+        entregaRotaUpdateUseCase = get()
+    ) }
 
 }
 
 val viewModel = module {
 
-    viewModel {
-        CadastroLoginViewModel(usuarioInteractor = get())
-    }
-
-    viewModel {
-        LoginViewModel( usuarioInteractor = get())
-    }
-
-    viewModel {
-        DadosVeiculoViewModel( dadosVeiculoInteractor = get())
-    }
-
-    viewModel {
-        CalculoRotaViewModel(entregaRotaInteractor = get())
-    }
-
-    viewModel {
-        ListaEntregaRotaViewModel(entregaRotaInteractor = get())
-    }
+    viewModel {CadastroLoginViewModel(usuarioInteractor = get()) }
+    viewModel {LoginViewModel( usuarioInteractor = get()) }
+    viewModel {DadosVeiculoViewModel( dadosVeiculoInteractor = get())  }
+    viewModel {CalculoRotaViewModel(entregaRotaInteractor = get())}
+    viewModel {ListaEntregaRotaViewModel(entregaRotaInteractor = get()) }
+    viewModel { DadosEntregaRotaViewModel(entregaRotaInteractor = get()) }
 
 }

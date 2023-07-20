@@ -1,6 +1,7 @@
 package com.example.custofrete.data.repository.remoteDataSource.dao
 
 import com.example.custofrete.domain.model.Entrega
+import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.config.ConfiguracaoFirebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -85,10 +86,30 @@ class EntregaRotaDao (
 
                     }
                     .addOnFailureListener {
-                        val messengerErro = "getEntregaRota ${it.message.toString()}"
+                        val messengerErro = "deleteEntregaRota ${it.message.toString()}"
                         trySend(error(messengerErro))
                     }
                 awaitClose {}
             }.flowOn(dispatcher)
         }
+
+
+    fun updateEntregaRota(idDocument:String,listaRotas:List<Rota>): Flow<List<Rota>> {
+        return callbackFlow  {
+
+            autenticacaFirestore.collection("entrega")
+                .document(idDocument)
+                .update("listaRotas",listaRotas)
+                .addOnSuccessListener { result ->
+
+                    trySend(listaRotas)
+
+                }
+                .addOnFailureListener {
+                    val messengerErro = "updateEntregaRota ${it.message.toString()}"
+                    trySend(error(messengerErro))
+                }
+            awaitClose {}
+        }.flowOn(dispatcher)
+    }
 }

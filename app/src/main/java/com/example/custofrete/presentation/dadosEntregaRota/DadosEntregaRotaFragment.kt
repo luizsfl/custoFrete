@@ -20,8 +20,12 @@ import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentDadosEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
+import com.example.custofrete.presentation.ViewStateEntregaRota
+import com.example.custofrete.presentation.ViewStateRota
 import com.example.custofrete.presentation.adapter.EntregaRotaPendenteAdapter
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
+import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DadosEntregaRotaFragment : Fragment() {
 
@@ -29,6 +33,7 @@ class DadosEntregaRotaFragment : Fragment() {
     private val binding get() = _binding!!
     private val args = navArgs<DadosEntregaRotaFragmentArgs>()
     private lateinit var entrega: Entrega
+    private val viewModel: DadosEntregaRotaViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +46,9 @@ class DadosEntregaRotaFragment : Fragment() {
         entrega = args.value.entrega
 
         if(entrega.listaRotas?.size!! > 0){
+
             setAdapterPendente(entrega.listaRotas!!)
+
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
@@ -61,17 +68,30 @@ class DadosEntregaRotaFragment : Fragment() {
             selecionarAppMapa(requireContext(),rota)
         }
 
+        viewModel.viewStateListEntregaRota.observe(viewLifecycleOwner) { viewState ->
+            when (viewState) {
+                is ViewStateRota.sucesso -> setAdapterPendente(viewState.listRota)
+                else -> {}
+            }
+        }
+
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         return root
     }
 
     private fun setAdapterPendente(listEntregaRota: List<Rota>) {
-        val rotaAdapter = EntregaRotaPendenteAdapter(listEntregaRota)
-//        rotaAdapter.onItemClick = {
-//            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
-//            findNavController().navigate(action)
-//        }
+        val listaRotaPendente = listEntregaRota.filter {
+            it.status == "pendente"
+        }
+
+        val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaPendente)
+         rotaAdapter.onItemClickEntregue = { rota, listRota,posicao ->
+             val listaUpdate = listEntregaRota.toMutableList()
+             rota.status = "Entregue"
+             listaUpdate.set(posicao,rota)
+             viewModel.updateEntregaRota(entrega.idDocument,listaUpdate)
+         }
 
         binding.recyclerview.adapter = rotaAdapter
     }

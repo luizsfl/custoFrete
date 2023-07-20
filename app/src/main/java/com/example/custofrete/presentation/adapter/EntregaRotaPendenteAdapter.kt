@@ -12,6 +12,7 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
     RecyclerView.Adapter<EntregaRotaPendenteAdapter.ViewHolder>() {
 
     var onItemClick : ((Rota)-> Unit)? = null
+    var onItemClickEntregue : ((Rota,List<Rota>,Int)-> Unit)? = null
 
     class ViewHolder(val binding: ItemDadosEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
@@ -34,6 +35,7 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
 
         viewHolder.itemView.setOnClickListener {
             onItemClick?.invoke(dataSet[position])
+            onItemClickEntregue?.invoke(dataSet[position],dataSet,position)
         }
     }
 

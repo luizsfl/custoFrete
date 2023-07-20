@@ -10,7 +10,8 @@ data class Rota(
     val more:String,
     val lat:Double,
     val lng :Double,
-    var valorDistance: Distance = Distance()
+    var valorDistance: Distance = Distance(),
+    var status:String? = "pendente"
 ):java.io.Serializable
 {
     constructor():this("","","","","","","",0.0,0.0,Distance())
