@@ -11,8 +11,8 @@ import com.example.custofrete.domain.model.Rota
 class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
     RecyclerView.Adapter<EntregaRotaPendenteAdapter.ViewHolder>() {
 
-    var onItemClick : ((Rota)-> Unit)? = null
     var onItemClickEntregue : ((Rota,List<Rota>,Int)-> Unit)? = null
+    var onItemClickNaoEntregue : ((Rota,List<Rota>,Int)-> Unit)? = null
 
     class ViewHolder(val binding: ItemDadosEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
@@ -33,10 +33,14 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
 
-        viewHolder.itemView.setOnClickListener {
-            onItemClick?.invoke(dataSet[position])
+        viewHolder.binding.llEntregaOk.setOnClickListener {
             onItemClickEntregue?.invoke(dataSet[position],dataSet,position)
         }
+
+        viewHolder.binding.llEntregaNao.setOnClickListener {
+            onItemClickNaoEntregue?.invoke(dataSet[position],dataSet,position)
+        }
+
     }
 
     override fun getItemCount() = dataSet.size

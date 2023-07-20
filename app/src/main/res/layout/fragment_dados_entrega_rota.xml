@@ -80,9 +80,32 @@
             android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bt_comecar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_titulo"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_dados_entrega_rota" />
+        <TextView
+            android:id="@+id/txt_titulo_entregue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Todas as entregue"
+            android:layout_margin="5dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewEntregue"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_titulo_entregue"
             tools:itemCount="5"
             tools:listitem="@layout/item_dados_entrega_rota" />
 
