@@ -5,109 +5,121 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.dadosEntregaRota.DadosEntregaRotaFragment">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_topbar"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:background="@color/purple_700"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="match_parent"
             >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_topbar"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:background="@color/purple_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <TextView
+                    android:id="@+id/txt_name_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_voltar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="20dp"
+                    app:srcCompat="@drawable/ic_home_24"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_lista_entrega"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_lista_entrega"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="#FFEB3B"
+                    app:srcCompat="@drawable/rota"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/txt_name_app"
+                android:id="@+id/txt_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="Todas as paradas"
+                android:layout_margin="5dp"
                 android:textSize="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <ImageView
-                android:id="@+id/iv_voltar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/ic_home_24"
-                app:layout_constraintEnd_toStartOf="@+id/iv_lista_entrega"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
-
-            <ImageView
-                android:id="@+id/iv_lista_entrega"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="20dp"
-                android:background="#FFEB3B"
-                app:srcCompat="@drawable/rota"
+                app:layout_constraintTop_toBottomOf="@+id/cl_topbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_titulo"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_dados_entrega_rota" />
+            <TextView
+                android:id="@+id/txt_titulo_entregue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todas as entregue"
+                android:layout_margin="5dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewEntregue"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_titulo_entregue"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_dados_entrega_rota" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/txt_titulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Todas as paradas"
-            android:layout_margin="5dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_topbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_titulo"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_dados_entrega_rota" />
-        <TextView
-            android:id="@+id/txt_titulo_entregue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Todas as entregue"
-            android:layout_margin="5dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerview"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewEntregue"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_titulo_entregue"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_dados_entrega_rota" />
+    </ScrollView>
 
         <Button
             android:id="@+id/bt_comecar"
@@ -115,13 +127,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="10dp"
             android:padding="15dp"
             android:text="Começar"
             android:textSize="20sp"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </FrameLayout>
