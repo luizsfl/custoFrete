@@ -87,7 +87,13 @@ class DadosEntregaRotaFragment : Fragment() {
 
     private fun setAdapterPendente(listEntregaRota: List<Rota>): EntregaRotaPendenteAdapter {
         val listaRotaPendente = listEntregaRota.filter {
-            it.status == "pendente"
+            it.status.toString().equals("pendente")
+        }
+
+        if (listaRotaPendente.isEmpty()){
+            binding.txtTitulo.visibility = View.GONE
+        }else{
+            binding.txtTitulo.visibility = View.VISIBLE
         }
 
         val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaPendente)
@@ -110,11 +116,11 @@ class DadosEntregaRotaFragment : Fragment() {
     }
 
     private fun setAdapterEntregue(listEntregaRota: List<Rota>): EntregaRotaPendenteAdapter {
-        val listaRotaPendente = listEntregaRota.filter {
-            it.status == "entregue"
+        val listaRotaFinalizada = listEntregaRota.filter {
+            !it.status.toString().equals("pendente")
         }
 
-        val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaPendente)
+        val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaFinalizada)
         rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
             val listaUpdate = listEntregaRota.toMutableList()
             rota.status = "entregue"

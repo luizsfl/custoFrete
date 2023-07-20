@@ -96,6 +96,31 @@
                             android:textSize="15sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/ll_entrega_finalizada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_entrega_nao"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginEnd="9dp"
+                        android:visibility="gone"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_entrega_finalizada"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            app:srcCompat="@drawable/ic_entregue_ok_24"
+                            />
+                        <TextView
+                            android:id="@+id/txt_entrega_finalizada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Não entregue"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
