@@ -267,6 +267,7 @@ class CalculoRotaFragment : Fragment() {
                     input.error = erro
                 }else{
                     entrega.titulo = message
+                    entrega.listaMelhorRota = menorRotaAdapter
                     viewModel.addEntregaRota(entrega)
 
                     dialog.dismiss()
@@ -362,7 +363,6 @@ class CalculoRotaFragment : Fragment() {
 
     fun getDirectionURL(origin: LatLng, dest: LatLng): String {
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
-
     }
 
 }

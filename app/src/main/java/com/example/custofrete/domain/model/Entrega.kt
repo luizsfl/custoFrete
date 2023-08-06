@@ -8,7 +8,8 @@ data class Entrega constructor(
     var idUsuario: String = "",
     var tipoTela: Int = 0,
     var idDocument: String = "",
-    var titulo: String = ""
+    var titulo: String = "",
+    var listaMelhorRota : List<Rota>? = null
     ):java.io.Serializable {
     constructor() : this(DadosVeiculo())
 }

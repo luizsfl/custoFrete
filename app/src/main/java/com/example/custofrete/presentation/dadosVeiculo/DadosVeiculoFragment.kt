@@ -95,7 +95,7 @@ class DadosVeiculoFragment : Fragment() {
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToHomeFragment()
             findNavController().navigate(action)
         }else if (tipoTela == 2){
-            val entrega = Entrega(dadosVeiculo = dadosVeiculo, null,null)
+            val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = null ,listaRotas = null,listaMelhorRota=null)
 
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment(entrega)
             findNavController().navigate(action)
