@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -87,20 +88,19 @@ class DadosVeiculoFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-//        binding.progressBar.isVisible = isLoading
+       binding.carregamento.isVisible = isLoading
     }
     private fun dadosVeiculoCriado(dadosVeiculo: DadosVeiculo){
         if(tipoTela == 1){
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToHomeFragment()
             findNavController().navigate(action)
         }else if (tipoTela == 2){
-            showLoading(false)
             val entrega = Entrega(dadosVeiculo = dadosVeiculo, null,null)
 
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment(entrega)
             findNavController().navigate(action)
-
         }
+        showLoading(false)
     }
 
     private fun setDadosVeiculo(dadosVeiculo: DadosVeiculo){
@@ -108,6 +108,8 @@ class DadosVeiculoFragment : Fragment() {
         binding.tiKmDadosVeiculo.setText(dadosVeiculo.qtdKmLitro.toString())
         binding.tiQtdEixo.setText(dadosVeiculo.qtdEixo.toString())
         binding.tiPesoVeiculo.setText(dadosVeiculo.pesoVeiculo.toString())
+        showLoading(false)
+
     }
 
 

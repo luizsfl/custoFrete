@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,6 +24,8 @@ import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.ViewStateRota
 import com.example.custofrete.presentation.adapter.EntregaRotaPendenteAdapter
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DadosEntregaRotaFragment : Fragment() {
@@ -67,7 +72,9 @@ class DadosEntregaRotaFragment : Fragment() {
 
         viewModel.viewStateListEntregaRota.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
+                is ViewStateRota.Loading -> showLoading(viewState.loading)
                 is ViewStateRota.sucesso -> setAdapter(viewState.listRota)
+                is ViewStateRota.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
         }
@@ -83,6 +90,7 @@ class DadosEntregaRotaFragment : Fragment() {
 
         setAdapterEntregue(listEntregaRota)
 
+        showLoading(false)
     }
 
     private fun setAdapterPendente(listEntregaRota: List<Rota>): EntregaRotaPendenteAdapter {
@@ -98,6 +106,7 @@ class DadosEntregaRotaFragment : Fragment() {
 
         val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaPendente)
         rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
+            showLoading(true)
             val listaUpdate = listEntregaRota.toMutableList()
             rota.status = "entregue"
             listaUpdate.set(posicao, rota)
@@ -105,6 +114,7 @@ class DadosEntregaRotaFragment : Fragment() {
         }
 
         rotaAdapter.onItemClickNaoEntregue = { rota, listRota, posicao ->
+            showLoading(true)
             val listaUpdate = listEntregaRota.toMutableList()
             rota.status = "NaoEntregue"
             listaUpdate.set(posicao, rota)
@@ -121,22 +131,40 @@ class DadosEntregaRotaFragment : Fragment() {
         }
 
         val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaFinalizada)
-        rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
-            val listaUpdate = listEntregaRota.toMutableList()
-            rota.status = "entregue"
-            listaUpdate.set(posicao, rota)
-            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
-        }
-
-        rotaAdapter.onItemClickNaoEntregue = { rota, listRota, posicao ->
-            val listaUpdate = listEntregaRota.toMutableList()
-            rota.status = "NaoEntregue"
-            listaUpdate.set(posicao, rota)
-            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
-        }
+//        rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
+//            val listaUpdate = listEntregaRota.toMutableList()
+//            rota.status = "entregue"
+//            listaUpdate.set(posicao, rota)
+//            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
+//        }
+//
+//        rotaAdapter.onItemClickNaoEntregue = { rota, listRota, posicao ->
+//            val listaUpdate = listEntregaRota.toMutableList()
+//            rota.status = "NaoEntregue"
+//            listaUpdate.set(posicao, rota)
+//            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
+//        }
 
         binding.recyclerviewEntregue.adapter = rotaAdapter
         return rotaAdapter
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.carregamento.isVisible = isLoading
+        binding.btComecar.isVisible = !isLoading
+    }
+
+    private fun showErro(text: String) {
+        var view = binding.root.rootView
+        val snackBarView = Snackbar.make(view, text , Snackbar.LENGTH_LONG)
+        view = snackBarView.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.CENTER
+        view.layoutParams = params
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
+
+        showLoading(false)
     }
 
     private fun selecionarAppMapa(contextTela : Context,destino:Rota){

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -118,7 +119,11 @@ class CalculoRotaFragment : Fragment() {
 
         viewModel.viewStateEntregaRota.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
+                is ViewStateEntregaRota.Loading -> {
+                    showLoading(true)
+                 }
                 is ViewStateEntregaRota.sucesso -> {
+                    showLoading(false)
                     val action =  CalculoRotaFragmentDirections.actionCalculoFragmentToDadosRotaFragment(entrega)
                     findNavController().navigate(action)
                 }
@@ -286,6 +291,10 @@ class CalculoRotaFragment : Fragment() {
         binding.recyclerview.adapter = rotaAdapter
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.carregamento.isVisible = isLoading
+        binding.btSalvar.isVisible = !isLoading
+    }
 
     fun nearestNeighborAlgorithm(points: List<Point>): List<Point> {
         val visitedPoints = mutableListOf<Point>()
