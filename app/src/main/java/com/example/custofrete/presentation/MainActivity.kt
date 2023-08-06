@@ -6,9 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
+import com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFragment
+import com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFragmentDirections
 import com.example.custofrete.presentation.home.HomeFragment
 import com.example.custofrete.presentation.home.HomeFragmentDirections
+import com.example.custofrete.presentation.rotas.RotasFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -25,9 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         if( activeFragment is HomeFragment){
             finish()
+        }else if( activeFragment is DadosEntregaRotaFragment){
+            val action2 = DadosEntregaRotaFragmentDirections.actionDadosRotaFragmentToListaEntregaRotaFragment()
+            findNavController(activeFragment).navigate(action2)
+        }else{
+            onBackPressedDispatcher.onBackPressed()
         }
 
-        onBackPressedDispatcher.onBackPressed()
 
     }
 
@@ -65,5 +73,4 @@ class MainActivity : AppCompatActivity() {
             else->  super.onOptionsItemSelected(item)
         }
     }
-
 }

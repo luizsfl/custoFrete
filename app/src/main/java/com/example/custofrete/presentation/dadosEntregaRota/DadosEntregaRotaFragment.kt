@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class DadosEntregaRotaFragment : Fragment() {
 
     private var _binding: FragmentDadosEntregaRotaBinding? = null
