@@ -34,7 +34,7 @@ class RotasFragment : Fragment() {
 
     private var _binding: FragmentRotasBinding? = null
     private val binding get() = _binding!!
-    private val listaRota: MutableList<Rota> = mutableListOf()
+    private var listaRota: MutableList<Rota> = mutableListOf()
     lateinit var googleMap: GoogleMap
     private val args = navArgs<RotasFragmentArgs>()
 
@@ -46,6 +46,9 @@ class RotasFragment : Fragment() {
         val root: View = binding.root
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
+        if(args.value.entrega.listaRotas != null){
+            listaRota = args.value.entrega.listaRotas!!.toMutableList()
+        }
 
         binding.llMapa.onCreate(savedInstanceState)
         binding.llMapa.onResume()
@@ -66,9 +69,9 @@ class RotasFragment : Fragment() {
 
         binding.nextRotas.setOnClickListener {
             if(listaRota.size>0){
-                val entrega = Entrega(args.value.entrega.dadosVeiculo
-                    ,args.value.entrega.custoViagem
-                    ,listaRota)
+
+                var entrega = args.value.entrega
+                entrega.listaRotas = listaRota
 
                 val action = RotasFragmentDirections.actionRotasFragmentToCalculoFragment(entrega)
                 findNavController().navigate(action)

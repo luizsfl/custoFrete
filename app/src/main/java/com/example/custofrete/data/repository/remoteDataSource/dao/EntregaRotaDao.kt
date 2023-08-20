@@ -26,16 +26,30 @@ class EntregaRotaDao (
             try {
                 var messengerErro = ""
                 entrega.idUsuario = entrega.dadosVeiculo.idUsuario
-
-                autenticacaFirestore.collection("entrega")
-                    .add(entrega)
-                    .addOnFailureListener {
-                        messengerErro = "addEntrega3 ${it.message.toString()}"
-                        trySend(error(messengerErro))
-                    }.addOnSuccessListener { result ->
-                        entrega.idDocument = result.id
+                if(entrega.idDocument.isEmpty()){
+                    autenticacaFirestore.collection("entrega")
+                        .add(entrega)
+                        .addOnFailureListener {
+                            messengerErro = "addEntrega3 ${it.message.toString()}"
+                            trySend(error(messengerErro))
+                        }.addOnSuccessListener { result ->
+                            entrega.idDocument = result.id
                             trySend(entrega)
                         }
+                }else{
+                    
+                    autenticacaFirestore.collection("entrega")
+                        .document(entrega.idDocument)
+                        .set(entrega)
+                        .addOnFailureListener {
+                            messengerErro = "UpdateEntrega1 ${it.message.toString()}"
+                            trySend(error(messengerErro))
+                        }
+                        .addOnSuccessListener {
+                            trySend(entrega)
+                        }
+
+                }
 
                 awaitCancellation()
             } catch (e: Exception) {

@@ -36,6 +36,7 @@ class DadosEntregaRotaFragment : Fragment() {
     private val args = navArgs<DadosEntregaRotaFragmentArgs>()
     private lateinit var entrega: Entrega
     private val viewModel: DadosEntregaRotaViewModel by viewModel()
+    private lateinit var rotaMapa:List<Rota>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +53,6 @@ class DadosEntregaRotaFragment : Fragment() {
             if(entrega.listaRotas?.size!! > 0){
                 setAdapter(entrega.listaRotas!!,entrega.tipoTela)
                 binding.txtTitulo.text = "Rota informada pendente"
-
             }
         }else if(entrega.tipoTela == 2){
             binding.txtTitulo.text = "Melhores rotas pendente"
@@ -75,8 +75,10 @@ class DadosEntregaRotaFragment : Fragment() {
         }
 
         binding.btComecar.setOnClickListener{
-            val rota = entrega.listaRotas!!.get(1)
-            selecionarAppMapa(requireContext(),rota)
+            if(rotaMapa.isNotEmpty()){
+                val rota = rotaMapa.get(0)
+                selecionarAppMapa(requireContext(),rota)
+            }
         }
 
         viewModel.viewStateListEntregaRota.observe(viewLifecycleOwner) { viewState ->
@@ -111,6 +113,7 @@ class DadosEntregaRotaFragment : Fragment() {
             binding.txtTitulo.visibility = View.GONE
             binding.btComecar.visibility = View.GONE
         }else{
+            rotaMapa = listaRotaPendente
             binding.btComecar.visibility = View.VISIBLE
             binding.txtTitulo.visibility = View.VISIBLE
         }

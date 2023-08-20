@@ -246,7 +246,12 @@ class CalculoRotaFragment : Fragment() {
         builder.setTitle("Digite um titulo")
 
         val input = EditText(contextTela)
-        input.setHint("Digite aqui")
+        if(entrega.titulo.isEmpty()){
+            input.setHint("Digite aqui")
+        }else{
+            input.setText(entrega.titulo)
+        }
+
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
