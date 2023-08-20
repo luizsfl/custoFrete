@@ -1,18 +1,18 @@
 package com.example.custofrete.data.repository.remoteDataSource.dao
 
-import android.annotation.SuppressLint
+import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.config.ConfiguracaoFirebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.flowOn
 
 
@@ -37,6 +37,7 @@ class EntregaRotaDao (
                         entrega.idDocument = result.id
                             trySend(entrega)
                         }
+
                 awaitCancellation()
             } catch (e: Exception) {
                 trySend(error("addEntregaErro ${e.message.toString()}"))
@@ -53,10 +54,15 @@ class EntregaRotaDao (
                     .addOnSuccessListener { result ->
 
                         val listEntregaRota = mutableListOf<Entrega>()
+                        val auxRotas = mutableListOf<Rota>()
 
                         for (document in result) {
                             val entregaRota = document.toObject(Entrega::class.java)!!
                             entregaRota.idDocument = document.id
+
+                            entregaRota.listaRotas = addPositionRota(entregaRota)
+                            entregaRota.listaMelhorRota = addPositionRota(entregaRota)
+
                             listEntregaRota.add(entregaRota)
                         }
 
@@ -69,6 +75,18 @@ class EntregaRotaDao (
                     }
             awaitClose {}
         }.flowOn(dispatcher)
+    }
+
+    private fun addPositionRota(
+        entregaRota: Entrega,
+    ):List<Rota> {
+        val auxRotas =  mutableListOf<Rota>()
+        entregaRota.listaRotas?.forEachIndexed { index, value ->
+            val rota = value
+            rota.posicao = index
+            auxRotas.add(rota)
+        }
+        return auxRotas
     }
 
     fun deleteEntregaRota(entrega: Entrega): Flow<Entrega> {
@@ -87,27 +105,28 @@ class EntregaRotaDao (
                         val messengerErro = "deleteEntregaRota ${it.message.toString()}"
                         trySend(error(messengerErro))
                     }
-                awaitClose {}
             }.flowOn(dispatcher)
         }
 
 
-    fun updateEntregaRota(idDocument:String,listaRotas:List<Rota>): Flow<List<Rota>> {
-        return callbackFlow  {
+    fun updateEntregaRota(idDocument:String,listaRotas:List<Rota>,tipoTela:Int): Flow<List<Rota>> {
+        return channelFlow {
+            val nomeLista = if(tipoTela==1) "listaRotas" else "listaMelhorRota"
 
             autenticacaFirestore.collection("entrega")
                 .document(idDocument)
-                .update("listaRotas",listaRotas)
+                .update(nomeLista,listaRotas)
                 .addOnSuccessListener { result ->
-
                     trySend(listaRotas)
-
                 }
                 .addOnFailureListener {
                     val messengerErro = "updateEntregaRota ${it.message.toString()}"
                     trySend(error(messengerErro))
                 }
-            awaitClose {}
+            awaitClose{
+                close()
+            }
         }.flowOn(dispatcher)
     }
+
 }

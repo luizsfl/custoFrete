@@ -13,5 +13,5 @@ class EntregaRotaInteractorImp(
     override fun addEntregaRota(entrega: Entrega) = entregaRotaAddUseCase.invoke(entrega)
     override fun getAllEntregaRota() = entregaRotaGetAllUseCase.invoke()
     override fun deleteEntregaRota(entrega: Entrega) = entregaRotaDeleteUseCase.invoke(entrega)
-    override fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>) = entregaRotaUpdateUseCase.invoke(idDocument,listaRotas)
+    override fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>,tipoTela:Int) = entregaRotaUpdateUseCase.invoke(idDocument,listaRotas,tipoTela)
 }

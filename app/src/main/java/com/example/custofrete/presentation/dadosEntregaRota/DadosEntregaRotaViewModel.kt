@@ -18,9 +18,9 @@ class DadosEntregaRotaViewModel (
     private var _viewStateListEntregaRota = MutableLiveData<ViewStateRota>()
     var viewStateListEntregaRota: LiveData<ViewStateRota> = _viewStateListEntregaRota
 
-    fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>) {
+    fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>,tipoTela:Int) {
         viewModelScope.launch {
-            entregaRotaInteractor.updateEntregaRota(idDocument,listaRotas)
+            entregaRotaInteractor.updateEntregaRota(idDocument,listaRotas,tipoTela)
                 .onStart { _viewStateListEntregaRota.value = ViewStateRota.Loading(loading = true) }
                 .catch {
                     _viewStateListEntregaRota.value = ViewStateRota.Failure(messengerError = it.message.orEmpty())

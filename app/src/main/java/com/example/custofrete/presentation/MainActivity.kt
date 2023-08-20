@@ -12,6 +12,8 @@ import com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFrag
 import com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFragmentDirections
 import com.example.custofrete.presentation.home.HomeFragment
 import com.example.custofrete.presentation.home.HomeFragmentDirections
+import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragment
+import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
 import com.example.custofrete.presentation.rotas.RotasFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 
@@ -30,8 +32,11 @@ class MainActivity : AppCompatActivity() {
         if( activeFragment is HomeFragment){
             finish()
         }else if( activeFragment is DadosEntregaRotaFragment){
-            val action2 = DadosEntregaRotaFragmentDirections.actionDadosRotaFragmentToListaEntregaRotaFragment()
-            findNavController(activeFragment).navigate(action2)
+            val action = DadosEntregaRotaFragmentDirections.actionDadosRotaFragmentToListaEntregaRotaFragment()
+            findNavController(activeFragment).navigate(action)
+        }else if( activeFragment is ListaEntregaRotaFragment){
+            val action = ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToHomeFragment()
+            findNavController(activeFragment).navigate(action)
         }else{
             onBackPressedDispatcher.onBackPressed()
         }

@@ -47,10 +47,18 @@ class DadosEntregaRotaFragment : Fragment() {
 
         entrega = args.value.entrega
 
-        if(entrega.listaRotas?.size!! > 0){
 
-            setAdapter(entrega.listaRotas!!)
+        if(entrega.tipoTela == 1){
+            if(entrega.listaRotas?.size!! > 0){
+                setAdapter(entrega.listaRotas!!,entrega.tipoTela)
+                binding.txtTitulo.text = "Rota informada pendente"
 
+            }
+        }else if(entrega.tipoTela == 2){
+            binding.txtTitulo.text = "Melhores rotas pendente"
+            if(entrega.listaMelhorRota?.size!! > 0){
+                setAdapter(entrega.listaMelhorRota!!,entrega.tipoTela)
+            }
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
@@ -74,7 +82,7 @@ class DadosEntregaRotaFragment : Fragment() {
         viewModel.viewStateListEntregaRota.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewStateRota.Loading -> showLoading(viewState.loading)
-                is ViewStateRota.sucesso -> setAdapter(viewState.listRota)
+                is ViewStateRota.sucesso -> setAdapter(viewState.listRota,entrega.tipoTela)
                 is ViewStateRota.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
@@ -85,48 +93,55 @@ class DadosEntregaRotaFragment : Fragment() {
         return root
     }
 
-    private fun setAdapter(listEntregaRota: List<Rota>) {
+    private fun setAdapter(listEntregaRota: List<Rota>,tipoTela:Int) {
 
-        setAdapterPendente(listEntregaRota)
+        setAdapterPendente(listEntregaRota,tipoTela)
 
-        setAdapterEntregue(listEntregaRota)
+        setAdapterEntregue(listEntregaRota,tipoTela)
 
-        showLoading(false)
+        showLoading(false,false)
     }
 
-    private fun setAdapterPendente(listEntregaRota: List<Rota>): EntregaRotaPendenteAdapter {
+    private fun setAdapterPendente(listEntregaRota: List<Rota>,tipoTela: Int): EntregaRotaPendenteAdapter {
         val listaRotaPendente = listEntregaRota.filter {
             it.status.toString().equals("pendente")
         }
 
         if (listaRotaPendente.isEmpty()){
             binding.txtTitulo.visibility = View.GONE
+            binding.btComecar.visibility = View.GONE
         }else{
+            binding.btComecar.visibility = View.VISIBLE
             binding.txtTitulo.visibility = View.VISIBLE
         }
 
         val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaPendente)
         rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
             showLoading(true)
-            val listaUpdate = listEntregaRota.toMutableList()
+            val listaUpdate = listEntregaRota.map { it.copy() }.toMutableList()
             rota.status = "entregue"
-            listaUpdate.set(posicao, rota)
-            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
+            listaUpdate.set(rota.posicao!!, rota)
+            if (rota != null) {
+                viewModel.updateEntregaRota(entrega.idDocument, listaUpdate, entrega.tipoTela)
+            }
         }
 
         rotaAdapter.onItemClickNaoEntregue = { rota, listRota, posicao ->
             showLoading(true)
-            val listaUpdate = listEntregaRota.toMutableList()
+            val listaUpdate =  listEntregaRota.map { it.copy() }.toMutableList()
             rota.status = "NaoEntregue"
-            listaUpdate.set(posicao, rota)
-            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
+            listaUpdate.set(rota.posicao!!, rota)
+            if(rota !=  null){
+                viewModel.updateEntregaRota(entrega.idDocument, listaUpdate,entrega.tipoTela)
+            }
         }
 
         binding.recyclerview.adapter = rotaAdapter
         return rotaAdapter
     }
 
-    private fun setAdapterEntregue(listEntregaRota: List<Rota>): EntregaRotaPendenteAdapter {
+
+    private fun setAdapterEntregue(listEntregaRota: List<Rota>,tipoTela: Int): EntregaRotaPendenteAdapter {
         val listaRotaFinalizada = listEntregaRota.filter {
             !it.status.toString().equals("pendente")
         }
@@ -150,9 +165,11 @@ class DadosEntregaRotaFragment : Fragment() {
         return rotaAdapter
     }
 
-    private fun showLoading(isLoading: Boolean) {
+    private fun showLoading(isLoading: Boolean,isButon:Boolean = true) {
         binding.carregamento.isVisible = isLoading
-        binding.btComecar.isVisible = !isLoading
+        if(isButon){
+            binding.btComecar.isVisible = !isLoading
+        }
     }
 
     private fun showErro(text: String) {

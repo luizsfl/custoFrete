@@ -6,6 +6,6 @@ import com.example.custofrete.domain.repository.EntregaRotaRepository
 class EntregaRotaUpdateUseCase(
     private val entregaRotaRepository: EntregaRotaRepository
 ) {
-    operator fun invoke(idDocument: String, listaRotas: List<Rota>) = entregaRotaRepository.updateEntregaRota(idDocument,listaRotas)
+    operator fun invoke(idDocument: String, listaRotas: List<Rota>,tipoTela:Int) = entregaRotaRepository.updateEntregaRota(idDocument,listaRotas,tipoTela)
 
 }
