@@ -41,6 +41,11 @@
         <action
             android:id="@+id/action_dadosVeiculoFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="entrega"
+            app:argType="com.example.custofrete.domain.model.Entrega"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/custoViagemFragment"

@@ -96,7 +96,7 @@ class ListaEntregaRotaFragment : Fragment() {
         }
 
         rotaAdapter.onItemClickEditar = {
-            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosVeiculoFragment(2)
+            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosVeiculoFragment(2,it)
             findNavController().navigate(action)
         }
 

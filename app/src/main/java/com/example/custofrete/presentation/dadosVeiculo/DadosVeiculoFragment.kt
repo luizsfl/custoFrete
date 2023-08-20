@@ -27,6 +27,8 @@ class DadosVeiculoFragment : Fragment() {
     private val viewModel: DadosVeiculoViewModel by viewModel()
     private val args = navArgs<DadosVeiculoFragmentArgs>()
     private var tipoTela = 0
+    private var entrega:Entrega? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +38,19 @@ class DadosVeiculoFragment : Fragment() {
         val root: View = binding.root
 
         tipoTela = args.value.tipoTela
+        entrega = args.value.entrega
+
+        viewModel.resetViewState()
 
         if(tipoTela == 2 ){
             binding.nextDadosVeiculos.text = "PRÓXIMO 1/3"
         }
 
-        viewModel.getDadosVeiculo()
+        if(entrega != null){
+           setDadosVeiculo(entrega!!.dadosVeiculo)
+        }else{
+            viewModel.getDadosVeiculo()
+        }
 
         (activity as AppCompatActivity).supportActionBar?.hide()
 
@@ -62,7 +71,7 @@ class DadosVeiculoFragment : Fragment() {
         viewModel.viewStateDadosVeiculo.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewStateDadosVeiculo.Loading -> showLoading(viewState.loading)
-                is ViewStateDadosVeiculo.sucessoDadosVeiculo  -> dadosVeiculoCriado(viewState.dadosVeiculo)
+                is ViewStateDadosVeiculo.sucessoDadosVeiculo  -> dadosVeiculoCriado(viewState.dadosVeiculo,entrega)
                 is ViewStateDadosVeiculo.getDadosVeiculo  -> setDadosVeiculo(viewState.dadosVeiculo)
                 is ViewStateDadosVeiculo.Failure -> showErro(viewState.messengerError)
                 else -> {}
@@ -90,12 +99,18 @@ class DadosVeiculoFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
        binding.carregamento.isVisible = isLoading
     }
-    private fun dadosVeiculoCriado(dadosVeiculo: DadosVeiculo){
+    private fun dadosVeiculoCriado(dadosVeiculo: DadosVeiculo,entregaNova: Entrega? = null){
+        var entrega = entregaNova
+
         if(tipoTela == 1){
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToHomeFragment()
             findNavController().navigate(action)
         }else if (tipoTela == 2){
-            val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = null ,listaRotas = null,listaMelhorRota=null)
+            if(entrega == null){
+                entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = null ,listaRotas = null,listaMelhorRota=null)
+            }else{
+                entrega.dadosVeiculo = dadosVeiculo
+            }
 
             val action =  DadosVeiculoFragmentDirections.actionDadosVeiculoFragmentToCustoViagemFragment(entrega)
             findNavController().navigate(action)

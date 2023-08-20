@@ -18,6 +18,10 @@ class DadosVeiculoViewModel (
     private var _viewStateDadosVeiculo = MutableLiveData<ViewStateDadosVeiculo>()
     var viewStateDadosVeiculo: LiveData<ViewStateDadosVeiculo> = _viewStateDadosVeiculo
 
+    fun resetViewState(){
+        _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.Loading(loading = false)
+    }
+
     fun addDadosVeiculo(dadosVeiculo: DadosVeiculo) {
         viewModelScope.launch {
             dadosVeiculoInteractor.addDadosVeiculo(dadosVeiculo)

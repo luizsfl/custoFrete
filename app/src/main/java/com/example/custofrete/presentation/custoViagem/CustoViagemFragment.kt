@@ -26,6 +26,8 @@ class CustoViagemFragment : Fragment() {
         _binding = FragmentCustoViagemBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setCustoViagem(args.value.entrega)
+
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.nextCustoViagem.setOnClickListener {
@@ -39,8 +41,8 @@ class CustoViagemFragment : Fragment() {
 
             if(validarCurso(custoViagem)){
 
-                val dadosVeiculo = args.value.entrega.dadosVeiculo
-                val entrega = Entrega(dadosVeiculo = dadosVeiculo, custoViagem = custoViagem,null)
+                val entrega = args.value.entrega
+                entrega.custoViagem = custoViagem
 
                 val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment(entrega)
                 findNavController().navigate(action)
@@ -65,6 +67,11 @@ class CustoViagemFragment : Fragment() {
     }
 
 
-
+fun setCustoViagem(entrega: Entrega){
+    binding.tiValorMediaLitro.setText(entrega.custoViagem?.valorGasolina.toString())
+    binding.tiTotalGastpAlimentacao.setText(entrega.custoViagem?.valorAlimentacao.toString())
+    binding.tiTotalGastoHotel.setText(entrega.custoViagem?.valorHotel.toString())
+    binding.tiTotalGastoExtras.setText(entrega.custoViagem?.gastosExtras.toString())
+}
 
 }

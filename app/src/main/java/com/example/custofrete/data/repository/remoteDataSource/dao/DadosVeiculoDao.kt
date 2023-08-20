@@ -61,7 +61,9 @@ class DadosVeiculoDao (
                         val messengerErro = "getDadosVeiculo ${it.message.toString()}"
                         trySend(error(messengerErro))
                     }
-            awaitClose {}
+            awaitClose{
+                close()
+            }
         }.flowOn(dispatcher)
     }
 
