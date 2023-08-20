@@ -81,8 +81,22 @@ class ListaEntregaRotaFragment : Fragment() {
 
     private fun setAdapter(listEntregaRota: List<Entrega>) {
         val rotaAdapter = EntregaRotaAdapter(listEntregaRota)
+
+        if (listEntregaRota.size== 0){
+            binding.txtSemEntregas.visibility = View.VISIBLE
+            binding.txtTitulo.visibility = View.GONE
+        }else{
+            binding.txtSemEntregas.visibility = View.GONE
+            binding.txtTitulo.visibility = View.VISIBLE
+        }
+
         rotaAdapter.onItemClick = {
             val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
+            findNavController().navigate(action)
+        }
+
+        rotaAdapter.onItemClickEditar = {
+            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosVeiculoFragment(2)
             findNavController().navigate(action)
         }
 

@@ -62,12 +62,27 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_topbar"
             />
 
+        <TextView
+            android:id="@+id/txt_sem_entregas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Você ainda não possui rostas.\n\n Clique no botão com sinal de mais para adicionar."
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/fa_new_entrega_rota"
@@ -82,8 +97,10 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_margin="20dp"
+            app:fabCustomSize="100dp"
             android:src="@drawable/ic_add_entrega_24"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
 
             />
