@@ -14,6 +14,7 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
     var onItemClick : ((Entrega)-> Unit)? = null
     var onItemClickExcluir : ((Entrega)-> Unit)? = null
     var onItemClickEditar : ((Entrega)-> Unit)? = null
+    var onItemClickVisualizar : ((Entrega)-> Unit)? = null
 
     class ViewHolder(val binding: ItemEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
@@ -36,6 +37,9 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
 
         viewHolder.binding.lcDados.setOnClickListener {
             onItemClick?.invoke(dataSet[position])
+        }
+        viewHolder.binding.ivVisualizar.setOnClickListener {
+            onItemClickVisualizar?.invoke(dataSet[position])
         }
 
         viewHolder.binding.ivExcluir.setOnClickListener {

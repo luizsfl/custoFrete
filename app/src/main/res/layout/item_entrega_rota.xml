@@ -56,11 +56,39 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp">
 
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_visualizar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_visualizar"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            app:srcCompat="@drawable/ic_visibility_24"
+                            />
+                        <TextView
+                            android:id="@+id/txt_visualizar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Visualizar"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ll_editar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_visualizar"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:orientation="vertical"
                         android:gravity="center"
@@ -81,8 +109,6 @@
                             android:textColor="#000"
                             android:textSize="15sp" />
                     </LinearLayout>
-
-
 
                     <LinearLayout
                         android:id="@+id/ll_excluir"
@@ -110,6 +136,7 @@
                             android:textColor="#000"
                             android:textSize="15sp" />
                     </LinearLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

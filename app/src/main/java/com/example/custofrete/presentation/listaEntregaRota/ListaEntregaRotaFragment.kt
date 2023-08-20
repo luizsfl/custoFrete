@@ -1,11 +1,13 @@
 package com.example.custofrete.presentation.listaEntregaRota
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.databinding.FragmentListaEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
-import com.example.custofrete.presentation.ViewStateDadosVeiculo
 import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.adapter.EntregaRotaAdapter
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -94,6 +95,10 @@ class ListaEntregaRotaFragment : Fragment() {
             val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
             findNavController().navigate(action)
         }
+        rotaAdapter.onItemClickVisualizar = {
+            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
+            findNavController().navigate(action)
+        }
 
         rotaAdapter.onItemClickEditar = {
             val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosVeiculoFragment(2,it)
@@ -101,12 +106,31 @@ class ListaEntregaRotaFragment : Fragment() {
         }
 
         rotaAdapter.onItemClickExcluir = {
-            viewModel.deleteEntregaRota(it)
+            excluirEntrega(requireContext(),it)
         }
 
 
         binding.recyclerview.adapter = rotaAdapter
         showLoading(false)
+    }
+
+
+    private fun excluirEntrega(contextTela : Context,entrega: Entrega){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        builder.setTitle("Deseja realmente excluir ?? ")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            viewModel.deleteEntregaRota(entrega)
+        }
+
+        builder.setNegativeButton("Não", null)
+
+        builder.create()
+
+        builder.show()
+
     }
 
 }
