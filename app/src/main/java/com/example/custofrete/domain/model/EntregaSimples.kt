@@ -6,7 +6,11 @@ data class EntregaSimples(
     val valorDespExtra :Double,
     val tipoCalc: Int,
     val valorTpCalc:Double,
-):java.io.Serializable  {
+    var idDocument: String = "",
+    var titulo: String = "",
+    var valorEntrega :Double = 0.0,
+    var idUsuario: String = ""
+    ):java.io.Serializable  {
 
     fun descricaoCalculo():String {
         return if (this.tipoCalc == 0) {

@@ -15,12 +15,15 @@ import androidx.fragment.app.Fragment
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
 import com.example.custofrete.domain.model.EntregaSimples
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CalculoSimplesFragment : Fragment() {
 
     private var _binding: FragmentCalculoSimplesBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CalculoSimplesViewModel by viewModel()
+
     private var tipoCalculo = -1
 
     override fun onCreateView(
