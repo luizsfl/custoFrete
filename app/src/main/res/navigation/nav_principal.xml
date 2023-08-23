@@ -14,9 +14,6 @@
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_calculoSimplesFragment"
-            app:destination="@id/calculoSimplesFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_calculoANTTFragment"
             app:destination="@id/calculoANTTFragment" />
         <action
@@ -25,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_listaEntregaRotaFragment"
             app:destination="@id/listaEntregaRotaFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listaEntregaSimplesFragment"
+            app:destination="@id/listaEntregaSimplesFragment" />
     </fragment>
     <fragment
         android:id="@+id/dadosVeiculoFragment"
@@ -109,7 +109,13 @@
         android:id="@+id/calculoSimplesFragment"
         android:name="com.example.custofrete.presentation.calculoSimples.CalculoSimplesFragment"
         android:label="fragment_calculo_simples"
-        tools:layout="@layout/fragment_calculo_simples" />
+        tools:layout="@layout/fragment_calculo_simples" >
+        <argument
+            android:name="entregaSimples"
+            app:argType="com.example.custofrete.domain.model.EntregaSimples"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/calculoANTTFragment"
         android:name="com.example.custofrete.presentation.calculoANTT.CalculoANTTFragment"
@@ -144,5 +150,14 @@
         <action
             android:id="@+id/action_listaEntregaRotaFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaEntregaSimplesFragment"
+        android:name="com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragment"
+        android:label="fragment_lista_entrega_simples"
+        tools:layout="@layout/fragment_lista_entrega_simples" >
+        <action
+            android:id="@+id/action_listaEntregaSimplesFragment_to_calculoSimplesFragment"
+            app:destination="@id/calculoSimplesFragment" />
     </fragment>
 </navigation>

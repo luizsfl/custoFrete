@@ -6,7 +6,7 @@ data class EntregaSimples(
     val valorDespExtra :Double,
     val tipoCalc: Int,
     val valorTpCalc:Double,
-) {
+):java.io.Serializable  {
 
     fun descricaoCalculo():String {
         return if (this.tipoCalc == 0) {

@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.show()
 
         binding.btCalculoSimples.setOnClickListener {
-            val action =  HomeFragmentDirections.actionHomeFragmentToCalculoSimplesFragment()
+            val action =  HomeFragmentDirections.actionHomeFragmentToListaEntregaSimplesFragment()
             findNavController().navigate(action)
         }
 
