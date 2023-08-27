@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface EntregaSimplesDataSource {
     fun addEntregaSimples(entrega: EntregaSimples): Flow<EntregaSimples>
-//    fun getAllEntregaRota(): Flow<List<EntregaSimples>>
+    fun getAllEntregaSimples(): Flow<List<EntregaSimples>>
 //    fun deleteEntregaRota(entrega: EntregaSimples): Flow<EntregaSimples>
 //    fun updateEntregaRota(idDocument:String, listaRotas:List<EntregaSimples>, tipoTela:Int): Flow<List<EntregaSimples>>
 }

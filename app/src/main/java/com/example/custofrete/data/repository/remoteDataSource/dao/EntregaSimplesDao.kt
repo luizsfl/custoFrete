@@ -59,42 +59,36 @@ class EntregaSimplesDao (
         }
 
         }.flowOn(dispatcher)
-//
-//    fun getAllEntregaRota(): Flow<List<Entrega>> {
-//        return callbackFlow  {
-//                val idUsuario = autenticacao.currentUser?.uid.toString()
-//
-//              autenticacaFirestore.collection("entrega")
-//                  .whereEqualTo("idUsuario",idUsuario)
-//                    .get()
-//                    .addOnSuccessListener { result ->
-//
-//                        val listEntregaRota = mutableListOf<Entrega>()
-//                        val auxRotas = mutableListOf<Rota>()
-//
-//                        for (document in result) {
-//                            val entregaRota = document.toObject(Entrega::class.java)!!
-//                            entregaRota.idDocument = document.id
-//
-//                            entregaRota.listaRotas = addPositionRota(entregaRota)
-//                            entregaRota.listaMelhorRota = addPositionRota(entregaRota)
-//
-//                            listEntregaRota.add(entregaRota)
-//                        }
-//
-//                        trySend(listEntregaRota)
-//
-//                    }
-//                    .addOnFailureListener {
-//                        val messengerErro = "getEntregaRota ${it.message.toString()}"
-//                        trySend(error(messengerErro))
-//                    }
-//            awaitClose{
-//                close()
-//            }
-//        }.flowOn(dispatcher)
-//    }
-//
+
+    fun getAllEntregaSimples(): Flow<List<EntregaSimples>> {
+        return callbackFlow  {
+                val idUsuario = autenticacao.currentUser?.uid.toString()
+
+              autenticacaFirestore.collection("entregaSimples")
+                  .whereEqualTo("idUsuario",idUsuario)
+                    .get()
+                    .addOnSuccessListener { result ->
+
+                        val listEntregaRota = mutableListOf<EntregaSimples>()
+
+                        for (document in result) {
+                            val entregaRota = document.toObject(EntregaSimples::class.java)!!
+                            listEntregaRota.add(entregaRota)
+                        }
+
+                        trySend(listEntregaRota)
+
+                    }
+                    .addOnFailureListener {
+                        val messengerErro = "getEntregaRota ${it.message.toString()}"
+                        trySend(error(messengerErro))
+                    }
+            awaitClose{
+                close()
+            }
+        }.flowOn(dispatcher)
+    }
+
 //    private fun addPositionRota(
 //        entregaRota: Entrega,
 //    ):List<Rota> {

@@ -1,11 +1,11 @@
 package com.example.custofrete.domain.model
 
-data class EntregaSimples(
-    val totalKm:Double,
-    val valorInformado:Double,
-    val valorDespExtra :Double,
-    val tipoCalc: Int,
-    val valorTpCalc:Double,
+data class EntregaSimples constructor(
+    var totalKm:Double= 0.0,
+    var valorInformado:Double= 0.0,
+    var valorDespExtra :Double= 0.0,
+    var tipoCalc: Int=0,
+    var valorTpCalc:Double= 0.0,
     var idDocument: String = "",
     var titulo: String = "",
     var valorEntrega :Double = 0.0,

@@ -18,11 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
-import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.EntregaSimples
-import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.ViewStateEntregaSimples
-import com.example.custofrete.presentation.login.LoginFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
