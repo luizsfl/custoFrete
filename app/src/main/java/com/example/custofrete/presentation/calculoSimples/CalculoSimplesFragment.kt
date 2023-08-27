@@ -2,19 +2,29 @@ package com.example.custofrete.presentation.calculoSimples
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
+import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.EntregaSimples
+import com.example.custofrete.presentation.ViewStateEntregaRota
+import com.example.custofrete.presentation.ViewStateEntregaSimples
+import com.example.custofrete.presentation.login.LoginFragmentDirections
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -105,13 +115,56 @@ class CalculoSimplesFragment : Fragment() {
             val ValorCalculo =  if (binding.tiValorTipo.text.toString().isEmpty()) 0.0 else binding.tiValorTipo.text.toString().toDouble()
 
             val entregaSimples = EntregaSimples(valorKmInformado,valorCobrado,valorDespesaExtra,tipoCalculo,ValorCalculo)
-
-            calculoTotalSimples(requireContext(),entregaSimples)
+            viewModel.addEntregaRota(entregaSimples)
+           // calculoTotalSimples(requireContext(),entregaSimples)
 
         }
 
+
+        viewModel.viewStateEntregaSimples.observe(viewLifecycleOwner) { viewState ->
+            when (viewState) {
+                is ViewStateEntregaSimples.Loading -> showLoading(viewState.loading)
+                is ViewStateEntregaSimples.sucesso -> showSucess(viewState.entrega)
+                is ViewStateEntregaSimples.Failure -> showErro(viewState.messengerError)
+                else -> {}
+            }
+        }
+
+
         return root
     }
+
+    private fun showSucess(entregaSimples: EntregaSimples){
+        val builder = android.app.AlertDialog.Builder(requireContext())
+        with(builder)
+        {
+            setTitle("Entrega simples criada com sucesso!!")
+            setCancelable(false) //não fecha quando clicam fora do dialog
+            setPositiveButton("OK") { dialog, which ->
+                val action =  CalculoSimplesFragmentDirections.actionCalculoSimplesFragmentToListaEntregaSimplesFragment()
+                findNavController().navigate(action)
+            }
+            show()
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+       binding.carregamento.isVisible = isLoading
+    }
+
+    private fun showErro(text: String) {
+        var view = binding.root.rootView
+        val snackBarView = Snackbar.make(view, text , Snackbar.LENGTH_LONG)
+        view = snackBarView.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.CENTER
+        view.layoutParams = params
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
+
+        showLoading(false)
+    }
+
 
     private fun calculoTotalSimples(contextTela : Context,entregaSimples:EntregaSimples){
 

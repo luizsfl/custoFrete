@@ -115,6 +115,9 @@
             app:argType="com.example.custofrete.domain.model.EntregaSimples"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_calculoSimplesFragment_to_listaEntregaSimplesFragment"
+            app:destination="@id/listaEntregaSimplesFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculoANTTFragment"
