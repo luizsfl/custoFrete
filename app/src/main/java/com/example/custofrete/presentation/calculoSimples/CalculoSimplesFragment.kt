@@ -2,6 +2,7 @@ package com.example.custofrete.presentation.calculoSimples
 
 import android.content.Context
 import android.os.Bundle
+import android.text.BoringLayout
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,10 +20,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
-import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.EntregaSimples
 import com.example.custofrete.presentation.ViewStateEntregaSimples
-import com.example.custofrete.presentation.calculoRota.CalculoRotaFragmentArgs
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -54,9 +53,11 @@ class CalculoSimplesFragment : Fragment() {
             //Editar
             if(tipoTela==1){
                 setDadosTela(it)
+                binding.btCalculo.setText("Editar Calculo")
             }else if(tipoTela == 2){
                 //Visualizar
-              //  setHomeListAdapter(it)
+                setDadosTela(it,true)
+                binding.btCalculo.setText("Voltar pra lista")
             }
         }
 
@@ -138,7 +139,7 @@ class CalculoSimplesFragment : Fragment() {
             val ValorCalculo =  if (binding.tiValorTipo.text.toString().isEmpty()) 0.0 else binding.tiValorTipo.text.toString().toDouble()
             //Adicionar
             if(tipoTela == 0){
-                val entregaSimples = EntregaSimples( totalKm = valorKmInformado,valorInformado = valorCobrado,valorDespExtra = valorDespesaExtra,tipoCalc= tipoCalculo,valorTpCalc = ValorCalculo)
+                val entregaSimples = EntregaSimples( totalKm = valorKmInformado,valorInformado = valorCobrado,valorDespExtra = valorDespesaExtra,tipoCalc= tipoCalculo,valorTpCalc = ValorCalculo,valorEntregaCalculado = totalSimples())
                 viewModel.addEntregaRota(entregaSimples)
             }else if(tipoTela == 1){
                 //update
@@ -148,10 +149,12 @@ class CalculoSimplesFragment : Fragment() {
                 entregaSimples.valorDespExtra = valorDespesaExtra
                 entregaSimples.tipoCalc = tipoCalculo
                 entregaSimples.valorTpCalc = ValorCalculo
+                entregaSimples.valorEntregaCalculado = totalSimples()
 
                viewModel.updateEntregaRota(entregaSimples)
             }else if(tipoTela == 2){
-
+                val action =  CalculoSimplesFragmentDirections.actionCalculoSimplesFragmentToListaEntregaSimplesFragment()
+                findNavController().navigate(action)
             }
 
            // calculoTotalSimples(requireContext(),entregaSimples)
@@ -262,15 +265,24 @@ class CalculoSimplesFragment : Fragment() {
         return valorTotal
     }
 
-    private fun setDadosTela(entregaSimples: EntregaSimples){
+    private fun setDadosTela(entregaSimples: EntregaSimples,bloqueio :Boolean = false){
         binding.tiInKmPercorrido.setText(entregaSimples.totalKm.toString())
         binding.tiInValorKmInformado.setText(entregaSimples.valorInformado.toString())
         binding.tiOutraDespesa.setText(entregaSimples.valorDespExtra.toString())
-        binding.tiValorTipo.setText(entregaSimples.valorCalculado().toString())
+        binding.tiValorTipo.setText(entregaSimples.valorTpCalc.toString())
         (binding.tiOpcao.editText as? AutoCompleteTextView)?.selectItem(items[entregaSimples.tipoCalc],entregaSimples.tipoCalc)
         binding.tiValorTipo.visibility = View.VISIBLE
-        binding.tvValorKm.text = "Valor calculado R$: ${entregaSimples.valorTpCalc}"
         tipoCalculo = entregaSimples.tipoCalc
+        binding.tvValorKm.text = "Valor calculado R$: ${entregaSimples.valorEntregaCalculado}"
+
+        if(bloqueio){
+            binding.tiInKmPercorrido.isEnabled = false
+            binding.tiInValorKmInformado.isEnabled = false
+            binding.tiOutraDespesa.isEnabled = false
+            binding.tiValorTipo.isEnabled = false
+            binding.tiOpcao.isEnabled = false
+        }
+
     }
 
     fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {

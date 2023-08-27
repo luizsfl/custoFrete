@@ -99,13 +99,15 @@ class ListaEntregaSimplesFragment : Fragment() {
 //            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
 //            findNavController().navigate(action)
         }
-        rotaAdapter.onItemClickVisualizar = {
-//            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosRotaFragment2(it)
-//            findNavController().navigate(action)
-        }
+
 
         rotaAdapter.onItemClickEditar = {
             val action =  ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToCalculoSimplesFragment(it,1)
+            findNavController().navigate(action)
+        }
+
+        rotaAdapter.onItemClickVisualizar = {
+            val action =  ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToCalculoSimplesFragment(it,2)
             findNavController().navigate(action)
         }
 

@@ -9,7 +9,8 @@ data class EntregaSimples constructor(
     var idDocument: String = "",
     var titulo: String = "",
     var valorEntrega :Double = 0.0,
-    var idUsuario: String = ""
+    var idUsuario: String = "",
+    var valorEntregaCalculado :Double = 0.0
     ):java.io.Serializable  {
 
     fun descricaoCalculo():String {
