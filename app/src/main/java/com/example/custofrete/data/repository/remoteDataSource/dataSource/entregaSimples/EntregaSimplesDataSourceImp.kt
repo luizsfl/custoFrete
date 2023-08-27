@@ -8,6 +8,6 @@ class EntregaSimplesDataSourceImp(
 ) : EntregaSimplesDataSource {
     override fun addEntregaSimples(entrega: EntregaSimples) = entregaSimplesDao.addEntregaSimples(entrega)
     override fun getAllEntregaSimples() = entregaSimplesDao.getAllEntregaSimples()
-//    override fun deleteEntregaRota(entrega: Entrega) = entregaRotaDao.deleteEntregaRota(entrega)
-//    override fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>, tipoTela:Int) = entregaRotaDao.updateEntregaRota(idDocument,listaRotas,tipoTela)
+    override fun deleteEntregaSimples(entrega: EntregaSimples) = entregaSimplesDao.deleteEntregaSimples(entrega)
+    override fun updateEntregaSimples(entrega: EntregaSimples) = entregaSimplesDao.updateEntregaSimples(entrega)
 }

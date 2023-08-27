@@ -16,10 +16,13 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
+import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.EntregaSimples
 import com.example.custofrete.presentation.ViewStateEntregaSimples
+import com.example.custofrete.presentation.calculoRota.CalculoRotaFragmentArgs
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,6 +33,10 @@ class CalculoSimplesFragment : Fragment() {
     private var _binding: FragmentCalculoSimplesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CalculoSimplesViewModel by viewModel()
+    private var entrega : EntregaSimples? = null
+    private val args = navArgs<CalculoSimplesFragmentArgs>()
+    private var tipoTela : Int = 0
+    private val items = listOf("Multiplicação", "Porcentagem")
 
     private var tipoCalculo = -1
 
@@ -40,15 +47,28 @@ class CalculoSimplesFragment : Fragment() {
         _binding = FragmentCalculoSimplesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        entrega = args.value.entregaSimples
+        tipoTela = args.value.tipoTela
+
+        entrega?.let {
+            //Editar
+            if(tipoTela==1){
+                setDadosTela(it)
+            }else if(tipoTela == 2){
+                //Visualizar
+              //  setHomeListAdapter(it)
+            }
+        }
+
+
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.tiInKmPercorrido.setHint("Informe o total de km")
         binding.tiInValorKmInformado.setHint("Informe o valor cobrado por 1 Km")
         binding.tiOutraDespesa.setHint("Informe o valor de despesas extras")
 
-        val items = listOf("Multiplicação", "Porcentagem")
-
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item_spinner, items)
+
         (binding.tiOpcao.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
         binding.tiInKmPercorrido.doOnTextChanged { _, _, _, _ ->
@@ -75,24 +95,30 @@ class CalculoSimplesFragment : Fragment() {
 
         binding.tvTipoCalculo.setOnItemClickListener { parent, view, position, id ->
 
-            tipoCalculo = position
+            if(position >= 0 ) {
 
-            when(position){
-                0 -> {
-                    binding.tiValorTipo.setHint("Informe o valor para multiplicar")
-                    binding.tiValorTipo.requestFocus()
-                    binding.tiValorTipo.visibility = View.VISIBLE
-                }
-                1 ->{
-                    binding.tiValorTipo.setHint("Informe o valor para jogar de porcentagem")
-                    binding.tiValorTipo.requestFocus()
-                    binding.tiValorTipo.visibility = View.VISIBLE
-                }
-            }
+                tipoCalculo = position
 
-            if(binding.tiValorTipo.text.toString().isNotEmpty()){
-                var total = totalSimples()
-                binding.tvValorKm.text = "Valor calculado R$: $total"
+                when (position) {
+                    0 -> {
+                        binding.tiValorTipo.setHint("Informe o valor para multiplicar")
+                        binding.tiValorTipo.requestFocus()
+                        binding.tiValorTipo.visibility = View.VISIBLE
+                    }
+                    1 -> {
+                        binding.tiValorTipo.setHint("Informe o valor para jogar de porcentagem")
+                        binding.tiValorTipo.requestFocus()
+                        binding.tiValorTipo.visibility = View.VISIBLE
+                    }
+                }
+
+                if (binding.tiValorTipo.text.toString().isNotEmpty()) {
+                    var total = totalSimples()
+                    binding.tvValorKm.text = "Valor calculado R$: $total"
+                }
+            }else{
+                binding.tiValorTipo.setHint("Iteste err -1 ")
+
             }
 
         }
@@ -110,9 +136,24 @@ class CalculoSimplesFragment : Fragment() {
             val valorCobrado = if (binding.tiInValorKmInformado.text.toString().isEmpty()) 0.0 else binding.tiInValorKmInformado.text.toString().toDouble()
             val valorDespesaExtra = if (binding.tiOutraDespesa.text.toString().isEmpty()) 0.0 else binding.tiOutraDespesa.text.toString().toDouble()
             val ValorCalculo =  if (binding.tiValorTipo.text.toString().isEmpty()) 0.0 else binding.tiValorTipo.text.toString().toDouble()
+            //Adicionar
+            if(tipoTela == 0){
+                val entregaSimples = EntregaSimples( totalKm = valorKmInformado,valorInformado = valorCobrado,valorDespExtra = valorDespesaExtra,tipoCalc= tipoCalculo,valorTpCalc = ValorCalculo)
+                viewModel.addEntregaRota(entregaSimples)
+            }else if(tipoTela == 1){
+                //update
+                val entregaSimples = entrega!!
+                entregaSimples.totalKm = valorKmInformado
+                entregaSimples.valorInformado = valorCobrado
+                entregaSimples.valorDespExtra = valorDespesaExtra
+                entregaSimples.tipoCalc = tipoCalculo
+                entregaSimples.valorTpCalc = ValorCalculo
 
-            val entregaSimples = EntregaSimples(valorKmInformado,valorCobrado,valorDespesaExtra,tipoCalculo,ValorCalculo)
-            viewModel.addEntregaRota(entregaSimples)
+               viewModel.updateEntregaRota(entregaSimples)
+            }else if(tipoTela == 2){
+
+            }
+
            // calculoTotalSimples(requireContext(),entregaSimples)
 
         }
@@ -219,5 +260,24 @@ class CalculoSimplesFragment : Fragment() {
         }
 
         return valorTotal
+    }
+
+    private fun setDadosTela(entregaSimples: EntregaSimples){
+        binding.tiInKmPercorrido.setText(entregaSimples.totalKm.toString())
+        binding.tiInValorKmInformado.setText(entregaSimples.valorInformado.toString())
+        binding.tiOutraDespesa.setText(entregaSimples.valorDespExtra.toString())
+        binding.tiValorTipo.setText(entregaSimples.valorCalculado().toString())
+        (binding.tiOpcao.editText as? AutoCompleteTextView)?.selectItem(items[entregaSimples.tipoCalc],entregaSimples.tipoCalc)
+        binding.tiValorTipo.visibility = View.VISIBLE
+        binding.tvValorKm.text = "Valor calculado R$: ${entregaSimples.valorTpCalc}"
+        tipoCalculo = entregaSimples.tipoCalc
+    }
+
+    fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
+        this.setText(text)
+        //this.showDropDown()
+        this.setSelection(position)
+        this.listSelection = position
+       // this.performCompletion()
     }
 }

@@ -8,5 +8,7 @@ class EntregaSimplesRepositoryImp(
     private val entregaSimplesDataSource: EntregaSimplesDataSource
 ):EntregaSimplesRepository {
     override fun addEntregaSimples(entrega: EntregaSimples) = entregaSimplesDataSource.addEntregaSimples(entrega)
-    override fun getAllEntregaSimples()= entregaSimplesDataSource.getAllEntregaSimples()
+    override fun getAllEntregaSimples() = entregaSimplesDataSource.getAllEntregaSimples()
+    override fun deleteEntregaSimples(entrega: EntregaSimples) = entregaSimplesDataSource.deleteEntregaSimples(entrega)
+    override fun updateEntregaSimples(entrega: EntregaSimples) = entregaSimplesDataSource.updateEntregaSimples(entrega)
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.custofrete.domain.model.EntregaSimples
 import com.example.custofrete.domain.useCase.entregaSimples.EntregaSimplesInteractor
 import com.example.custofrete.presentation.ViewStateEntregaSimples
 import kotlinx.coroutines.flow.catch
@@ -18,7 +19,7 @@ class ListaEntregaSimplesViewModel (
     var viewStateListEntregaSimples: LiveData<ViewStateEntregaSimples> = _viewStateListEntregaSimples
 
 
-    fun getAllEntregaRota() {
+    fun getAllEntregaSimples() {
         viewModelScope.launch {
             entregaSimplesInteractor.getAllEntregaSimples()
                 .onStart { _viewStateListEntregaSimples.value = ViewStateEntregaSimples.Loading(loading = true) }
@@ -29,18 +30,18 @@ class ListaEntregaSimplesViewModel (
         }
     }
 
-//    fun deleteEntregaRota(entrega: Entrega) {
-//        viewModelScope.launch {
-//            entregaRotaInteractor.deleteEntregaRota(entrega)
-//                .onStart { _viewStateListEntregaSimples.value = ViewStateEntregaRota.Loading(loading = true) }
-//                .catch {
-//                    _viewStateListEntregaSimples.value = ViewStateEntregaRota.Failure(messengerError = it.message.orEmpty())
-//                }
-//                .collect {
-//
-//                    getAllEntregaRota()
-//
-//                }
-//        }
-//    }
+    fun deleteEntregaSimples(entrega: EntregaSimples) {
+        viewModelScope.launch {
+            entregaSimplesInteractor.deleteEntregaSimples(entrega)
+                .onStart { _viewStateListEntregaSimples.value = ViewStateEntregaSimples.Loading(loading = true) }
+                .catch {
+                    _viewStateListEntregaSimples.value = ViewStateEntregaSimples.Failure(messengerError = it.message.orEmpty())
+                }
+                .collect {
+
+                    getAllEntregaSimples()
+
+                }
+        }
+    }
 }

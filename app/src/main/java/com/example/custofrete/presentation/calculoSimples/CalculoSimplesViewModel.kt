@@ -33,4 +33,20 @@ class CalculoSimplesViewModel(
         }
     }
 
+
+
+    fun updateEntregaRota(entrega: EntregaSimples) {
+        viewModelScope.launch {
+            entregaSimplesInteractor.updateEntregaSimples(entrega)
+                .onStart {
+                    _viewStateEntregaSimples.value = ViewStateEntregaSimples.Loading(loading = true)
+                }
+                .catch {
+                    _viewStateEntregaSimples.value =
+                        ViewStateEntregaSimples.Failure(messengerError = it.message.orEmpty())
+                }
+                .collect { _viewStateEntregaSimples.value = ViewStateEntregaSimples.sucesso(it) }
+        }
+    }
+
 }

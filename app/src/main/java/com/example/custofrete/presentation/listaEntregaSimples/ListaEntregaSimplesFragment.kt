@@ -1,15 +1,18 @@
 package com.example.custofrete.presentation.listaEntregaSimples
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.databinding.FragmentListaEntregaSimplesBinding
 import com.example.custofrete.domain.model.Entrega
@@ -18,6 +21,7 @@ import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.ViewStateEntregaSimples
 import com.example.custofrete.presentation.adapter.EntregaRotaAdapter
 import com.example.custofrete.presentation.adapter.EntregaSimplesAdapter
+import com.example.custofrete.presentation.calculoRota.CalculoRotaFragmentArgs
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -29,6 +33,7 @@ class ListaEntregaSimplesFragment : Fragment() {
     private var _binding: FragmentListaEntregaSimplesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListaEntregaSimplesViewModel by viewModel()
+    private val args = navArgs<CalculoRotaFragmentArgs>()
 
 
     override fun onCreateView(
@@ -56,7 +61,7 @@ class ListaEntregaSimplesFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        viewModel.getAllEntregaRota()
+        viewModel.getAllEntregaSimples()
 
         return root
 
@@ -100,17 +105,34 @@ class ListaEntregaSimplesFragment : Fragment() {
         }
 
         rotaAdapter.onItemClickEditar = {
-//            val action =  ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToDadosVeiculoFragment(2,it)
-//            findNavController().navigate(action)
+            val action =  ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToCalculoSimplesFragment(it,1)
+            findNavController().navigate(action)
         }
 
         rotaAdapter.onItemClickExcluir = {
-          //  excluirEntrega(requireContext(),it)
+            excluirEntrega(requireContext(),it)
         }
 
         binding.recyclerview.adapter = rotaAdapter
         showLoading(false)
     }
 
+    private fun excluirEntrega(contextTela : Context, entrega: EntregaSimples){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        builder.setTitle("Deseja realmente excluir ?? ")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            viewModel.deleteEntregaSimples(entrega)
+        }
+
+        builder.setNegativeButton("Não", null)
+
+        builder.create()
+
+        builder.show()
+
+    }
 
 }

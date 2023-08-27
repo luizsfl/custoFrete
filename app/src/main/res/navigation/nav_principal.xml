@@ -118,6 +118,10 @@
         <action
             android:id="@+id/action_calculoSimplesFragment_to_listaEntregaSimplesFragment"
             app:destination="@id/listaEntregaSimplesFragment" />
+        <argument
+            android:name="tipoTela"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/calculoANTTFragment"

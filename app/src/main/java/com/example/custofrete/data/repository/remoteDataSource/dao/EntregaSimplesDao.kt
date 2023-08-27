@@ -72,8 +72,10 @@ class EntregaSimplesDao (
                         val listEntregaRota = mutableListOf<EntregaSimples>()
 
                         for (document in result) {
-                            val entregaRota = document.toObject(EntregaSimples::class.java)!!
-                            listEntregaRota.add(entregaRota)
+                            val entregaSimples = document.toObject(EntregaSimples::class.java)!!
+                            entregaSimples.idDocument = document.id
+
+                            listEntregaRota.add(entregaSimples)
                         }
 
                         trySend(listEntregaRota)
@@ -89,56 +91,26 @@ class EntregaSimplesDao (
         }.flowOn(dispatcher)
     }
 
-//    private fun addPositionRota(
-//        entregaRota: Entrega,
-//    ):List<Rota> {
-//        val auxRotas =  mutableListOf<Rota>()
-//        entregaRota.listaRotas?.forEachIndexed { index, value ->
-//            val rota = value
-//            rota.posicao = index
-//            auxRotas.add(rota)
-//        }
-//        return auxRotas
-//    }
-//
-//    fun deleteEntregaRota(entrega: Entrega): Flow<Entrega> {
-//            return callbackFlow  {
-//
-//                autenticacaFirestore.collection("entrega")
-//                    .document(entrega.idDocument)
-//                    .delete()
-//                    .addOnSuccessListener { result ->
-//                        trySend(entrega)
-//                    }
-//                    .addOnFailureListener {
-//                        val messengerErro = "deleteEntregaRota ${it.message.toString()}"
-//                        trySend(error(messengerErro))
-//                    }
-//                awaitClose{
-//                    close()
-//                }
-//            }.flowOn(dispatcher)
-//        }
-//
-//
-//    fun updateEntregaRota(idDocument:String,listaRotas:List<Rota>,tipoTela:Int): Flow<List<Rota>> {
-//        return channelFlow {
-//            val nomeLista = if(tipoTela==1) "listaRotas" else "listaMelhorRota"
-//
-//            autenticacaFirestore.collection("entrega")
-//                .document(idDocument)
-//                .update(nomeLista,listaRotas)
-//                .addOnSuccessListener { result ->
-//                    trySend(listaRotas)
-//                }
-//                .addOnFailureListener {
-//                    val messengerErro = "updateEntregaRota ${it.message.toString()}"
-//                    trySend(error(messengerErro))
-//                }
-//            awaitClose{
-//                close()
-//            }
-//        }.flowOn(dispatcher)
-//    }
+    fun deleteEntregaSimples(entrega: EntregaSimples): Flow<EntregaSimples> {
+            return callbackFlow  {
 
+                autenticacaFirestore.collection("entregaSimples")
+                    .document(entrega.idDocument)
+                    .delete()
+                    .addOnSuccessListener { result ->
+                        trySend(entrega)
+                    }
+                    .addOnFailureListener {
+                        val messengerErro = "deleteEntregaSimples ${it.message.toString()}"
+                        trySend(error(messengerErro))
+                    }
+                awaitClose{
+                    close()
+                }
+            }.flowOn(dispatcher)
+        }
+
+    fun updateEntregaSimples(entrega: EntregaSimples): Flow<EntregaSimples> {
+        return this.addEntregaSimples(entrega)
+    }
 }

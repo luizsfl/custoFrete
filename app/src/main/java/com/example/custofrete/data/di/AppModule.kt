@@ -21,10 +21,7 @@ import com.example.custofrete.domain.repository.EntregaRotaRepository
 import com.example.custofrete.domain.repository.EntregaSimplesRepository
 import com.example.custofrete.domain.repository.UsuarioRepository
 import com.example.custofrete.domain.useCase.entregaRota.*
-import com.example.custofrete.domain.useCase.entregaSimples.EntregaSimplesAddUseCase
-import com.example.custofrete.domain.useCase.entregaSimples.EntregaSimplesGetAllUseCase
-import com.example.custofrete.domain.useCase.entregaSimples.EntregaSimplesInteractor
-import com.example.custofrete.domain.useCase.entregaSimples.EntregaSimplesInteractorImp
+import com.example.custofrete.domain.useCase.entregaSimples.*
 import com.example.custofrete.domain.useCase.usuario.UsuarioAddUseCase
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractor
 import com.example.custofrete.domain.useCase.usuario.UsuarioInteractorImp
@@ -77,6 +74,8 @@ val useCaseModule = module {
     factory { EntregaRotaUpdateUseCase(entregaRotaRepository = get()) }
     factory { EntregaSimplesAddUseCase(entregaSimplesRepository = get()) }
     factory { EntregaSimplesGetAllUseCase(entregaSimplesRepository = get()) }
+    factory { EntregaSimplesDeleteUseCase(entregaSimplesRepository = get()) }
+    factory { EntregaSimplesUpdateUseCase(entregaSimplesRepository = get()) }
 
 }
 
@@ -92,9 +91,9 @@ val interactorModule = module {
     factory<EntregaSimplesInteractor> {
         EntregaSimplesInteractorImp(
         entregaSimplesAddUseCase = get(),
-        entregaSimplesGetAllUseCase = get()
-//        entregaRotaDeleteUseCase = get(),
-//        entregaRotaUpdateUseCase = get()
+        entregaSimplesGetAllUseCase = get(),
+        entregaSimplesDeleteUseCase = get(),
+        entregaSimplesUpdateUseCase = get()
     ) }
 
 }
@@ -109,5 +108,4 @@ val viewModel = module {
     viewModel {DadosEntregaRotaViewModel(entregaRotaInteractor = get()) }
     viewModel {CalculoSimplesViewModel(entregaSimplesInteractor = get())}
     viewModel {ListaEntregaSimplesViewModel(entregaSimplesInteractor = get())}
-
 }
