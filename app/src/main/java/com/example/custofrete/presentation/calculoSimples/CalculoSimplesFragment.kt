@@ -24,6 +24,7 @@ import com.example.custofrete.domain.model.EntregaSimples
 import com.example.custofrete.presentation.ViewStateEntregaSimples
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -140,7 +141,7 @@ class CalculoSimplesFragment : Fragment() {
             //Adicionar
             if(tipoTela == 0){
                 val entregaSimples = EntregaSimples( totalKm = valorKmInformado,valorInformado = valorCobrado,valorDespExtra = valorDespesaExtra,tipoCalc= tipoCalculo,valorTpCalc = ValorCalculo,valorEntregaCalculado = totalSimples())
-                viewModel.addEntregaRota(entregaSimples)
+                calculoTotalSimples(requireContext(),entregaSimples,tipoTela)
             }else if(tipoTela == 1){
                 //update
                 val entregaSimples = entrega!!
@@ -151,7 +152,8 @@ class CalculoSimplesFragment : Fragment() {
                 entregaSimples.valorTpCalc = ValorCalculo
                 entregaSimples.valorEntregaCalculado = totalSimples()
 
-               viewModel.updateEntregaRota(entregaSimples)
+                calculoTotalSimples(requireContext(),entregaSimples,tipoTela)
+
             }else if(tipoTela == 2){
                 val action =  CalculoSimplesFragmentDirections.actionCalculoSimplesFragmentToListaEntregaSimplesFragment()
                 findNavController().navigate(action)
@@ -207,7 +209,7 @@ class CalculoSimplesFragment : Fragment() {
     }
 
 
-    private fun calculoTotalSimples(contextTela : Context,entregaSimples:EntregaSimples){
+    private fun calculoTotalSimples(contextTela : Context = requireContext(),entregaSimples:EntregaSimples,tipoTela:Int){
 
         val builder = AlertDialog.Builder(contextTela!!)
 
@@ -218,6 +220,8 @@ class CalculoSimplesFragment : Fragment() {
         val tvValorCalculado = view.findViewById<TextView>(R.id.tv_valor_cobrado)
         val tvDescriCalculoSimples = view.findViewById<TextView>(R.id.tv_tipo_calculo_simples)
         val tvDespesaCalculoSimples = view.findViewById<TextView>(R.id.tv_despesas_extras)
+        val tiTitulo = view.findViewById<TextInputEditText>(R.id.ti_titulo)
+        tiTitulo.setText(entregaSimples.titulo)
 
         tvValorCalculado.setText("Valor Calculado R$: ${entregaSimples.valorCalculado()}")
         tvDescriCalculoSimples.setText("${entregaSimples.descricaoCalculo()}")
@@ -234,9 +238,27 @@ class CalculoSimplesFragment : Fragment() {
         val dialog = builder.create()
 
         dialog.setOnShowListener {
-            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val button = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
             button.setOnClickListener {
-                dialog.dismiss()
+
+                var titulo = tiTitulo.text.toString()
+
+                if(titulo.isEmpty()){
+                    val erro = "Digite um titulo"
+                    tiTitulo.error = erro
+                }else{
+
+                    entregaSimples.titulo = titulo
+                   // entregaSimples.valorEntrega =
+                    if(tipoTela == 0){
+                        viewModel.addEntregaRota(entregaSimples)
+                    }else if (tipoTela == 1){
+                        viewModel.updateEntregaRota(entregaSimples)
+                    }
+
+                    dialog.dismiss()
+
+                }
             }
         }
 

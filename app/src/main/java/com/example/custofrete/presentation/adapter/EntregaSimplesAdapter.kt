@@ -19,7 +19,7 @@ class EntregaSimplesAdapter(private val dataSet: List<EntregaSimples>) :
 
         fun bind(item: EntregaSimples){
 
-            binding.titleRota.text = item.idDocument
+            binding.titleRota.text = item.titulo
 
         }
     }
