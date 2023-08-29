@@ -1,5 +1,7 @@
 package com.example.custofrete.domain.model
 
+import android.text.BoringLayout
+
 data class EntregaSimples constructor(
     var totalKm:Double= 0.0,
     var valorInformado:Double= 0.0,
@@ -35,5 +37,11 @@ data class EntregaSimples constructor(
         }else{
            ((this.valorInformado * this.totalKm)  + this.valorDespExtra)
        }
+    }
+
+    fun valido():Boolean{
+        if(this.totalKm <= 0){
+            return false
+        }else return this.valorInformado > 0
     }
 }

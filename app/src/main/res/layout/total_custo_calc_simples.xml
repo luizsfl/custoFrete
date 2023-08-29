@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Informe um titulo para o calculo"
+            android:text="Informe um titulo para o cálculo"
             android:textSize="15sp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
                 android:id="@+id/ti_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:hint="Informe um titulo para o calculo"
+                tools:hint="Informe um titulo para o cálculo"
                 android:inputType="text"
                 />
         </com.google.android.material.textfield.TextInputLayout>

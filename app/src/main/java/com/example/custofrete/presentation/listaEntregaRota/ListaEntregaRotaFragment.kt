@@ -119,7 +119,7 @@ class ListaEntregaRotaFragment : Fragment() {
 
         val builder = AlertDialog.Builder(contextTela!!)
 
-        builder.setTitle("Deseja realmente excluir ?? ")
+        builder.setTitle("Deseja realmente excluir ? ")
 
         builder.setPositiveButton("Sim") { dialog, which ->
             viewModel.deleteEntregaRota(entrega)

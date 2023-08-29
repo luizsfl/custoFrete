@@ -61,6 +61,11 @@ class ListaEntregaSimplesFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.ivVoltar.setOnClickListener{
+            val action =  ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }
+
         viewModel.getAllEntregaSimples()
 
         return root
@@ -123,7 +128,7 @@ class ListaEntregaSimplesFragment : Fragment() {
 
         val builder = AlertDialog.Builder(contextTela!!)
 
-        builder.setTitle("Deseja realmente excluir ?? ")
+        builder.setTitle("Deseja realmente excluir ? ")
 
         builder.setPositiveButton("Sim") { dialog, which ->
             viewModel.deleteEntregaSimples(entrega)

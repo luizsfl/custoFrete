@@ -14,6 +14,8 @@ import com.example.custofrete.presentation.home.HomeFragment
 import com.example.custofrete.presentation.home.HomeFragmentDirections
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragment
 import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
+import com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragment
+import com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragmentDirections
 import com.example.custofrete.presentation.rotas.RotasFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 
@@ -36,6 +38,9 @@ class MainActivity : AppCompatActivity() {
             findNavController(activeFragment).navigate(action)
         }else if( activeFragment is ListaEntregaRotaFragment){
             val action = ListaEntregaRotaFragmentDirections.actionListaEntregaRotaFragmentToHomeFragment()
+            findNavController(activeFragment).navigate(action)
+        }else if( activeFragment is ListaEntregaSimplesFragment){
+            val action = ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToHomeFragment()
             findNavController(activeFragment).navigate(action)
         }else{
             onBackPressedDispatcher.onBackPressed()

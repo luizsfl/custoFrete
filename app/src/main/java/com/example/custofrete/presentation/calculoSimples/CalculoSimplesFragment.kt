@@ -54,7 +54,7 @@ class CalculoSimplesFragment : Fragment() {
             //Editar
             if(tipoTela==1){
                 setDadosTela(it)
-                binding.btCalculo.setText("Editar Calculo")
+                binding.btCalculo.setText("Editar Cálculo")
             }else if(tipoTela == 2){
                 //Visualizar
                 setDadosTela(it,true)
@@ -221,49 +221,60 @@ class CalculoSimplesFragment : Fragment() {
         val tvDescriCalculoSimples = view.findViewById<TextView>(R.id.tv_tipo_calculo_simples)
         val tvDespesaCalculoSimples = view.findViewById<TextView>(R.id.tv_despesas_extras)
         val tiTitulo = view.findViewById<TextInputEditText>(R.id.ti_titulo)
-        tiTitulo.setText(entregaSimples.titulo)
+        val tiValorCobrado = view.findViewById<TextInputEditText>(R.id.ti_valor_cobrado)
 
-        tvValorCalculado.setText("Valor Calculado R$: ${entregaSimples.valorCalculado()}")
-        tvDescriCalculoSimples.setText("${entregaSimples.descricaoCalculo()}")
-        tvDespesaCalculoSimples.text = "Despesas extras = ${entregaSimples.valorDespExtra}"
+        if(!entregaSimples.valido()) {
+            binding.tiInKmPercorrido.error = "Informe o total de kilometros que será percorrido."
+            binding.tiInValorKmInformado.error = "Informe o valor cobrado por kilometro."
+        }else{
+            tiTitulo.setText(entregaSimples.titulo)
+            tiValorCobrado.setText(entregaSimples.valorEntrega.toString())
 
-        builder.setView(view)
-            .setTitle("")
+            tvValorCalculado.setText("Valor Calculado R$: ${entregaSimples.valorCalculado()}")
+            tvDescriCalculoSimples.setText("${entregaSimples.descricaoCalculo()}")
+            tvDespesaCalculoSimples.text = "Despesas extras = ${entregaSimples.valorDespExtra}"
 
-        builder.setPositiveButton("Ok") { dialog, which -> }
+            builder.setView(view)
+                .setTitle("")
 
-        builder.setNegativeButton("Cancelar", null)
+            builder.setPositiveButton("Ok") { dialog, which -> }
+
+            builder.setNegativeButton("Cancelar", null)
 
 
-        val dialog = builder.create()
+            val dialog = builder.create()
 
-        dialog.setOnShowListener {
-            val button = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener {
+            dialog.setOnShowListener {
+                val button = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
+                button.setOnClickListener {
 
-                var titulo = tiTitulo.text.toString()
+                    val titulo = tiTitulo.text.toString()
+                    val valorEntrega = tiValorCobrado.text.toString()
 
-                if(titulo.isEmpty()){
-                    val erro = "Digite um titulo"
-                    tiTitulo.error = erro
-                }else{
+                    if (titulo.isEmpty()) {
+                        val erro = "Digite um titulo"
+                        tiTitulo.error = erro
+                    } else {
 
-                    entregaSimples.titulo = titulo
-                   // entregaSimples.valorEntrega =
-                    if(tipoTela == 0){
-                        viewModel.addEntregaRota(entregaSimples)
-                    }else if (tipoTela == 1){
-                        viewModel.updateEntregaRota(entregaSimples)
+                        entregaSimples.titulo = titulo
+                        entregaSimples.valorEntrega =
+                            if (valorEntrega.isEmpty()) 0.0 else valorEntrega.toDouble()
+
+                        // entregaSimples.valorEntrega =
+                        if (tipoTela == 0) {
+                            viewModel.addEntregaRota(entregaSimples)
+                        } else if (tipoTela == 1) {
+                            viewModel.updateEntregaRota(entregaSimples)
+                        }
+
+                        dialog.dismiss()
+
                     }
-
-                    dialog.dismiss()
-
                 }
             }
+
+            dialog.show()
         }
-
-        dialog.show()
-
     }
 
     private fun totalSimples():Double {
@@ -292,8 +303,10 @@ class CalculoSimplesFragment : Fragment() {
         binding.tiInValorKmInformado.setText(entregaSimples.valorInformado.toString())
         binding.tiOutraDespesa.setText(entregaSimples.valorDespExtra.toString())
         binding.tiValorTipo.setText(entregaSimples.valorTpCalc.toString())
-        (binding.tiOpcao.editText as? AutoCompleteTextView)?.selectItem(items[entregaSimples.tipoCalc],entregaSimples.tipoCalc)
-        binding.tiValorTipo.visibility = View.VISIBLE
+        if(entregaSimples.tipoCalc >=0){
+            (binding.tiOpcao.editText as? AutoCompleteTextView)?.selectItem(items[entregaSimples.tipoCalc],entregaSimples.tipoCalc)
+            binding.tiValorTipo.visibility = View.VISIBLE
+        }
         tipoCalculo = entregaSimples.tipoCalc
         binding.tvValorKm.text = "Valor calculado R$: ${entregaSimples.valorEntregaCalculado}"
 

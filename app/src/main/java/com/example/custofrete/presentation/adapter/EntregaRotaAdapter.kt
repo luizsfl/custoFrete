@@ -20,8 +20,10 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
 
         fun bind(item: Entrega){
 
-            binding.titleRota.text = item.titulo
-
+            binding.titleRota.text = "Titulo: ${item.titulo}"
+            binding.tiValorEntrega.text = "Valor cobrado: ${item.valorEntrega}"
+            binding.tiValorCalculado.text = "Custo calculado: ${item.valorEntregaCalculado}"
+            binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
         }
     }
 
