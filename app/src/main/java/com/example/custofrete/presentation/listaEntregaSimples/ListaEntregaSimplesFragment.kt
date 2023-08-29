@@ -15,15 +15,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.databinding.FragmentListaEntregaSimplesBinding
-import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.EntregaSimples
-import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.ViewStateEntregaSimples
-import com.example.custofrete.presentation.adapter.EntregaRotaAdapter
 import com.example.custofrete.presentation.adapter.EntregaSimplesAdapter
 import com.example.custofrete.presentation.calculoRota.CalculoRotaFragmentArgs
-import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragmentDirections
-import com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel

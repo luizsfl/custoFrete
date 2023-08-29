@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,16 +22,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoBinding
-import com.example.custofrete.domain.model.Distance
-import com.example.custofrete.domain.model.Entrega
-import com.example.custofrete.domain.model.GoogleMapDTO
-import com.example.custofrete.domain.model.Rota
+import com.example.custofrete.domain.model.*
 import com.example.custofrete.presentation.ViewStateCustoCalculado
 import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -242,18 +241,27 @@ class CalculoRotaFragment : Fragment() {
 
     private fun showAlertDialog(contextTela: Context) {
 
-        val builder = AlertDialog.Builder(contextTela)
-        builder.setTitle("Digite um titulo")
+        val builder = androidx.appcompat.app.AlertDialog.Builder(contextTela!!)
 
-        val input = EditText(contextTela)
+        val view: View
+        val inflater = contextTela!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        view = inflater.inflate(R.layout.total_custo_calc_rota,null)
+
+        val tiTitulo = view.findViewById<TextInputEditText>(R.id.ti_titulo_rota)
+        val tiValorCobrado = view.findViewById<TextInputEditText>(R.id.ti_valor_cobrado_rota)
+
+        tiValorCobrado.setText(entrega.valorEntrega.toString())
+
         if(entrega.titulo.isEmpty()){
-            input.setHint("Digite aqui")
+            tiTitulo.setHint("Digite aqui")
         }else{
-            input.setText(entrega.titulo)
+            tiTitulo.setText(entrega.titulo)
         }
 
-        input.inputType = InputType.TYPE_CLASS_TEXT
-        builder.setView(input)
+        tiTitulo.inputType = InputType.TYPE_CLASS_TEXT
+
+        builder.setView(view)
+            .setTitle("")
 
         builder.setPositiveButton("OK") { dialog, which -> }
 
@@ -265,13 +273,16 @@ class CalculoRotaFragment : Fragment() {
             val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             button.setOnClickListener {
 
-                var message = input.text.toString()
+                var titulo = tiTitulo.text.toString()
+                var valorEntrega = tiValorCobrado.text.toString()
 
-                if(message.isEmpty()){
-                    val erro = "Digite um titulo"
-                    input.error = erro
+                if(titulo.isEmpty()){
+                    val erro = "Informe um título para identificar essa entrega"
+                    tiTitulo.error = erro
                 }else{
-                    entrega.titulo = message
+                    entrega.titulo = titulo
+                    entrega.valorEntrega =  if (valorEntrega.isEmpty()) 0.0 else valorEntrega.toDouble()
+                    entrega.totalKm =  if (kmMelhorRota.isEmpty()) 0.0 else kmMelhorRota.replace(",",".").toDouble()
                     entrega.listaMelhorRota = menorRotaAdapter
                     viewModel.addEntregaRota(entrega)
 
