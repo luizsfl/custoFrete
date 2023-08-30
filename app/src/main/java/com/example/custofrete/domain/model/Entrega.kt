@@ -11,7 +11,8 @@ data class Entrega constructor(
     var titulo: String = "",
     var listaMelhorRota : List<Rota>? = null,
     var valorEntrega :Double = 0.0,
-    var valorEntregaCalculado :Double = 0.0,
+    var valorInformadoCalculado :Double = 0.0,
+    var valorMelhorCalculado :Double = 0.0,
     var totalKm:Double = 0.0,
     ):java.io.Serializable {
     constructor() : this(DadosVeiculo())

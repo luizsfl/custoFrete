@@ -19,10 +19,10 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
     class ViewHolder(val binding: ItemEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Entrega){
-
             binding.titleRota.text = "Titulo: ${item.titulo}"
-            binding.tiValorEntrega.text = "Valor cobrado: ${item.valorEntrega}"
-            binding.tiValorCalculado.text = "Custo calculado: ${item.valorEntregaCalculado}"
+            binding.tiTipoRota.text = "Tipo de rota: ${if(item.tipoTela == 1) "Informada" else "Calculada"}"
+            binding.tiValorEntrega.text = "Valor cobrado R$: ${item.valorEntrega}"
+            binding.tiValorCalculado.text = "Custo calculado R$: ${if(item.tipoTela == 1) item.valorInformadoCalculado else item.valorMelhorCalculado}"
             binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
         }
     }

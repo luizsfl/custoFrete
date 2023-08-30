@@ -2,7 +2,9 @@ package com.example.custofrete.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.custofrete.databinding.ItemEntregaRotaBinding
 import com.example.custofrete.domain.model.EntregaSimples
@@ -19,9 +21,10 @@ class EntregaSimplesAdapter(private val dataSet: List<EntregaSimples>) :
 
         fun bind(item: EntregaSimples){
 
+            binding.tiTipoRota.isVisible = false
             binding.titleRota.text = "Titulo: ${item.titulo}"
-            binding.tiValorEntrega.text = "Valor cobrado: ${item.valorEntrega}"
-            binding.tiValorCalculado.text = "Custo calculado: ${item.valorEntregaCalculado}"
+            binding.tiValorEntrega.text = "Valor cobrado R$: ${item.valorEntrega}"
+            binding.tiValorCalculado.text = "Custo calculado R$: ${item.valorEntregaCalculado}"
             binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
 
         }

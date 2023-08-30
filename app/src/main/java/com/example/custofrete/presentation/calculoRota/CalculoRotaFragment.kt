@@ -48,7 +48,8 @@ class CalculoRotaFragment : Fragment() {
     private var kmMelhorRota = "0"
     private var custoKmInformado = 0.0
     private var rotaSelecionada = 1
-
+    private var  valorInformadoCalculado :String = "0.0"
+    private var  valorMelhorCalculado :String = "0.0"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,7 +100,8 @@ class CalculoRotaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mtvValorInformado.text = "R$: ${calcularValorRota(custoKmInformado,entrega)}"
+        valorInformadoCalculado = calcularValorRota(custoKmInformado,entrega)
+        binding.mtvValorInformado.text = "R$: ${valorInformadoCalculado}"
 
         viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
@@ -109,8 +111,9 @@ class CalculoRotaFragment : Fragment() {
                     val roundoff = df.format(kmCalculado)
                     kmMelhorRota = roundoff
 
-                    binding.mtvValorMelhorRota.text = "R$: ${calcularValorRota(kmCalculado,entrega)}"
+                    valorMelhorCalculado = calcularValorRota(kmCalculado,entrega)
 
+                    binding.mtvValorMelhorRota.text = "R$: ${valorMelhorCalculado}"
                 }
                 else -> {}
             }
@@ -280,11 +283,16 @@ class CalculoRotaFragment : Fragment() {
                     val erro = "Informe um título para identificar essa entrega"
                     tiTitulo.error = erro
                 }else{
+
                     entrega.titulo = titulo
                     entrega.valorEntrega =  if (valorEntrega.isEmpty()) 0.0 else valorEntrega.toDouble()
                     entrega.totalKm =  if (kmMelhorRota.isEmpty()) 0.0 else kmMelhorRota.replace(",",".").toDouble()
                     entrega.listaMelhorRota = menorRotaAdapter
+                    entrega.valorInformadoCalculado = if (valorInformadoCalculado.isEmpty()) 0.0 else valorInformadoCalculado.replace(",",".").toDouble()
+                    entrega.valorMelhorCalculado = if (valorMelhorCalculado.isEmpty()) 0.0 else valorMelhorCalculado.replace(",",".").toDouble()
+
                     viewModel.addEntregaRota(entrega)
+
 
                     dialog.dismiss()
 

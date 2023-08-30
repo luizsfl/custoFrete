@@ -49,12 +49,19 @@
                     android:textColor="#000"
                     android:textSize="19sp" />
                 <TextView
-                    android:id="@+id/tiValorEntrega"
+                    android:id="@+id/tiTipoRota"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Título da Live"
                     android:textColor="#000"
                     android:textSize="19sp" />
+                <TextView
+                android:id="@+id/tiValorEntrega"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título da Live"
+                android:textColor="#000"
+                android:textSize="19sp" />
                 <TextView
                 android:id="@+id/tiValorCalculado"
                 android:layout_width="match_parent"
