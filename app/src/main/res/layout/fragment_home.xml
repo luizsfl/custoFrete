@@ -122,20 +122,20 @@
                 app:srcCompat="@drawable/rota" />
 
 
-            <!--            <Button-->
-            <!--                android:id="@+id/bt_calculo_antt"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="10dp"-->
-            <!--                android:padding="25dp"-->
-            <!--                android:text="Calculo ANTT"-->
-            <!--                android:layout_gravity="bottom"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                />-->
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatMessenger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:backgroundTint="@color/purple_700"
+            app:tint="@color/white"
+            android:src="@drawable/ic_insert_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="20dp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
