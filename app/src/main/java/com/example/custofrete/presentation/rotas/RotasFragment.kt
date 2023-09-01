@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custofrete.BuildConfig.GOOGLE_MAPS_KEY
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentRotasBinding
-import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.GoogleMapDTO
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.presentation.adapter.PlaceAutoSuggestAdapter

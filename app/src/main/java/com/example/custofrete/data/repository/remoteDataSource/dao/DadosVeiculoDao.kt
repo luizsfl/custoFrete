@@ -55,7 +55,10 @@ class DadosVeiculoDao (
                         if (documento != null && documento.exists()) {
                             val dadosVeiculo = documento.toObject(DadosVeiculo::class.java)!!
                             trySend(dadosVeiculo)
+                        }else{
+                            trySend(DadosVeiculo())
                         }
+
                     }
                     .addOnFailureListener {
                         val messengerErro = "getDadosVeiculo ${it.message.toString()}"
