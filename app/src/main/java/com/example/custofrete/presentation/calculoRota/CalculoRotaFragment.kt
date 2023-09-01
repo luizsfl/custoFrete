@@ -107,22 +107,21 @@ class CalculoRotaFragment : Fragment() {
         viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewStateCustoCalculado.Loading -> {
-                    showLoading(true)
+                    binding.mtvValorMelhorRota.text = "Calculando..."
                 }
                 is ViewStateCustoCalculado.Failure -> {
-                    showLoading(true)
+                    binding.mtvValorMelhorRota.text = "Erro no calculo, tente mais tarde."
                     showErro(viewState.messengerError)
                 }
                 is ViewStateCustoCalculado.sucessoCustoCalculado -> {
                     val kmCalculado = viewState.custoCalculado
-                    val df = DecimalFormat("#.#")
+                    val df = DecimalFormat("#.##")
                     val roundoff = df.format(kmCalculado)
                     kmMelhorRota = roundoff
 
                     valorMelhorCalculado = calcularValorRota(kmCalculado,entrega)
 
                     binding.mtvValorMelhorRota.text = "R$: ${valorMelhorCalculado}"
-                    showLoading(false)
 
                 }
                 else -> {}
@@ -393,7 +392,6 @@ class CalculoRotaFragment : Fragment() {
 
         override fun onPostExecute(result: List<List<LatLng>>) {
             if(posicaoMelhorRota == menorRotaAdapter.size ){
-                //distanciaRota(menorRotaAdapter,2)
                 viewModel.getDistanciaRotaCalculada(menorRotaAdapter)
             }
         }
