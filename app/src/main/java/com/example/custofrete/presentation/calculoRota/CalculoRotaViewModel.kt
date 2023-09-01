@@ -31,6 +31,14 @@ class CalculoRotaViewModel (
     }
 
 
+    fun setLoadingDistanciaRotaCalculada(loading:Boolean) {
+        _viewStateCustoRotaCalculada.postValue(ViewStateCustoCalculado.Loading(loading))
+    }
+
+    fun setErroDistanciaRotaCalculada(mensagem:String) {
+        _viewStateCustoRotaCalculada.postValue(ViewStateCustoCalculado.Failure(mensagem))
+    }
+
     private fun distanciaRotaCalculada(listRota: List<Rota>?):Double {
         var valorMetroSequencia = 0.0
         listRota?.forEach {

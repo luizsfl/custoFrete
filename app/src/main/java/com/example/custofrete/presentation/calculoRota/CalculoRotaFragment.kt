@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.custofrete.BuildConfig.GOOGLE_MAPS_KEY
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoBinding
 import com.example.custofrete.domain.model.*
@@ -105,6 +106,13 @@ class CalculoRotaFragment : Fragment() {
 
         viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
+                is ViewStateCustoCalculado.Loading -> {
+                    showLoading(true)
+                }
+                is ViewStateCustoCalculado.Failure -> {
+                    showLoading(true)
+                    showErro(viewState.messengerError)
+                }
                 is ViewStateCustoCalculado.sucessoCustoCalculado -> {
                     val kmCalculado = viewState.custoCalculado
                     val df = DecimalFormat("#.#")
@@ -114,6 +122,8 @@ class CalculoRotaFragment : Fragment() {
                     valorMelhorCalculado = calcularValorRota(kmCalculado,entrega)
 
                     binding.mtvValorMelhorRota.text = "R$: ${valorMelhorCalculado}"
+                    showLoading(false)
+
                 }
                 else -> {}
             }
@@ -177,6 +187,7 @@ class CalculoRotaFragment : Fragment() {
 
     private fun calculoMenorRota() {
         if (entrega.listaRotas?.size!! > 0) {
+            viewModel.setLoadingDistanciaRotaCalculada(true)
             val points = mutableListOf<Point>()
             entrega.listaRotas?.forEachIndexed { index, rota ->
                 points.add(Point(rota.lat, rota.lng, index))
@@ -353,12 +364,15 @@ class CalculoRotaFragment : Fragment() {
     private inner class GetDirection(val url: String) :
         AsyncTask<Void, Void, List<List<LatLng>>>() {
         override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body()!!.string()
             Log.d("GoogleMap", " data : $data")
             val result = ArrayList<List<LatLng>>()
+
+
             try {
                 val respObj = Gson().fromJson(data, GoogleMapDTO::class.java)
 
@@ -372,6 +386,7 @@ class CalculoRotaFragment : Fragment() {
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                viewModel.setErroDistanciaRotaCalculada(e.message.toString())
             }
             return result
         }
@@ -386,7 +401,7 @@ class CalculoRotaFragment : Fragment() {
     }
 
     fun getDirectionURL(origin: LatLng, dest: LatLng): String {
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=${GOOGLE_MAPS_KEY}"
     }
 
 }

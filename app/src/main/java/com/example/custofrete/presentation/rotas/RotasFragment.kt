@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.custofrete.BuildConfig.GOOGLE_MAPS_KEY
 import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentRotasBinding
 import com.example.custofrete.domain.model.Entrega
@@ -218,7 +219,7 @@ class RotasFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-       // binding.progressBar.isVisible = isLoading
+       //binding.progressBar.isVisible = isLoading
     }
 
     private fun addMarkers(googleMap: GoogleMap){
@@ -256,7 +257,7 @@ class RotasFragment : Fragment() {
     }
 
     fun getDirectionURL(origin:LatLng,dest:LatLng) : String{
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=AIzaSyA2TWLwHJhNZtJ867ipr_5XhQZMGKm49Os"
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&key=${GOOGLE_MAPS_KEY}"
     }
 
     private inner class GetDirection(val url : String,val posicaoMelhorRota:Int) : AsyncTask<Void, Void, List<List<LatLng>>>(){
