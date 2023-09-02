@@ -22,6 +22,7 @@ class EntregaSimplesAdapter(private val dataSet: List<EntregaSimples>) :
 
             binding.tiTipoRota.isVisible = false
             binding.tiStatusEntrega.isVisible = false
+            binding.llVisualizar.isVisible = false
             binding.titleRota.text = "Titulo: ${item.titulo}"
             binding.tiValorEntrega.text = "Valor cobrado R$: ${item.valorEntrega}"
             binding.tiValorCalculado.text = "Custo calculado R$: ${item.valorEntregaCalculado}"
