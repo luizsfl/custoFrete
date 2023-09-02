@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Informe o valor cobrado ao cliente"
+            android:text="Informe o valor que você cobrou do cliente"
             android:textSize="15sp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:hint="Informe o valor cobrado para o cliente"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 

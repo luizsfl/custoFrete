@@ -47,8 +47,8 @@ class CalculoRotaFragment : Fragment() {
     private var kmMelhorRota = "0"
     private var custoKmInformado = 0.0
     private var rotaSelecionada = 1
-    private var  valorInformadoCalculado :String = "0.0"
-    private var  valorMelhorCalculado :String = "0.0"
+    private var  valorInformadoCalculado :String = "0.00"
+    private var  valorMelhorCalculado :String = "0.00"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,6 +100,7 @@ class CalculoRotaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         valorInformadoCalculado = calcularValorRota(custoKmInformado,entrega)
+
         binding.mtvValorInformado.text = "R$: ${valorInformadoCalculado}"
 
         viewModel.viewStateCustoRotaCalculada.observe(viewLifecycleOwner) { viewState ->
@@ -177,6 +178,10 @@ class CalculoRotaFragment : Fragment() {
 
         val df = DecimalFormat("#.##")
         valorCalculado = df.format(calcTotal)
+
+        if(valorCalculado.equals("0")){
+            valorCalculado = "0.00"
+        }
 
         return valorCalculado
 
