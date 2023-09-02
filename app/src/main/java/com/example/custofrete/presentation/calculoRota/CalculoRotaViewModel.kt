@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.custofrete.domain.model.DadosVeiculo
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.domain.model.Rota
 import com.example.custofrete.domain.useCase.entregaRota.EntregaRotaInteractor
 import com.example.custofrete.presentation.ViewStateCustoCalculado
-import com.example.custofrete.presentation.ViewStateDadosVeiculo
 import com.example.custofrete.presentation.ViewStateEntregaRota
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart

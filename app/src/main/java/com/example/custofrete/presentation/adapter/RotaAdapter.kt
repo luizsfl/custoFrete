@@ -3,11 +3,12 @@ package com.example.custofrete.presentation.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.custofrete.databinding.ItemRotaBinding
 import com.example.custofrete.domain.model.Rota
 
-class RotaAdapter(private val dataSet: List<Rota>) :
+class RotaAdapter(private val dataSet: List<Rota>,private val exclui:Boolean = false) :
     RecyclerView.Adapter<RotaAdapter.ViewHolder>() {
 
     var onItemClick : ((Rota)-> Unit)? = null
@@ -15,9 +16,9 @@ class RotaAdapter(private val dataSet: List<Rota>) :
 
     class ViewHolder(val binding: ItemRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Rota){
-
+        fun bind(item: Rota,lexclui:Boolean){
             binding.titleRota.text = item.title
+            binding.llExcluir.isVisible = lexclui
         }
     }
 
@@ -29,7 +30,7 @@ class RotaAdapter(private val dataSet: List<Rota>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position])
+        viewHolder.bind(dataSet[position],exclui)
 
         viewHolder.binding.llExcluir.setOnClickListener {
             onItemClickExcluir?.invoke(position)

@@ -11,9 +11,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -229,8 +227,10 @@ class CalculoRotaFragment : Fragment() {
 
     private fun distanciaRota(listRota: List<Rota>?,tipoCalculo:Int):Double {
         var valorMetroSequencia = 0.0
-        listRota?.forEach {
-            valorMetroSequencia += it.valorDistance.value
+        if(listRota?.size ?:0 > 1){
+            listRota?.forEach {
+                valorMetroSequencia += it.valorDistance.value
+            }
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)

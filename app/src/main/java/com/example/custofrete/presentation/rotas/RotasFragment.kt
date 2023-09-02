@@ -143,10 +143,10 @@ class RotasFragment : Fragment() {
             google.moveCamera(CameraUpdateFactory.newLatLngZoom(posicaoCamera, 13f))
             addMarkers(google)
 
+            googleMap = google
+
             if (posicaoMelhorRota > 1) {
                 //posicaoMelhorRota  = listaRota.size
-
-                googleMap = google
 
                 val location1 = LatLng(listaRota.get(posicaoMelhorRota - 2).lat,listaRota.get(posicaoMelhorRota - 2).lng)
                 val location2 = LatLng(listaRota.get(posicaoMelhorRota - 1).lat,listaRota.get(posicaoMelhorRota - 1).lng)
@@ -204,7 +204,7 @@ class RotasFragment : Fragment() {
     }
 
     private fun setHomeListAdapter(listHome: List<Rota>) {
-        var rotaAdapter = RotaAdapter(listHome)
+        var rotaAdapter = RotaAdapter(listHome,true)
 
         rotaAdapter.onItemClickExcluir = {
             //necessário retirar o tamanho da lista porque a lista esta inversa.
@@ -217,8 +217,10 @@ class RotasFragment : Fragment() {
             }else{
                 rotaAdapter = RotaAdapter(arrayListOf())
                 binding.recyclerview.adapter = rotaAdapter
-                googleMap.clear()
             }
+
+            args.value.entrega.listaRotas = listaRota
+
         }
 
         binding.recyclerview.adapter = rotaAdapter
