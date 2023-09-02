@@ -12,12 +12,14 @@
     android:orientation="vertical"
     >
 
-    <androidx.appcompat.widget.Toolbar
+    <ImageView
+        android:id="@+id/iv_visualizar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_add_entrega_24"
-        android:layout_marginStart="20dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/ic_pessoa_cinza_24"
         />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -28,11 +30,13 @@
         android:layout_gravity="center"
         />
 
+
+
     <EditText
         android:id="@+id/edit_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_email_cinza_24"
         android:padding="20dp"
         android:drawablePadding="5dp"
@@ -90,26 +94,27 @@
         />
 
     <TextView
-        android:id="@+id/tv_precisa_ajuda"
+        android:id="@+id/txt_tela_cadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Precisa de ajuda"
-        android:textSize="18sp"
+        android:text="@string/novo_por_aqui"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         />
 
     <TextView
-        android:id="@+id/txt_tela_cadastro"
+        android:id="@+id/tv_precisa_ajuda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Novo por aqui?Inscreva-se agora"
-        android:textSize="20sp"
+        android:text="@string/precisa_ajuda"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         />
+
 
 
 </LinearLayout>

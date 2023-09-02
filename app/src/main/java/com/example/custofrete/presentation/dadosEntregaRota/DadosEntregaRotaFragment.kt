@@ -85,7 +85,10 @@ class DadosEntregaRotaFragment : Fragment() {
             when (viewState) {
                 is ViewStateRota.Loading -> showLoading(viewState.loading)
                 is ViewStateRota.sucesso -> setAdapter(viewState.listRota,entrega.tipoTela)
-                is ViewStateRota.sucessoStatus -> showLoading(false)//viewState.status
+                is ViewStateRota.sucessoStatus ->{
+                    entrega.statusEntrega = viewState.status
+                    setAdapter(viewState.listRota,entrega.tipoTela)
+                }
                 is ViewStateRota.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
@@ -115,15 +118,13 @@ class DadosEntregaRotaFragment : Fragment() {
             binding.btComecar.visibility = View.GONE
 
             if(entrega.statusEntrega == "Pendente"){
-                //Alterar status da entrega.
-                viewModel.updateEntregaRota(entrega.idDocument,"Concluida")
+                viewModel.updateEntregaRota(entrega.idDocument,"Concluída",listEntregaRota)
             }
 
         }else{
 
             if(entrega.statusEntrega != "Pendente"){
-                //Alterar status da pendente.
-                viewModel.updateEntregaRota(entrega.idDocument,"Pendente")
+                viewModel.updateEntregaRota(entrega.idDocument,"Pendente",listEntregaRota)
             }
 
             rotaMapa = listaRotaPendente
@@ -156,6 +157,17 @@ class DadosEntregaRotaFragment : Fragment() {
         return rotaAdapter
     }
 
+    private fun estornaRotaFirebase(
+        listEntregaRota: List<Rota>,
+        rota: Rota
+    ) {
+        showLoading(true)
+        val listaUpdate = listEntregaRota.map { it.copy() }.toMutableList()
+        rota.status = "pendente"
+        listaUpdate.set(rota.posicao!!, rota)
+        viewModel.updateEntregaRota(entrega.idDocument, listaUpdate, entrega.tipoTela)
+    }
+
 
     private fun setAdapterEntregue(listEntregaRota: List<Rota>,tipoTela: Int): EntregaRotaPendenteAdapter {
         val listaRotaFinalizada = listEntregaRota.filter {
@@ -163,19 +175,10 @@ class DadosEntregaRotaFragment : Fragment() {
         }
 
         val rotaAdapter = EntregaRotaPendenteAdapter(listaRotaFinalizada)
-//        rotaAdapter.onItemClickEntregue = { rota, listRota, posicao ->
-//            val listaUpdate = listEntregaRota.toMutableList()
-//            rota.status = "entregue"
-//            listaUpdate.set(posicao, rota)
-//            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
-//        }
-//
-//        rotaAdapter.onItemClickNaoEntregue = { rota, listRota, posicao ->
-//            val listaUpdate = listEntregaRota.toMutableList()
-//            rota.status = "NaoEntregue"
-//            listaUpdate.set(posicao, rota)
-//            viewModel.updateEntregaRota(entrega.idDocument, listaUpdate)
-//        }
+
+        rotaAdapter.onItemClickEstornar = { rota, listRota, posicao ->
+            estornarRota(requireContext(),listEntregaRota, rota)
+        }
 
         binding.recyclerviewEntregue.adapter = rotaAdapter
         return rotaAdapter
@@ -292,4 +295,23 @@ class DadosEntregaRotaFragment : Fragment() {
             Toast.makeText(context, "Waze Não foi encontrado", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun estornarRota(contextTela : Context,listRota:List<Rota>,rota:Rota){
+
+        val builder = AlertDialog.Builder(contextTela!!)
+
+        builder.setTitle("Deseja realmente estornar a rotia: ${rota.title} ? ")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            estornaRotaFirebase(listRota,rota)
+        }
+
+        builder.setNegativeButton("Não", null)
+
+        builder.create()
+
+        builder.show()
+
+    }
+
 }

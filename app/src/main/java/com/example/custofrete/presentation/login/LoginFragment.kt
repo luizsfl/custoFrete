@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -83,11 +84,12 @@ class LoginFragment : Fragment() {
             if (it.isSuccessful){
                 IrParaTelaPrincipal()
             }else{
-                var erro = it
+                var erro = it.exception
 
                 when {
                     erro is FirebaseAuthInvalidCredentialsException -> mernsagem_erro.setText("E-mail ou senha estão incorretos")
                     erro is FirebaseNetworkException -> mernsagem_erro.setText("Sem conexão com internet")
+                    erro is FirebaseAuthInvalidUserException -> mernsagem_erro.setText("E-mail não cadastrado")
                     else -> mernsagem_erro.setText("Erro ao tentar logar"+it.exception)
                 }
             }

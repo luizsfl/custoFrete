@@ -42,7 +42,7 @@ sealed class ViewStateEntregaSimples {
 sealed class ViewStateRota {
     data class Loading(val loading: Boolean):ViewStateRota()
     data class sucesso(val listRota:List<Rota>):ViewStateRota()
-    data class sucessoStatus(val status:String):ViewStateRota()
+    data class sucessoStatus(val status:String,val listRota:List<Rota>):ViewStateRota()
     data class Failure(val messengerError:String = String()): ViewStateRota()
 }
 

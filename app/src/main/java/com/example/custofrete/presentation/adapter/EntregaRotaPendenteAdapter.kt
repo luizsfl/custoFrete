@@ -15,6 +15,7 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
 
     var onItemClickEntregue : ((Rota,List<Rota>,Int)-> Unit)? = null
     var onItemClickNaoEntregue : ((Rota,List<Rota>,Int)-> Unit)? = null
+    var onItemClickEstornar : ((Rota,List<Rota>,Int)-> Unit)? = null
 
     class ViewHolder(val binding: ItemDadosEntregaRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
@@ -28,10 +29,12 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
                     val  drawable  = getDrawable(context.resources, R.drawable.ic_entregue_ok_24,null)
                     binding.ivEntregaFinalizada.setImageDrawable(drawable)
                     binding.txtEntregaFinalizada.text = "Entregue"
+                    binding.llEstornar.visibility = View.VISIBLE
                 }else  if(item.status.toString().equals("NaoEntregue")){
                     val  drawable  = getDrawable(context.resources, R.drawable.ic_entregue_nao_24,null)
                     binding.ivEntregaFinalizada.setImageDrawable(drawable)
                     binding.txtEntregaFinalizada.text = "Não entregue"
+                    binding.llEstornar.visibility = View.VISIBLE
                 }
             }
 
@@ -58,6 +61,9 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
             onItemClickNaoEntregue?.invoke(dataSet[position],dataSet,position)
         }
 
+        viewHolder.binding.llEstornar.setOnClickListener {
+            onItemClickEstornar?.invoke(dataSet[position],dataSet,position)
+        }
     }
 
     override fun getItemCount() = dataSet.size

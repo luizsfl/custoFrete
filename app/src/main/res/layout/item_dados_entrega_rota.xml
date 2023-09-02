@@ -45,10 +45,37 @@
                     android:layout_marginTop="30dp">
 
                     <LinearLayout
-                        android:id="@+id/ll_entrega_ok"
+                        android:id="@+id/ll_estornar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_estornar"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            app:srcCompat="@drawable/ic_restart_alt_24"
+                            />
+                        <TextView
+                            android:id="@+id/txt_estornar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Estornar"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_entrega_ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_estornar"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:orientation="vertical"
                         android:gravity="center"

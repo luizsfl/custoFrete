@@ -1,12 +1,12 @@
 package com.example.custofrete.presentation.adapter
 
 import android.content.Context
+import android.graphics.Color.parseColor
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.custofrete.databinding.ItemEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
-import com.example.custofrete.domain.model.Rota
 
 class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
     RecyclerView.Adapter<EntregaRotaAdapter.ViewHolder>() {
@@ -25,6 +25,12 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
             binding.tiValorCalculado.text = "Custo calculado R$: ${if(item.tipoTela == 1) item.valorInformadoCalculado else item.valorMelhorCalculado}"
             binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
             binding.tiStatusEntrega.text = "Status: ${item.statusEntrega}"
+
+            if(item.statusEntrega.equals("Concluída")){
+                binding.tiStatusEntrega.setTextColor(parseColor("#FF03DAC5"))
+            }else{
+                binding.tiStatusEntrega.setTextColor(parseColor("#DA0303"))
+            }
         }
     }
 
