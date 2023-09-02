@@ -104,7 +104,7 @@ class DadosEntregaRotaFragment : Fragment() {
             }
         }
     }
-    
+
     private fun setAdapter(listEntregaRota: List<Rota>,tipoTela:Int) {
 
         setAdapterPendente(listEntregaRota,tipoTela)

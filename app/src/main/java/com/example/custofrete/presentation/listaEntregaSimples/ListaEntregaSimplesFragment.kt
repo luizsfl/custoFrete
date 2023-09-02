@@ -123,7 +123,7 @@ class ListaEntregaSimplesFragment : Fragment() {
 
         val builder = AlertDialog.Builder(contextTela!!)
 
-        builder.setTitle("Deseja realmente excluir ? ")
+        builder.setTitle("Deseja realmente excluir : ${entrega.titulo}? ")
 
         builder.setPositiveButton("Sim") { dialog, which ->
             viewModel.deleteEntregaSimples(entrega)
