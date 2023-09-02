@@ -72,7 +72,6 @@ class EntregaRotaDao (
                     .addOnSuccessListener { result ->
 
                         val listEntregaRota = mutableListOf<Entrega>()
-                        val auxRotas = mutableListOf<Rota>()
 
                         for (document in result) {
                             val entregaRota = document.toObject(Entrega::class.java)!!

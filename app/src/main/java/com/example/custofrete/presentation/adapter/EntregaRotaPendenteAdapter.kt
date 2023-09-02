@@ -50,7 +50,7 @@ class EntregaRotaPendenteAdapter(private val dataSet: List<Rota>) :
         return ViewHolder(itemFilterAdapter,viewGroup.context)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder,position: Int) {
         viewHolder.bind(dataSet[position])
 
         viewHolder.binding.llEntregaOk.setOnClickListener {

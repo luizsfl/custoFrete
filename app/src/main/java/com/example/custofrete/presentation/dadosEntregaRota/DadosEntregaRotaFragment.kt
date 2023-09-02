@@ -48,18 +48,10 @@ class DadosEntregaRotaFragment : Fragment() {
 
         entrega = args.value.entrega
 
+        entrega.listaRotas = addPositionRota(entrega)
+        entrega.listaMelhorRota = addPositionRota(entrega)
 
-        if(entrega.tipoTela == 1){
-            if(entrega.listaRotas?.size!! > 0){
-                setAdapter(entrega.listaRotas!!,entrega.tipoTela)
-                binding.txtTitulo.text = "Rota informada pendente"
-            }
-        }else if(entrega.tipoTela == 2){
-            binding.txtTitulo.text = "Melhores rotas pendente"
-            if(entrega.listaMelhorRota?.size!! > 0){
-                setAdapter(entrega.listaMelhorRota!!,entrega.tipoTela)
-            }
-        }
+        setAdapterTela()
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewEntregue.layoutManager = LinearLayoutManager(context)
@@ -99,6 +91,20 @@ class DadosEntregaRotaFragment : Fragment() {
         return root
     }
 
+    private fun setAdapterTela() {
+        if (entrega.tipoTela == 1) {
+            if (entrega.listaRotas?.size!! > 0) {
+                setAdapter(entrega.listaRotas!!, entrega.tipoTela)
+                binding.txtTitulo.text = "Rota informada pendente"
+            }
+        } else if (entrega.tipoTela == 2) {
+            binding.txtTitulo.text = "Melhores rotas pendente"
+            if (entrega.listaMelhorRota?.size!! > 0) {
+                setAdapter(entrega.listaMelhorRota!!, entrega.tipoTela)
+            }
+        }
+    }
+    
     private fun setAdapter(listEntregaRota: List<Rota>,tipoTela:Int) {
 
         setAdapterPendente(listEntregaRota,tipoTela)
@@ -154,6 +160,7 @@ class DadosEntregaRotaFragment : Fragment() {
         }
 
         binding.recyclerview.adapter = rotaAdapter
+
         return rotaAdapter
     }
 
@@ -312,6 +319,18 @@ class DadosEntregaRotaFragment : Fragment() {
 
         builder.show()
 
+    }
+
+    private fun addPositionRota(
+        entregaRota: Entrega,
+    ):List<Rota> {
+        val auxRotas =  mutableListOf<Rota>()
+        entregaRota.listaRotas?.forEachIndexed { index, value ->
+            val rota = value
+            rota.posicao = index
+            auxRotas.add(rota)
+        }
+        return auxRotas
     }
 
 }
