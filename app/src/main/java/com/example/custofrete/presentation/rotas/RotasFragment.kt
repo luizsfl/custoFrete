@@ -204,13 +204,21 @@ class RotasFragment : Fragment() {
     }
 
     private fun setHomeListAdapter(listHome: List<Rota>) {
-        val rotaAdapter = RotaAdapter(listHome)
-        rotaAdapter.onItemClick = {
-//            val intent = Intent(requireContext(), HomeDetailActivity::class.java)
-//                .apply {
-//                    putExtra("idCaixa", it.idCaixa)
-//                }
-//            startActivity(intent)
+        var rotaAdapter = RotaAdapter(listHome)
+
+        rotaAdapter.onItemClickExcluir = {
+            //necessário retirar o tamanho da lista porque a lista esta inversa.
+            listaRota.removeAt((listaRota.size-1) - it)
+            googleMap.clear()
+
+            if(listaRota.size>0){
+                atualizaRotas()
+                selectRota()
+            }else{
+                rotaAdapter = RotaAdapter(arrayListOf())
+                binding.recyclerview.adapter = rotaAdapter
+                googleMap.clear()
+            }
         }
 
         binding.recyclerview.adapter = rotaAdapter
@@ -334,5 +342,4 @@ class RotasFragment : Fragment() {
 
         return poly
     }
-
 }

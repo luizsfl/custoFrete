@@ -11,14 +11,13 @@ class RotaAdapter(private val dataSet: List<Rota>) :
     RecyclerView.Adapter<RotaAdapter.ViewHolder>() {
 
     var onItemClick : ((Rota)-> Unit)? = null
+    var onItemClickExcluir : ((Int)-> Unit)? = null
 
     class ViewHolder(val binding: ItemRotaBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Rota){
 
             binding.titleRota.text = item.title
-
-
         }
     }
 
@@ -32,9 +31,10 @@ class RotaAdapter(private val dataSet: List<Rota>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
 
-        viewHolder.itemView.setOnClickListener {
-            onItemClick?.invoke(dataSet[position])
+        viewHolder.binding.llExcluir.setOnClickListener {
+            onItemClickExcluir?.invoke(position)
         }
+
     }
 
     override fun getItemCount() = dataSet.size
