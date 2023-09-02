@@ -149,4 +149,25 @@ class EntregaRotaDao (
         }.flowOn(dispatcher)
     }
 
+    fun updateEntregaRotaStatus(idDocument:String,statusRota:String): Flow<String> {
+        return channelFlow {
+
+            autenticacaFirestore.collection("entrega")
+                .document(idDocument)
+                .update("statusEntrega",statusRota)
+                .addOnSuccessListener { result ->
+                    trySend(statusRota)
+                }
+                .addOnFailureListener {
+                    val messengerErro = "updateEntregaRotaStatus ${it.message.toString()}"
+                    trySend(error(messengerErro))
+                }
+
+            awaitClose{
+                close()
+            }
+
+        }.flowOn(dispatcher)
+    }
+
 }

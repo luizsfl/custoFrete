@@ -22,11 +22,11 @@ class EntregaSimplesAdapter(private val dataSet: List<EntregaSimples>) :
         fun bind(item: EntregaSimples){
 
             binding.tiTipoRota.isVisible = false
+            binding.tiStatusEntrega.isVisible = false
             binding.titleRota.text = "Titulo: ${item.titulo}"
             binding.tiValorEntrega.text = "Valor cobrado R$: ${item.valorEntrega}"
             binding.tiValorCalculado.text = "Custo calculado R$: ${item.valorEntregaCalculado}"
             binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
-
         }
     }
 

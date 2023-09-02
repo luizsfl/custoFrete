@@ -9,5 +9,5 @@ interface EntregaRotaInteractor {
     fun getAllEntregaRota(): Flow<List<Entrega>>
     fun deleteEntregaRota(entrega: Entrega): Flow<Entrega>
     fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>,tipoTela:Int): Flow<List<Rota>>
-
+    fun entregaRotaUpdateStatusUseCase(idDocument: String, status:String): Flow<String>
  }

@@ -9,4 +9,6 @@ interface EntregaRotaRepository {
     fun getAllEntregaRota(): Flow<List<Entrega>>
     fun deleteEntregaRotaDao(entrega: Entrega): Flow<Entrega>
     fun updateEntregaRota(idDocument:String,listaRotas:List<Rota>,tipoTela:Int): Flow<List<Rota>>
+    fun updateEntregaRotaStatus(idDocument:String,status:String): Flow<String>
+
 }

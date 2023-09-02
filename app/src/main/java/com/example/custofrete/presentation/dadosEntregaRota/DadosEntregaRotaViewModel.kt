@@ -29,4 +29,15 @@ class DadosEntregaRotaViewModel (
         }
     }
 
+    fun updateEntregaRota(idDocument: String,status:String) {
+        viewModelScope.launch {
+            entregaRotaInteractor.entregaRotaUpdateStatusUseCase(idDocument,status)
+                .onStart { _viewStateListEntregaRota.value = ViewStateRota.Loading(loading = true) }
+                .catch {
+                    _viewStateListEntregaRota.value = ViewStateRota.Failure(messengerError = it.message.orEmpty())
+                }
+                .collect { _viewStateListEntregaRota.value = ViewStateRota.sucessoStatus(it)}
+        }
+    }
+
 }

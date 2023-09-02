@@ -30,7 +30,6 @@ class DadosVeiculoViewModel (
                     _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.Failure(messengerError = it.message.orEmpty())
                 }
                 .collect { _viewStateDadosVeiculo.value = ViewStateDadosVeiculo.sucessoDadosVeiculo(it)}
-
         }
     }
 

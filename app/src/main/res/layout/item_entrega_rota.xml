@@ -76,7 +76,13 @@
                     android:text="Título da Live"
                     android:textColor="#000"
                     android:textSize="19sp" />
-
+                <TextView
+                    android:id="@+id/ti_status_entrega"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Status:Pendente"
+                    android:textColor="#000"
+                    android:textSize="19sp" />
             </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

@@ -14,6 +14,7 @@ data class Entrega constructor(
     var valorInformadoCalculado :Double = 0.0,
     var valorMelhorCalculado :Double = 0.0,
     var totalKm:Double = 0.0,
+    var statusEntrega: String = "Pendente",
     ):java.io.Serializable {
     constructor() : this(DadosVeiculo())
 }

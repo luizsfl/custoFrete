@@ -76,7 +76,7 @@ val useCaseModule = module {
     factory { EntregaSimplesGetAllUseCase(entregaSimplesRepository = get()) }
     factory { EntregaSimplesDeleteUseCase(entregaSimplesRepository = get()) }
     factory { EntregaSimplesUpdateUseCase(entregaSimplesRepository = get()) }
-
+    factory { EntregaRotaUpdateStatusUseCase(entregaRotaRepository = get()) }
 }
 
 val interactorModule = module {
@@ -86,7 +86,8 @@ val interactorModule = module {
         entregaRotaAddUseCase = get(),
         entregaRotaGetAllUseCase = get(),
         entregaRotaDeleteUseCase = get(),
-        entregaRotaUpdateUseCase = get()
+        entregaRotaUpdateUseCase = get(),
+        entregaRotaUpdateStatusUseCase = get()
     ) }
     factory<EntregaSimplesInteractor> {
         EntregaSimplesInteractorImp(

@@ -12,4 +12,5 @@ class EntregaRotaRepositoryImp(
     override fun getAllEntregaRota() = entregaRotaDataSource.getAllEntregaRota()
     override fun deleteEntregaRotaDao(entrega: Entrega) = entregaRotaDataSource.deleteEntregaRota(entrega)
     override fun updateEntregaRota(idDocument: String, listaRotas: List<Rota>,tipoTela:Int)= entregaRotaDataSource.updateEntregaRota(idDocument,listaRotas,tipoTela)
+    override fun updateEntregaRotaStatus(idDocument: String, status: String) = entregaRotaDataSource.updateEntregaRotaStatus(idDocument,status)
 }

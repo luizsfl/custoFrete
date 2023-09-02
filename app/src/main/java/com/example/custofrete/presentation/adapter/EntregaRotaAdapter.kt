@@ -24,6 +24,7 @@ class EntregaRotaAdapter(private val dataSet: List<Entrega>) :
             binding.tiValorEntrega.text = "Valor cobrado R$: ${item.valorEntrega}"
             binding.tiValorCalculado.text = "Custo calculado R$: ${if(item.tipoTela == 1) item.valorInformadoCalculado else item.valorMelhorCalculado}"
             binding.tiQtdKilometragem.text = "Km: ${item.totalKm}"
+            binding.tiStatusEntrega.text = "Status: ${item.statusEntrega}"
         }
     }
 

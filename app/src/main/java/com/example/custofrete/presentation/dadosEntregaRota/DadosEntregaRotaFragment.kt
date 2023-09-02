@@ -85,6 +85,7 @@ class DadosEntregaRotaFragment : Fragment() {
             when (viewState) {
                 is ViewStateRota.Loading -> showLoading(viewState.loading)
                 is ViewStateRota.sucesso -> setAdapter(viewState.listRota,entrega.tipoTela)
+                is ViewStateRota.sucessoStatus -> showLoading(false)//viewState.status
                 is ViewStateRota.Failure -> showErro(viewState.messengerError)
                 else -> {}
             }
@@ -112,7 +113,19 @@ class DadosEntregaRotaFragment : Fragment() {
         if (listaRotaPendente.isEmpty()){
             binding.txtTitulo.visibility = View.GONE
             binding.btComecar.visibility = View.GONE
+
+            if(entrega.statusEntrega == "Pendente"){
+                //Alterar status da entrega.
+                viewModel.updateEntregaRota(entrega.idDocument,"Concluida")
+            }
+
         }else{
+
+            if(entrega.statusEntrega != "Pendente"){
+                //Alterar status da pendente.
+                viewModel.updateEntregaRota(entrega.idDocument,"Pendente")
+            }
+
             rotaMapa = listaRotaPendente
             binding.btComecar.visibility = View.VISIBLE
             binding.txtTitulo.visibility = View.VISIBLE
