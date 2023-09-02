@@ -54,6 +54,11 @@ class CadastroLoginFragment : Fragment() {
                 else -> {}
             }
         }
+
+        binding.ivVoltar.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         return root
     }
 

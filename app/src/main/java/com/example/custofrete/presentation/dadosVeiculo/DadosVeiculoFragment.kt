@@ -68,6 +68,10 @@ class DadosVeiculoFragment : Fragment() {
 
         }
 
+        binding.ivVoltar.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         viewModel.viewStateDadosVeiculo.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewStateDadosVeiculo.Loading -> showLoading(viewState.loading)

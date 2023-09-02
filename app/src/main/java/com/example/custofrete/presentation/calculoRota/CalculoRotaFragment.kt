@@ -84,6 +84,10 @@ class CalculoRotaFragment : Fragment() {
 
         }
 
+        binding.ivVoltar.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         binding.btSalvar.setOnClickListener {
             entrega.tipoTela = rotaSelecionada
             showAlertDialog(requireContext())

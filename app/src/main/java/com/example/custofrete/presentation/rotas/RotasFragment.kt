@@ -81,6 +81,10 @@ class RotasFragment : Fragment() {
 
         }
 
+        binding.ivVoltar.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         atualizaRotas()
 
         selectRota()

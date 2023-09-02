@@ -56,7 +56,7 @@ class ListaEntregaSimplesFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.ivVoltar.setOnClickListener{
+        binding.ivVoltar1.setOnClickListener {
             val action =  ListaEntregaSimplesFragmentDirections.actionListaEntregaSimplesFragmentToHomeFragment()
             findNavController().navigate(action)
         }

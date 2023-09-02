@@ -47,8 +47,10 @@ class CustoViagemFragment : Fragment() {
                 val action = CustoViagemFragmentDirections.actionCustoViagemFragmentToRotasFragment(entrega)
                 findNavController().navigate(action)
             }
+        }
 
-
+        binding.ivVoltar.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         return root

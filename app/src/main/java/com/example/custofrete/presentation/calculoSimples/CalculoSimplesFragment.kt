@@ -22,6 +22,7 @@ import com.example.custofrete.R
 import com.example.custofrete.databinding.FragmentCalculoSimplesBinding
 import com.example.custofrete.domain.model.EntregaSimples
 import com.example.custofrete.presentation.ViewStateEntregaSimples
+import com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -64,6 +65,11 @@ class CalculoSimplesFragment : Fragment() {
 
 
         (activity as AppCompatActivity).supportActionBar?.hide()
+
+        binding.ivVoltar.setOnClickListener {
+            val action =  CalculoSimplesFragmentDirections.actionCalculoSimplesFragmentToListaEntregaSimplesFragment()
+            findNavController().navigate(action)
+        }
 
         binding.tiInKmPercorrido.setHint("Informe o total de km")
         binding.tiInValorKmInformado.setHint("Informe o valor cobrado por 1 Km")

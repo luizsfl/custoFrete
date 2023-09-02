@@ -11,6 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:background="@color/purple_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageView
+                android:id="@+id/iv_voltar"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@drawable/ic_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/txt_name_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/iv_voltar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <AutoCompleteTextView
             android:id="@+id/bt_endereco_entrega"
@@ -27,7 +61,7 @@
             android:hint="Informe o endereço de entrega"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_topbar" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/ll_mapa"

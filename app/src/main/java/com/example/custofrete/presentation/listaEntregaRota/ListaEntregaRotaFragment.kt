@@ -17,6 +17,7 @@ import com.example.custofrete.databinding.FragmentListaEntregaRotaBinding
 import com.example.custofrete.domain.model.Entrega
 import com.example.custofrete.presentation.ViewStateEntregaRota
 import com.example.custofrete.presentation.adapter.EntregaRotaAdapter
+import com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
