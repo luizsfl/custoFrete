@@ -184,7 +184,11 @@ class CalculoRotaFragment : Fragment() {
 
     private fun calculoMenorRota() {
         if (entrega.listaRotas?.size!! > 0) {
-            viewModel.setLoadingDistanciaRotaCalculada(true)
+
+            if(entrega.listaRotas?.size!! > 1){
+                viewModel.setLoadingDistanciaRotaCalculada(true)
+            }
+
             val points = mutableListOf<Point>()
             entrega.listaRotas?.forEachIndexed { index, rota ->
                 points.add(Point(rota.lat, rota.lng, index))
