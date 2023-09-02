@@ -272,7 +272,9 @@ class CalculoRotaFragment : Fragment() {
         val tiTitulo = view.findViewById<TextInputEditText>(R.id.ti_titulo_rota)
         val tiValorCobrado = view.findViewById<TextInputEditText>(R.id.ti_valor_cobrado_rota)
 
-        tiValorCobrado.setText(entrega.valorEntrega.toString())
+        if(entrega.valorEntrega>0){
+            tiValorCobrado.setText(entrega.valorEntrega.toString())
+        }
 
         if(entrega.titulo.isEmpty()){
             tiTitulo.setHint("Digite aqui")

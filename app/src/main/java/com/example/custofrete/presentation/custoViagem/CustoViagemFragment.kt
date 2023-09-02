@@ -69,10 +69,18 @@ class CustoViagemFragment : Fragment() {
 
 fun setCustoViagem(entrega: Entrega){
     if(entrega.custoViagem!=null){
-        binding.tiValorMediaLitro.setText(entrega.custoViagem?.valorGasolina.toString())
-        binding.tiTotalGastpAlimentacao.setText(entrega.custoViagem?.valorAlimentacao.toString())
-        binding.tiTotalGastoHotel.setText(entrega.custoViagem?.valorHotel.toString())
-        binding.tiTotalGastoExtras.setText(entrega.custoViagem?.gastosExtras.toString())
+       if(entrega.custoViagem?.valorGasolina!! > 0){
+            binding.tiValorMediaLitro.setText(entrega.custoViagem?.valorGasolina.toString())
+        }
+        if(entrega.custoViagem?.valorAlimentacao!! > 0){
+            binding.tiTotalGastpAlimentacao.setText(entrega.custoViagem?.valorAlimentacao.toString())
+        }
+        if(entrega.custoViagem?.valorHotel!! > 0){
+            binding.tiTotalGastoHotel.setText(entrega.custoViagem?.valorHotel.toString())
+        }
+        if(entrega.custoViagem?.gastosExtras!! > 0){
+            binding.tiTotalGastoExtras.setText(entrega.custoViagem?.gastosExtras.toString())
+        }
     }
 }
 

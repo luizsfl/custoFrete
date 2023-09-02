@@ -120,9 +120,17 @@ class DadosVeiculoFragment : Fragment() {
 
     private fun setDadosVeiculo(dadosVeiculo: DadosVeiculo){
         binding.tiPlaca.editText?.setText(dadosVeiculo.placaVeiculo)
-        binding.tiKmDadosVeiculo.setText(dadosVeiculo.qtdKmLitro.toString())
-        binding.tiQtdEixo.setText(dadosVeiculo.qtdEixo.toString())
-        binding.tiPesoVeiculo.setText(dadosVeiculo.pesoVeiculo.toString())
+        if(dadosVeiculo.qtdKmLitro > 0){
+            binding.tiKmDadosVeiculo.setText(dadosVeiculo.qtdKmLitro.toString())
+        }
+
+        if(dadosVeiculo.qtdEixo > 0){
+            binding.tiQtdEixo.setText(dadosVeiculo.qtdEixo.toString())
+        }
+        if(dadosVeiculo.pesoVeiculo > 0){
+            binding.tiPesoVeiculo.setText(dadosVeiculo.pesoVeiculo.toString())
+        }
+
         showLoading(false)
 
     }

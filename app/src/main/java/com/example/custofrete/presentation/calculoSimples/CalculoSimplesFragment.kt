@@ -228,7 +228,10 @@ class CalculoSimplesFragment : Fragment() {
             binding.tiInValorKmInformado.error = "Informe o valor cobrado por kilometro."
         }else{
             tiTitulo.setText(entregaSimples.titulo)
-            tiValorCobrado.setText(entregaSimples.valorEntrega.toString())
+
+            if(entregaSimples.valorEntrega>0){
+                tiValorCobrado.setText(entregaSimples.valorEntrega.toString())
+            }
 
             tvValorCalculado.setText("Valor Calculado R$: ${entregaSimples.valorCalculado()}")
             tvDescriCalculoSimples.setText("${entregaSimples.descricaoCalculo()}")
