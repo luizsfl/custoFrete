@@ -7,10 +7,15 @@ import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -25,6 +30,8 @@ import com.example.custofrete.presentation.adapter.RotaAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -48,6 +55,12 @@ class RotasFragment : Fragment() {
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         if(args.value.entrega.listaRotas != null){
             listaRota = args.value.entrega.listaRotas!!.toMutableList()
+
+            if(listaRota.size>0){
+                binding.btOrigem.setText(listaRota[0].title)
+                binding.btEnderecoEntrega.isVisible=true
+            }
+
         }
 
         binding.llMapa.onCreate(savedInstanceState)
@@ -59,6 +72,13 @@ class RotasFragment : Fragment() {
         }
 
         binding.btEnderecoEntrega.setAdapter(
+            PlaceAutoSuggestAdapter(
+                binding.root.context,
+                R.layout.autocomplete_list_rotas
+            )
+        )
+
+        binding.btOrigem.setAdapter(
             PlaceAutoSuggestAdapter(
                 binding.root.context,
                 R.layout.autocomplete_list_rotas
@@ -105,15 +125,19 @@ class RotasFragment : Fragment() {
     }
 
     private fun selectRota() {
+
         binding.btEnderecoEntrega.setOnItemClickListener { _, _, _, _ ->
-            val latLng: LatLng? =
-                getLatLngFromAddress(binding.btEnderecoEntrega.text.toString())
+
+            val tituloEntrega = binding.btEnderecoEntrega.text.toString()
+
+            val latLng: LatLng? = getLatLngFromAddress(tituloEntrega)
+
             if (latLng != null) {
                 val address: Address? = getAddressFromLatLng(latLng)
                 if (address != null) {
 
                     val rota = Rota(
-                        title = binding.btEnderecoEntrega.text.toString(),
+                        title = tituloEntrega,
                         address = "" + address.toString(),
                         Address_line ="" + address.getAddressLine(0),
                         phone = "" +address.getPhone(),
@@ -123,19 +147,68 @@ class RotasFragment : Fragment() {
                         lat = latLng.latitude,
                         lng = latLng.longitude
                     )
-
                     listaRota.add(rota)
-                    val listaRotaInvest = listaRota.map { it.copy() }
-                    setHomeListAdapter(listaRotaInvest.reversed())
                     binding.btEnderecoEntrega.setText("")
 
+                    val listaRotaInvest = listaRota.map { it.copy() }
+                    setHomeListAdapter(listaRotaInvest.reversed())
                     atualizaMapa(rota,listaRota.size)
+                    tostsucesso("Adicionada com sucesso!")
+                } else {
+                    Log.d("1Adddress", "Address Not Found")
+                    Toast.makeText(requireContext(), "1)Endereço não encontrado", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.d("1Lat Lng", "Lat Lng Not Found")
+                Toast.makeText(requireContext(), "1)Latitude e longitude não encontrada", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        binding.btOrigem.setOnItemClickListener { _, _, _, _ ->
+            binding.btEnderecoEntrega.isVisible = true
+            val tituloEntrega = binding.btOrigem.text.toString()
+
+            val latLng: LatLng? = getLatLngFromAddress(tituloEntrega)
+
+            if (latLng != null) {
+                val address: Address? = getAddressFromLatLng(latLng)
+                if (address != null) {
+
+                    val rota = Rota(
+                        title = tituloEntrega,
+                        address = "" + address.toString(),
+                        Address_line ="" + address.getAddressLine(0),
+                        phone = "" +address.getPhone(),
+                        pin_code = "" +address.getPostalCode(),
+                        feature = "" + address.getFeatureName(),
+                        more = "" + address.getLocality(),
+                        lat = latLng.latitude,
+                        lng = latLng.longitude
+                    )
+                    var textoSucesso =""
+                    if(listaRota.size > 0){
+                        googleMap.clear()
+                        listaRota[0] = rota
+                        textoSucesso = "Ponto de origem ajustado com sucesso!"
+                    }else{
+                        textoSucesso = "Ponto de origem adicionado com sucesso!"
+                        listaRota.add(rota)
+                    }
+
+                    val listaRotaInvest = listaRota.map { it.copy() }
+                    setHomeListAdapter(listaRotaInvest.reversed())
+                    //atualizaMapa(rota,listaRota.size)
+                    atualizaRotas()
+                    tostsucesso(textoSucesso)
 
                 } else {
                     Log.d("Adddress", "Address Not Found")
+                    Toast.makeText(requireContext(), "Endereço não encontrado", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Log.d("Lat Lng", "Lat Lng Not Found")
+                Toast.makeText(requireContext(), "Latitude e longitude não encontrada", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -164,8 +237,6 @@ class RotasFragment : Fragment() {
                 finish.setLatitude(location2.latitude);
                 finish.setLongitude(location2.longitude);
                 var distance = start.distanceTo(finish);
-
-                val distanceKM = distance / 1000;
 
                 // Log.d("GoogleMap", "before URL")
                 var URL = getDirectionURL(location1, location2)
@@ -228,11 +299,6 @@ class RotasFragment : Fragment() {
         }
 
         binding.recyclerview.adapter = rotaAdapter
-        showLoading(false)
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-       //binding.progressBar.isVisible = isLoading
     }
 
     private fun addMarkers(googleMap: GoogleMap){
@@ -347,5 +413,22 @@ class RotasFragment : Fragment() {
         }
 
         return poly
+    }
+
+    private fun tostsucesso(texto:String){
+
+        var view = binding.btOrigem as View
+        val snackBarView = Snackbar.make(view, texto , Snackbar.LENGTH_SHORT)
+            .setTextColor(ContextCompat.getColor(context!!, R.color.sucessotexto))
+
+        view = snackBarView.view
+        view.setBackgroundColor(ContextCompat.getColor(context!!, R.color.sucesso))
+
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
+
     }
 }
