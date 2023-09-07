@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.custofrete'
+    namespace 'com.programacustofrete.custofrete'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.custofrete"
+        applicationId "com.programacustofrete.custofrete"
         minSdk 26
         targetSdk 33
         versionCode 1

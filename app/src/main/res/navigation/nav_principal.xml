@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.custofrete.presentation.home.HomeFragment"
+        android:name="com.programacustofrete.custofrete.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/dadosVeiculoFragment"
-        android:name="com.example.custofrete.presentation.dadosVeiculo.DadosVeiculoFragment"
+        android:name="com.programacustofrete.custofrete.presentation.dadosVeiculo.DadosVeiculoFragment"
         android:label="fragment_dados_veiculo"
         tools:layout="@layout/fragment_dados_veiculo" >
         <action
@@ -43,13 +43,13 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="entrega"
-            app:argType="com.example.custofrete.domain.model.Entrega"
+            app:argType="com.programacustofrete.custofrete.domain.model.Entrega"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/custoViagemFragment"
-        android:name="com.example.custofrete.presentation.custoViagem.CustoViagemFragment"
+        android:name="com.programacustofrete.custofrete.presentation.custoViagem.CustoViagemFragment"
         android:label="fragment_custo_viagem"
         tools:layout="@layout/fragment_custo_viagem" >
         <action
@@ -57,12 +57,12 @@
             app:destination="@id/rotasFragment" />
         <argument
             android:name="entrega"
-            app:argType="com.example.custofrete.domain.model.Entrega" />
+            app:argType="com.programacustofrete.custofrete.domain.model.Entrega" />
 
     </fragment>
     <fragment
         android:id="@+id/rotasFragment"
-        android:name="com.example.custofrete.presentation.rotas.RotasFragment"
+        android:name="com.programacustofrete.custofrete.presentation.rotas.RotasFragment"
         android:label="fragment_rotas"
         tools:layout="@layout/fragment_rotas" >
         <action
@@ -70,23 +70,23 @@
             app:destination="@id/calculoFragment" />
         <argument
             android:name="entrega"
-            app:argType="com.example.custofrete.domain.model.Entrega"/>
+            app:argType="com.programacustofrete.custofrete.domain.model.Entrega"/>
     </fragment>
     <fragment
         android:id="@+id/calculoFragment"
-        android:name="com.example.custofrete.presentation.calculoRota.CalculoRotaFragment"
+        android:name="com.programacustofrete.custofrete.presentation.calculoRota.CalculoRotaFragment"
         android:label="fragment_calculo"
         tools:layout="@layout/fragment_calculo" >
         <argument
             android:name="entrega"
-            app:argType="com.example.custofrete.domain.model.Entrega" />
+            app:argType="com.programacustofrete.custofrete.domain.model.Entrega" />
         <action
             android:id="@+id/action_calculoFragment_to_dadosRotaFragment"
             app:destination="@id/dadosRotaFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.custofrete.presentation.login.LoginFragment"
+        android:name="com.programacustofrete.custofrete.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/cadastroLoginFragment"
-        android:name="com.example.custofrete.presentation.cadastroLogin.CadastroLoginFragment"
+        android:name="com.programacustofrete.custofrete.presentation.cadastroLogin.CadastroLoginFragment"
         android:label="fragment_cadastro_login"
         tools:layout="@layout/fragment_cadastro_login" >
         <action
@@ -107,12 +107,12 @@
     </fragment>
     <fragment
         android:id="@+id/calculoSimplesFragment"
-        android:name="com.example.custofrete.presentation.calculoSimples.CalculoSimplesFragment"
+        android:name="com.programacustofrete.custofrete.presentation.calculoSimples.CalculoSimplesFragment"
         android:label="fragment_calculo_simples"
         tools:layout="@layout/fragment_calculo_simples" >
         <argument
             android:name="entregaSimples"
-            app:argType="com.example.custofrete.domain.model.EntregaSimples"
+            app:argType="com.programacustofrete.custofrete.domain.model.EntregaSimples"
             app:nullable="true"
             android:defaultValue="@null" />
         <action
@@ -125,17 +125,17 @@
     </fragment>
     <fragment
         android:id="@+id/calculoANTTFragment"
-        android:name="com.example.custofrete.presentation.calculoANTT.CalculoANTTFragment"
+        android:name="com.programacustofrete.custofrete.presentation.calculoANTT.CalculoANTTFragment"
         android:label="fragment_calculo_a_n_t_t"
         tools:layout="@layout/fragment_calculo_a_n_t_t" />
     <fragment
         android:id="@+id/dadosRotaFragment"
-        android:name="com.example.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFragment"
+        android:name="com.programacustofrete.custofrete.presentation.dadosEntregaRota.DadosEntregaRotaFragment"
         android:label="fragment_dados_rota"
         tools:layout="@layout/fragment_dados_entrega_rota" >
         <argument
             android:name="entrega"
-            app:argType="com.example.custofrete.domain.model.Entrega" />
+            app:argType="com.programacustofrete.custofrete.domain.model.Entrega" />
         <action
             android:id="@+id/action_dadosRotaFragment_to_listaEntregaRotaFragment"
             app:destination="@id/listaEntregaRotaFragment" />
@@ -145,7 +145,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaEntregaRotaFragment"
-        android:name="com.example.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragment"
+        android:name="com.programacustofrete.custofrete.presentation.listaEntregaRota.ListaEntregaRotaFragment"
         android:label="fragment_lista_entrega_rota"
         tools:layout="@layout/fragment_lista_entrega_rota" >
         <action
@@ -160,7 +160,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaEntregaSimplesFragment"
-        android:name="com.example.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragment"
+        android:name="com.programacustofrete.custofrete.presentation.listaEntregaSimples.ListaEntregaSimplesFragment"
         android:label="fragment_lista_entrega_simples"
         tools:layout="@layout/fragment_lista_entrega_simples" >
         <action
