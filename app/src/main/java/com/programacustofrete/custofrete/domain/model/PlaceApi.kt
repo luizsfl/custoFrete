@@ -8,12 +8,13 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL;
+import com.programacustofrete.custofrete.BuildConfig.GOOGLE_MAPS_KEY
 
 class PlaceApi {
     fun autoComplete(input: String): ArrayList<String> {
         val arrayList: ArrayList<String> = ArrayList()
         var connection: HttpURLConnection? = null
-        val key = "AIzaSyBhw6l1S0b0sQqsmjNtszYJ0UbC1c7CssA"
+        val key = GOOGLE_MAPS_KEY
 
         val jsonResult = StringBuilder()
         try {
